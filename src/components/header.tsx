@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from "@emotion/styled";
+import { useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
 
 const Avatar = styled(Img)({
@@ -34,13 +35,38 @@ const StyledParagraph = styled.h1({
 });
 
 const Header = () => {
+  const data = useStaticQuery(graphql`
+    query {
+      allContentfulOrtalioMusic {
+        edges {
+          node {
+            id
+            avatar {
+              fluid(maxHeight: 250, maxWidth: 250) {
+                src
+                srcSet
+                aspectRatio
+                sizes
+              }
+            }
+            firstName
+            shortDescription {
+              shortDescription
+            }
+          }
+        }
+      }
+    }
+  `);
+  console.log('data', data);
+  const ortalioMusic = data.allContentfulOrtalioMusic.edges[0].node;
   return (
     <Container>
-      <Avatar fluid={`https://i1.sndcdn.com/avatars-000539177277-bwwa0m-t500x500.jpg`} />
+      <Avatar fluid={ortalioMusic.avatar.fluid} />
       <StyledDiv>
-        <StyledHeader>{`${`Piotr`} ${`Markiewicz`}`}</StyledHeader>
+        <StyledHeader>{`${ortalioMusic.firstName}`}</StyledHeader>
         <StyledParagraph>
-          {`tagline tagline`}
+          {ortalioMusic.shortDescription.shortDescription}
         </StyledParagraph>
       </StyledDiv>
     </Container>
