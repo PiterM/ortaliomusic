@@ -17,5 +17,10 @@ module.exports = {
         accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
       },
     },
+    `gatsby-transformer-sharp`,
+    `gatsby-transformer-remark`,
+    `gatsby-plugin-sharp`,
+    `gatsby-plugin-emotion`,
+    `gatsby-plugin-theme-ui`
   ],
 }

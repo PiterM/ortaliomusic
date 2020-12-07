@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from "@emotion/styled";
 import { useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
+import { Styled } from "theme-ui";
 
 const Avatar = styled(Img)({
   width: 150,
@@ -22,16 +23,8 @@ const Container = styled.div({
   borderBottom: "solid thin rgb(239,239,239)"
 });
 
-const StyledDiv = styled.div({
-    marginLeft: "2rem"
-});
-
-const StyledHeader = styled.h1({
-    margin: 0
-});
-
-const StyledParagraph = styled.h1({
-    margin: "0.25rem 0"
+const StyleDescription = styled.div({
+  marginLeft: '2rem' 
 });
 
 const Header = () => {
@@ -58,17 +51,24 @@ const Header = () => {
       }
     }
   `);
-  console.log('data', data);
   const ortalioMusic = data.allContentfulOrtalioMusic.edges[0].node;
   return (
     <Container>
       <Avatar fluid={ortalioMusic.avatar.fluid} />
-      <StyledDiv>
-        <StyledHeader>{`${ortalioMusic.firstName}`}</StyledHeader>
-        <StyledParagraph>
+      <StyleDescription>
+        <Styled.h1
+          sx={{
+            margin: 0
+          }}
+        >{`${ortalioMusic.firstName}`}</Styled.h1>
+        <Styled.p
+          sx={{
+            margin: '0.25rem 0'
+          }}
+        >
           {ortalioMusic.shortDescription.shortDescription}
-        </StyledParagraph>
-      </StyledDiv>
+        </Styled.p>
+      </StyleDescription>
     </Container>
   );
 };

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Header from '../components/header';
+import IndexLayout from '../layouts/index';
 import Helmet from 'react-helmet'
 
 import './index.css'
@@ -24,16 +25,18 @@ const IndexPage: React.FC<IndexPageProps> = () => {
             { name: 'keywords', content: 'sample, something' },
           ]}
         />
-        <Header />
-        <div
-          style={{
-            margin: '0 auto',
-            maxWidth: 960,
-            padding: '0px 1.0875rem 1.45rem',
-            paddingTop: 0,
-          }}
-        >
-        </div>
+        <IndexLayout>
+          <Header />
+          <div
+            style={{
+              margin: '0 auto',
+              maxWidth: 960,
+              padding: '0px 1.0875rem 1.45rem',
+              paddingTop: 0,
+            }}
+          >
+          </div>
+        </IndexLayout>
       </div>
     )
 };

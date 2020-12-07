@@ -1,3 +1,9 @@
+let basePath;
+
+exports.onPreBootstrap = themeOptions => {
+  basePath = themeOptions.basePath || `/`;
+};
+
 exports.onCreateWebpackConfig = ({ getConfig, stage }) => {
     const config = getConfig()
     if (stage.startsWith('develop') && config.resolve) {
