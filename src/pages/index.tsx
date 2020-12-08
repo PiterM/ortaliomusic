@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Header from '../components/header';
+import Tracks from '../containers/tracks/tracks';
 import IndexLayout from '../layouts/index';
 import Helmet from 'react-helmet'
 
@@ -35,6 +36,7 @@ const IndexPage: React.FC<IndexPageProps> = () => {
               paddingTop: 0,
             }}
           >
+            <Tracks />
           </div>
         </IndexLayout>
       </div>

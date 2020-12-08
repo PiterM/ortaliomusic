@@ -27,7 +27,7 @@ const StyleDescription = styled.div({
   marginLeft: '2rem' 
 });
 
-const Header = () => {
+const Header: React.FC = () => {
   const data = useStaticQuery(graphql`
     query {
       allContentfulOrtalioMusic {
@@ -51,8 +51,8 @@ const Header = () => {
       }
     }
   `);
-  const ortalioMusic = data.allContentfulOrtalioMusic.edges[0].node;
-  return (
+  const ortalioMusic = data?.allContentfulOrtalioMusic?.edges[0]?.node;
+  return ortalioMusic ? (
     <Container>
       <Avatar fluid={ortalioMusic.avatar.fluid} />
       <StyleDescription>
@@ -70,7 +70,7 @@ const Header = () => {
         </Styled.p>
       </StyleDescription>
     </Container>
-  );
+  ): null;
 };
 
 export default Header;
