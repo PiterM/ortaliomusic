@@ -30,8 +30,8 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
   console.log('grid!');
   return (
     <Grid>
-      {tracks.map((track: any) => (
-        <StyledLink to={`/tracks/${track.node.id}`}>
+      {tracks.map((track: any, key: number) => (
+        <StyledLink key={key} to={`/tracks/${track.node.id}`}>
           <SquareImage fluid={track.node.coverImages[0].fluid} />
         </StyledLink>
       ))}
