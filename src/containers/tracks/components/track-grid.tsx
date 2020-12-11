@@ -49,7 +49,7 @@ const CartIcon = styled.div({
   right: 2,
   width: '70px',
   height: '70px',
-  transition: 'all 0.05s ease',
+  transition: 'all 0.5s ease',
   position: 'absolute',
   ":hover": {
     backgroundColor: '#fff'
