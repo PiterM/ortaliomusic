@@ -1,7 +1,7 @@
 import * as React from "react";
 import Layout from "./components/layout";
 // import SEO from "./components/seo";
-import Header from "../../components/header";
+// import Header from "../../components/header";
 import TrackGrid from "./components/track-grid";
 import { useStaticQuery, graphql } from "gatsby";
 
@@ -20,7 +20,7 @@ const Tracks: React.FC = () => {
                 sizes
               }
             }
-            shortDescription
+            title
             contentful_id
             publishDate
             body {

@@ -23,7 +23,7 @@ const TrackContent: React.FC<TrackContentOwnProps> = ({ track }) => {
           margin: 0
         }}
       >
-        {track.shortDescription}
+        {track.title}
       </Styled.h1>
       <Styled.p
         sx={{
