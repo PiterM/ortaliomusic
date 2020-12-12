@@ -7,11 +7,15 @@ import { Styled } from "theme-ui";
 const Avatar = styled(Img)({
   width: 150,
   height: 150,
-  borderRadius: "50%",
   "@media(max-width:600px)": {
     width: 75,
     height: 75
   }
+});
+
+const Logo = styled(Img)({
+  width: 314,
+  height: 90,
 });
 
 const Container = styled.div({
@@ -23,8 +27,12 @@ const Container = styled.div({
   borderBottom: "solid thin rgb(239,239,239)"
 });
 
-const StyleDescription = styled.div({
+const StyledDescription = styled.div({
   marginLeft: '2rem' 
+});
+
+const StyledParagraph = styled.p({
+  marginTop: '10ox' 
 });
 
 const Header: React.FC = () => {
@@ -34,6 +42,10 @@ const Header: React.FC = () => {
         edges {
           node {
             id
+            firstName
+            shortDescription {
+              shortDescription
+            }
             avatar {
               fluid(maxHeight: 250, maxWidth: 250) {
                 src
@@ -42,9 +54,13 @@ const Header: React.FC = () => {
                 sizes
               }
             }
-            firstName
-            shortDescription {
-              shortDescription
+            logo {
+              fluid(maxHeight: 90, maxWidth: 314) {
+                src
+                srcSet
+                aspectRatio
+                sizes
+              }
             }
           }
         }
@@ -55,20 +71,12 @@ const Header: React.FC = () => {
   return ortalioMusic ? (
     <Container>
       <Avatar fluid={ortalioMusic.avatar.fluid} />
-      <StyleDescription>
-        <Styled.h1
-          sx={{
-            margin: 0
-          }}
-        >{`${ortalioMusic.firstName}`}</Styled.h1>
-        <Styled.p
-          sx={{
-            margin: '0.25rem 0'
-          }}
-        >
+      <StyledDescription>
+        <Logo fluid={ortalioMusic.logo.fluid} />
+        <StyledParagraph>
           {ortalioMusic.shortDescription.shortDescription}
-        </Styled.p>
-      </StyleDescription>
+        </StyledParagraph>
+      </StyledDescription>
     </Container>
   ): null;
 };

@@ -44,18 +44,20 @@ const ImageLayer = styled.div({
 
 const CartIcon = styled.div({
   background: '#dadada url("/static/images/shopping-cart.svg") center center no-repeat',
+  border: '2px solid #dadada',
   backgroundSize: '70% 70%',
   bottom: 2,
   right: 2,
   width: '70px',
   height: '70px',
-  transition: 'all 0.5s ease',
+  transition: 'all 0.05s ease',
   position: 'absolute',
   ":hover": {
-    backgroundColor: '#fff'
+    backgroundColor: 'orange',
+    borderColor: '#000'
   },
   ":active": {
-    backgroundSize: '50% 50%',
+    backgroundSize: '50% 50%'
   }
 });
 
