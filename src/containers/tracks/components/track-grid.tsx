@@ -4,7 +4,9 @@ import Img from "gatsby-image";
 import styled from "@emotion/styled";
 import TrackBottom from './track-bottom';
 import { SnipcartContext } from '../../../store/cartStore';
-const { useContext, useState } = React;
+import styles from 'gatsby-plugin-theme-ui';
+const { colors } = styles;
+const { useContext } = React;
 
 const Grid = styled.div({
   display: "grid",
@@ -28,7 +30,7 @@ const SquareLayer = styled.div({
 const SquareImage = styled(Img)((props: AddedToCartProps) => {
   const { addedToCart } = props;
   const opacity = addedToCart ? 0.5 : 1;
-  const borderColor = addedToCart ? 'orange' : '#dadada';
+  const borderColor = addedToCart ? colors.cartButton : colors.neutral;
 
   return {
     maxHeight: 300,
@@ -63,22 +65,22 @@ const ImageLayer = styled.div({
 
 const CartIcon = styled.div((props: AddedToCartProps) => {
   const { addedToCart } = props;
-  const backgroundColor = addedToCart ? 'orange' : '#dadada';
-  const borderColor = addedToCart ? 'orange' : '#dadada';
+  const backgroundColor = addedToCart ? colors.cartButton : colors.neutral;
+  const borderColor = addedToCart ? colors.cartButton : colors.neutral;
 
   return {
     background: `${backgroundColor} url("/static/images/shopping-cart.svg") center center no-repeat`,
     border: `2px solid ${borderColor}`,
     backgroundSize: '70% 70%',
-    bottom: 0,
-    right: 0,
+    bottom: 2,
+    right: 2,
     width: '70px',
     height: '70px',
     transition: 'all 0.05s ease',
     position: 'absolute',
     cursor: 'pointer',
     ":hover": {
-      backgroundColor: 'orange',
+      backgroundColor: colors.cartButton,
       borderColor: '#fff'
     },
     ":active": {

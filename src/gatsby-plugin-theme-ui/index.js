@@ -5,7 +5,10 @@ import styles from "./styles";
 export default merge(typography, {
   colors: {
     text: "rgb(0,0,0,0.75)",
-    background: "#F0F5F6"
+    background: "#F0F5F6",
+    cartButton: 'orange',
+    cartQuantity: 'red',
+    neutral: '#dadada'
   },
   fonts: {
     heading: "Work Sans, serif",
