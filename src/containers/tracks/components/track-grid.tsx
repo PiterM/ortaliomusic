@@ -137,7 +137,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
 
         return (
             <div>
-              <SquareLayer addedToCart={trackIsAdded}>
+              <SquareLayer>
                 { trackIsAdded 
                 ? <>
                     <StyledLink key={key} to={'#'}>

@@ -5,7 +5,7 @@ import styles from "./styles";
 export default merge(typography, {
   colors: {
     text: "rgb(0,0,0,0.75)",
-    background: "#fafafa"
+    background: "#F0F5F6"
   },
   fonts: {
     heading: "Work Sans, serif",
