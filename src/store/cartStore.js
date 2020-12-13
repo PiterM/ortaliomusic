@@ -35,6 +35,19 @@ const reducer = (state, action) => {
   }
 };
 
+const reviseItemsQuantities = async (items) => {
+  for (const item of items) {
+    const { Snipcart } = window;
+    const { quantity, uniqueId } = item;
+    if (quantity > 1 && uniqueId) {
+      await Snipcart.api.cart.items.update({
+        uniqueId,
+        quantity: 1
+      });
+    }
+  }
+}
+
 export const useStore = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   // update state
@@ -47,6 +60,7 @@ export const useStore = () => {
         // get quantity in cart
         // changed after v 3.0.12
         const items = cart.items.length !== undefined ? cart.items : cart.items.items;
+        reviseItemsQuantities(items);
 
         dispatch({
           type: "setItems",

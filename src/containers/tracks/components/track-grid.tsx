@@ -136,7 +136,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
         const storeItem = items && items.length > 0 && items.find((item: any) => item.id === id);
 
         return (
-            <div>
+            <div key={key}>
               <SquareLayer>
                 { trackIsAdded 
                 ? <>
