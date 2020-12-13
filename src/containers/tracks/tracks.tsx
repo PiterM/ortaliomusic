@@ -1,5 +1,5 @@
 import * as React from "react";
-import Layout from "./components/layout";
+// import Layout from "./components/layout";
 // import SEO from "./components/seo";
 // import Header from "../../components/header";
 import TrackGrid from "./components/track-grid";
@@ -21,6 +21,7 @@ const Tracks: React.FC = () => {
               }
             }
             title
+            description
             contentful_id
             publishDate
             body {

@@ -14,27 +14,6 @@ module.exports = {
         accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
       },
     },
-    {
-      resolve: `gatsby-plugin-snipcart-advanced`,
-      options: {
-          version: '3.0.15',
-          publicApiKey: process.env.GATSBY_SNIPCART_API_KEY,
-          defaultLang: 'en',
-          currency: 'eur',
-          openCartOnAdd: false,
-          locales: {
-            fr: {
-              actions: {
-                checkout: 'Valider le panier',
-              },
-            }
-          },
-          innerHTML: `
-          <billing section="bottom">
-              <!-- Customization goes here -->
-          </billing>`,
-      },
-    },
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-typescript`,
     `gatsby-transformer-sharp`,

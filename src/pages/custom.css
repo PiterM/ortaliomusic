@@ -1,0 +1,7 @@
+.snipcart-item-quantity__button {
+    display: none !important;
+}
+
+.snipcart-item-quantity__quantity {
+    width: 40px;
+}
