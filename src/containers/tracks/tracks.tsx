@@ -35,6 +35,26 @@ const Tracks: React.FC = () => {
     }
   `);
 
+  // const ortalioMusicTracks = useStaticQuery(graphql`
+  //   query {
+  //     ortalioMusicTrack {
+  //       edges {
+  //         node {
+  //           id
+  //           ortalioMusicTrack {
+  //             body
+  //             description
+  //             previewUrl
+  //             title
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // `);
+
+  // console.log('ortalioMusicTracks', ortalioMusicTracks);
+
   const tracks = data?.allContentfulBeatForSale?.edges;
   return tracks ? (
       <TrackGrid tracks={tracks} />
