@@ -94,10 +94,10 @@ const StyledLink = styled(Link)({
   position: 'relative',
   transition: 'all 0.5s ease',
   ":hover picture": {
-    opacity: 0.6
+    opacity: 0.5
   },
   ":active picture": {
-    opacity: 0.6
+    opacity: 0.5
   },
   ":active > div > div:first-of-type": {
     backgroundSize: '45% 45%',
