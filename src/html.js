@@ -12,7 +12,7 @@ export default function HTML(props) {
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
         {props.headComponents}
-        <link rel="stylesheet" href="/snipcart.css" />
+        <link rel="stylesheet" href="/snipcart/snipcart.css" />
       </head>
       <body {...props.bodyAttributes}>
         {props.preBodyComponents}
@@ -22,7 +22,7 @@ export default function HTML(props) {
           dangerouslySetInnerHTML={{ __html: props.body }}
         />
         {props.postBodyComponents}
-        <script async src="/snipcart.js"></script>
+        <script async src="/snipcart/snipcart.js"></script>
         <div 
             hidden 
             id="snipcart" 

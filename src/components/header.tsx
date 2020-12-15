@@ -33,7 +33,7 @@ const StyledDescription = styled.div({
   marginLeft: '2rem' 
 });
 
-const StyledParagraph = styled.p({
+const StyledInfo = styled.div({
   marginTop: '10px' 
 });
 
@@ -127,8 +127,8 @@ const Header: React.FC = () => {
       <Avatar fixed={avatarFixed} />
       <StyledDescription>
         <Logo fixed={logoFixed} />
-        <StyledParagraph
-          dangerouslySetInnerHTML={{__html: siteData.siteDescription}}
+        <StyledInfo
+          dangerouslySetInnerHTML={{__html: `<div>${siteData.siteDescription}</div>`}}
         />
       </StyledDescription>
       <StyledCartButton
