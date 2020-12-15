@@ -8,18 +8,16 @@ module.exports = {
   },
   plugins: [
     {
-      resolve: "gatsby-source-contentful",
+      resolve: "gatsby-source-graphql",
       options: {
-        spaceId: process.env.CONTENTFUL_SPACE_ID,
-        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+        // Arbitrary name for the remote schema Query type
+        typeName: "ortl",
+        // Field under which the remote schema will be accessible. You'll use this in your Gatsby query
+        fieldName: "ortl",
+        // Url to query from
+        url: process.env.GRAPHQL_WORDPRESS_URL,
       },
     },
-    // {
-    //   resolve: `gatsby-source-wordpress-experimental`,
-    //   options: {
-    //     url: `https://address`
-    //   },
-    // },
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-typescript`,
     `gatsby-transformer-sharp`,

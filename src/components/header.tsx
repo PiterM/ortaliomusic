@@ -77,32 +77,25 @@ const StyledCartButton = styled.a({
 const Header: React.FC = () => {
   const data = useStaticQuery(graphql`
     query {
-      allContentfulOrtalioMusic {
-        edges {
-          node {
-            id
-            firstName
-            shortDescription {
-              shortDescription
-            }
-            avatar {
-              fluid(maxHeight: 250, maxWidth: 250) {
-                src
-                srcSet
-                aspectRatio
-                sizes
-              }
-            }
-            logo {
-              fluid(maxHeight: 65, maxWidth: 230) {
-                src
-                srcSet
-                aspectRatio
-                sizes
+      ortl {
+        ortalioMusicSiteData {
+          edges {
+            node {
+              data {
+                siteTitle
+                siteDescription
+                avatar {
+                  altText
+                  sourceUrl(size: MEDIUM)
+                }
+                logo {
+                  altText
+                  sourceUrl(size: MEDIUM)
+                }
               }
             }
           }
-        }
+        }    
       }
     }
   `);
@@ -110,15 +103,33 @@ const Header: React.FC = () => {
   const { state }: any = useContext(SnipcartContext);
   const { cartQuantity } = state;
   
-  const ortalioMusic = data?.allContentfulOrtalioMusic?.edges[0]?.node;
-  return ortalioMusic ? (
+  const siteData = data?.ortl?.ortalioMusicSiteData?.edges[0]?.node?.data;
+  if (!siteData) {
+    return null;
+  }
+
+  const avatarFixed = {
+    width: 150,
+    height: 150,
+    src: siteData.avatar.sourceUrl,
+    srcSet: siteData.avatar.sourceUrl,
+  };
+
+  const logoFixed = {
+    width: 230,
+    height: 65,
+    src: siteData.logo.sourceUrl,
+    srcSet: siteData.logo.sourceUrl,
+  };
+
+  return (
     <Container>
-      <Avatar fluid={ortalioMusic.avatar.fluid} />
+      <Avatar fixed={avatarFixed} />
       <StyledDescription>
-        <Logo fluid={ortalioMusic.logo.fluid} />
-        <StyledParagraph>
-          {ortalioMusic.shortDescription.shortDescription}
-        </StyledParagraph>
+        <Logo fixed={logoFixed} />
+        <StyledParagraph
+          dangerouslySetInnerHTML={{__html: siteData.siteDescription}}
+        />
       </StyledDescription>
       <StyledCartButton
         onClick={(e) => e.preventDefault()} 
@@ -127,7 +138,7 @@ const Header: React.FC = () => {
         {cartQuantity > 0 && <StyledCartQuantity>{cartQuantity}</StyledCartQuantity>}
       </StyledCartButton>
     </Container>
-  ): null;
+  );
 };
 
 export default Header;

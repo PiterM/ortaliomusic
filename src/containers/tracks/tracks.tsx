@@ -8,25 +8,20 @@ import { useStaticQuery, graphql } from "gatsby";
 const Tracks: React.FC = () => {
   const data = useStaticQuery(graphql`
     query {
-      allContentfulBeatForSale(sort: { fields: publishDate, order: DESC }) {
-        edges {
-          node {
-            id
-            coverImages {
-              fluid(maxWidth: 800, maxHeight: 800) {
-                src
-                srcSet
-                aspectRatio
-                sizes
-              }
-            }
-            title
-            description
-            contentful_id
-            publishDate
-            body {
-              childMarkdownRemark {
-                html
+      ortl {
+        ortalioMusicTracks {
+          edges {
+            node {
+              id
+              ortalioMusicTrack {
+                body
+                description
+                previewUrl
+                title
+                coverImage {
+                  sourceUrl(size: LARGE)
+                  altText
+                }
               }
             }
           }
@@ -35,27 +30,7 @@ const Tracks: React.FC = () => {
     }
   `);
 
-  // const ortalioMusicTracks = useStaticQuery(graphql`
-  //   query {
-  //     ortalioMusicTrack {
-  //       edges {
-  //         node {
-  //           id
-  //           ortalioMusicTrack {
-  //             body
-  //             description
-  //             previewUrl
-  //             title
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // `);
-
-  // console.log('ortalioMusicTracks', ortalioMusicTracks);
-
-  const tracks = data?.allContentfulBeatForSale?.edges;
+  const tracks = data?.ortl?.ortalioMusicTracks?.edges;
   return tracks ? (
       <TrackGrid tracks={tracks} />
   ) : null;

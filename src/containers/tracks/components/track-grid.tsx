@@ -132,10 +132,18 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
   return (
     <Grid>
       {tracks.map((track: any, key: number) => {
-        const imgFluid = track.node.coverImages[0].fluid;
-        const { id, title, description } = track.node;
+        const { id } = track?.node;
+        const { title, description } = track?.node?.ortalioMusicTrack;
+        const { sourceUrl } = track?.node?.ortalioMusicTrack?.coverImage;
         const trackIsAdded = alreadyAddedTracks && alreadyAddedTracks.length > 0 && alreadyAddedTracks.includes(id);
         const storeItem = items && items.length > 0 && items.find((item: any) => item.id === id);
+
+        const imageFluid = {
+          aspectRatio: 1,
+          src: sourceUrl,
+          srcSet: sourceUrl,
+          sizes: ''
+        };
 
         return (
             <div key={key}>
@@ -144,7 +152,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
                 ? <>
                     <StyledLink key={key} to={'#'}>
                       <ImageContainer>
-                        <SquareImage fluid={imgFluid} addedToCart={true} />
+                        <SquareImage fluid={imageFluid} addedToCart={true} />
                         <ImageLayer />
                       </ImageContainer>
                     </StyledLink>
@@ -156,7 +164,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
                 : <>
                     <StyledLink key={key} to={'#'}>
                       <ImageContainer>
-                        <SquareImage fluid={imgFluid} />
+                        <SquareImage fluid={imageFluid} />
                         <ImageLayer />
                       </ImageContainer>
                     </StyledLink>
@@ -167,7 +175,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
                         data-item-price="10"
                         data-item-url={`/tracks/${id}`}
                         data-item-description={description}
-                        data-item-image={imgFluid.src}
+                        data-item-image={imageFluid.src}
                         data-item-name={title}
                         data-item-file-guid="3139360f-f3ab-49d5-8668-7dc222508729"
                       />
