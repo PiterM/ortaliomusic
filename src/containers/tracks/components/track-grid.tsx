@@ -46,7 +46,7 @@ const ImageContainer = styled.div({
 });
 
 const ImageLayer = styled.div({
-  background: 'transparent url("/static/images/play-icon.svg") center center no-repeat',
+  background: 'transparent url("/images/play-icon.svg") center center no-repeat',
   backgroundSize: '50% 50%',
   opacity: 0,
   transition: 'all 0.5s ease, background 0.05s ease',
@@ -69,7 +69,7 @@ const CartIcon = styled.div((props: AddedToCartProps) => {
   const borderColor = addedToCart ? colors.cartButton : colors.neutral;
 
   return {
-    background: `${backgroundColor} url("/static/images/shopping-cart.svg") center center no-repeat`,
+    background: `${backgroundColor} url("/images/shopping-cart.svg") center center no-repeat`,
     border: `2px solid ${borderColor}`,
     backgroundSize: '70% 70%',
     bottom: 2,

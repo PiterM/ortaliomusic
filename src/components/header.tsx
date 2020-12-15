@@ -58,7 +58,7 @@ const StyledCartButton = styled.a({
     position: 'absolute' ,
     top: 10,
     right: 20,
-    background: 'transparent url("/static/images/shopping-cart.svg") center center no-repeat',
+    background: 'transparent url("/images/shopping-cart.svg") center center no-repeat',
     backgroundSize: '80% 80%',
     border: '2px solid transparent',
     width: 30,
