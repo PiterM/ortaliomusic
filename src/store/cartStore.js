@@ -54,6 +54,7 @@ export const useStore = () => {
   React.useEffect(() => {
     const { Snipcart } = window;
     if (Snipcart && state.ready === true) {
+      Snipcart.DEBUG = true;
       // update state infos on change
       const listenSnipcart = () => {
         const { customer, cart } = Snipcart.store.getState();
