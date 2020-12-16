@@ -28,6 +28,7 @@ export default function HTML(props) {
             id="snipcart" 
             data-api-key={process.env.GATSBY_SNIPCART_API_KEY}
             data-config-add-product-behavior="none"
+            data-config-modal-style="side"
         ></div>
       </body>
     </html>
