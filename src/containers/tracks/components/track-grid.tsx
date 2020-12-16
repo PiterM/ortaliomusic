@@ -172,7 +172,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
                         onClick={(e) => e.preventDefault()}
                         className="snipcart-add-item"
                         data-item-id={id}
-                        data-item-price="10"
+                        data-item-price="0.01"
                         data-item-url={`/tracks/${id}`}
                         data-item-description={description}
                         data-item-image={imageFluid.src}
