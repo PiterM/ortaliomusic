@@ -1,10 +1,10 @@
 import * as React from "react";
 import styled from "@emotion/styled";
 import TrackContent from "./track-content";
-import TrackImages from "./track-images";
+import TrackCover from "./track-cover";
 
 const TrackContainer = styled.div({
-  maxWidth: 600,
+  maxWidth: 500,
   margin: "auto",
   display: "flex",
   minHeight: "100vh",
@@ -26,14 +26,15 @@ const Card = styled.div({
 });
 
 export interface TrackOwnProps {
-  track: any;
+  pageContext: any;
 }
 
-const Track: React.FC<TrackOwnProps> = ({ track }: any) => {
+const Track: React.FC<TrackOwnProps> = ({ pageContext: { track } }: any) => {
+  console.log('traczek', track);
   return (
     <TrackContainer>
       <Card>
-        <TrackImages track={track} />
+        <TrackCover track={track} />
         <TrackContent track={track} />
       </Card>
     </TrackContainer>

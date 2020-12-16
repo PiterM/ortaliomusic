@@ -1,10 +1,19 @@
 import * as React from "react";
 import styled from "@emotion/styled";
-import { Styled } from "theme-ui";
 
 const CardContent = styled.div({
   padding: "0.5rem",
   flex: "1"
+});
+
+const StyledTitle = styled.h1({
+  textAlign: "center",
+  margin: "0.5rem 0",
+});
+
+const StyledDescription = styled.div({
+  margin: "0.5rem 1rem",
+  textAlign: "center"
 });
 
 export interface TrackContentOwnProps {
@@ -12,37 +21,16 @@ export interface TrackContentOwnProps {
 }
 
 const TrackContent: React.FC<TrackContentOwnProps> = ({ track }) => {
-  const bodyContent = {
-    __html: track.body.childMarkdownRemark.html
+  const description = {
+    __html: track.description
   };
   return (
     <CardContent>
-      <Styled.h1
-        sx={{
-          textAlign: "center",
-          margin: 0
-        }}
-      >
+      <StyledTitle>
         {track.title}
-      </Styled.h1>
-      <Styled.p
-        sx={{
-          textAlign: "center",
-          marginTop: "0.5rem"
-        }}
-      >
-        {new Date(track.publishDate)
-          .toUTCString()
-          .split(" ")
-          .splice(0, 4)
-          .join(" ")}
-      </Styled.p>
-      <Styled.p
-        sx={{
-          margin: "0.5rem 1rem",
-          textAlign: "center"
-        }}
-        dangerouslySetInnerHTML={bodyContent}
+      </StyledTitle>
+      <StyledDescription
+        dangerouslySetInnerHTML={description}
       />
     </CardContent>
   );

@@ -4,6 +4,7 @@ import Img from "gatsby-image";
 import styled from "@emotion/styled";
 import TrackBottom from './track-bottom';
 import { SnipcartContext } from '../../../store/cartStore';
+import TrackUrlHelper from '../../../common/trackUrlHelper';
 import styles from 'gatsby-plugin-theme-ui';
 const { colors } = styles;
 const { useContext } = React;
@@ -132,7 +133,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
   return (
     <Grid>
       {tracks.map((track: any, key: number) => {
-        const { id } = track?.node;
+        const { id, slug } = track?.node;
         const { title, description } = track?.node?.ortalioMusicTrack;
         const { sourceUrl } = track?.node?.ortalioMusicTrack?.coverImage;
         const trackIsAdded = alreadyAddedTracks && alreadyAddedTracks.length > 0 && alreadyAddedTracks.includes(id);
@@ -173,7 +174,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
                         className="snipcart-add-item"
                         data-item-id={id}
                         data-item-price="0.01"
-                        data-item-url={`/tracks/${id}`}
+                        data-item-url={TrackUrlHelper(id, slug)}
                         data-item-description={description}
                         data-item-image={imageFluid.src}
                         data-item-name={title}
@@ -182,7 +183,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
                   </>
                 }
               </SquareLayer>
-              <TrackBottom title={title} />
+              <TrackBottom title={title} url={TrackUrlHelper(id, slug)} />
             </div>
         );
       })}

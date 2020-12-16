@@ -1,10 +1,12 @@
 import * as React from 'react';
 import styled from "@emotion/styled";
+import { Link } from 'gatsby';
 
-const TrackLabel = styled.p({
+const TrackLink = styled(Link)({
     color: '#000',
     borderBottom: '1px solid transparent',
     cursor: 'pointer',
+    textDecoration: 'none',
     ":hover": {
         borderColor: '#000'
     },
@@ -15,12 +17,13 @@ const TrackLabel = styled.p({
   });
 
 export interface TrackOwnProps {
+    url: string;
     title: string;
 }
   
-const Track: React.FC<TrackOwnProps> = ({ title }: TrackOwnProps) => {
+const Track: React.FC<TrackOwnProps> = ({ url, title }: TrackOwnProps) => {
     return (
-        <TrackLabel>{title}</TrackLabel>
+        <TrackLink to={url}>{title}</TrackLink>
     );
 };
 

@@ -13,6 +13,7 @@ const Tracks: React.FC = () => {
           edges {
             node {
               id
+              slug
               ortalioMusicTrack {
                 body
                 description
