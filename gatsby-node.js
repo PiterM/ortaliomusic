@@ -45,8 +45,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     reporter.panic(tracksData.errors);
   }
 
-  // reporter.panic(tracksData);
-  // console.log('tracksData', tracksData.data.ortl.ortalioMusicTracks.edges);
   const tracks = tracksData.data.ortl.ortalioMusicTracks.edges;
   if (tracks && tracks.length > 0) {
     tracks.forEach(track => {
@@ -55,7 +53,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         path: TrackUrlHelper(id, slug),
         component: Track,
         context: {
-          track: track.node.ortalioMusicTrack
+          track: track.node.ortalioMusicTrack,
+          id: track.node.id,
+          slug: track.node.slug
         }
       });
     });

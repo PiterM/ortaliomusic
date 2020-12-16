@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "@emotion/styled";
+import * as TrackUrlHelper from '../../../common/trackUrlHelper';
 import TrackContent from "./track-content";
 import TrackCover from "./track-cover";
 
@@ -29,11 +30,22 @@ export interface TrackOwnProps {
   pageContext: any;
 }
 
-const Track: React.FC<TrackOwnProps> = ({ pageContext: { track } }: any) => {
-  console.log('traczek', track);
+const Track: React.FC<TrackOwnProps> = ({ pageContext: { track, id, slug } }: any) => {
+  const { description, title, coverImage: { sourceUrl }} = track;
+
   return (
     <TrackContainer>
-      <Card>
+      <Card
+        onClick={(e) => e.preventDefault()}
+        className="snipcart-add-item"
+        data-item-id={id}
+        data-item-price="0.01"
+        data-item-url={TrackUrlHelper(id, slug)}
+        data-item-description={description}
+        data-item-image={sourceUrl}
+        data-item-name={title}
+        data-item-file-guid="3139360f-f3ab-49d5-8668-7dc222508729"
+      >
         <TrackCover track={track} />
         <TrackContent track={track} />
       </Card>

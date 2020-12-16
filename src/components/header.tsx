@@ -92,6 +92,7 @@ const Header: React.FC = () => {
                   altText
                   sourceUrl(size: MEDIUM)
                 }
+                defaultPrice
               }
             }
           }
