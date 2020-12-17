@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Header from '../components/header';
 import Tracks from '../containers/tracks/tracks';
-import IndexLayout from '../layouts/index';
+import IndexLayout from '../layouts';
 import Helmet from 'react-helmet'
 import SnipcartProvider from '../store/SnipcartProvider';
 

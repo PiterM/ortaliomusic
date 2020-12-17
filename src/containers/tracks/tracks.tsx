@@ -3,35 +3,13 @@ import * as React from "react";
 // import SEO from "./components/seo";
 // import Header from "../../components/header";
 import TrackGrid from "./components/track-grid";
-import { useStaticQuery, graphql } from "gatsby";
 
-const Tracks: React.FC = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      ortl {
-        ortalioMusicTracks {
-          edges {
-            node {
-              id
-              slug
-              ortalioMusicTrack {
-                body
-                description
-                previewUrl
-                title
-                coverImage {
-                  sourceUrl(size: LARGE)
-                  altText
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `);
+export interface TracksOwnProps {
+  pageContext: any;
+}
 
-  const tracks = data?.ortl?.ortalioMusicTracks?.edges;
+const Tracks: React.FC<TracksOwnProps> = ({ pageContext: { tracks } }: any) => {
+  console.log('tracks', tracks);
   return tracks ? (
       <TrackGrid tracks={tracks} />
   ) : null;

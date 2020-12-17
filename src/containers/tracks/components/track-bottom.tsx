@@ -1,19 +1,38 @@
 import * as React from 'react';
 import styled from "@emotion/styled";
 import { Link } from 'gatsby';
+import styles from '../../../gatsby-plugin-theme-ui';
+const { colors } = styles;
+
+const TrackLinkWrapper = styled.div({
+    transition: 'all 0.2s ease',
+    position: 'relative',
+    border: '2px solid transparent',
+    borderTop: 'none',
+    height: '3.5em',
+    marginBottom: '1em',
+    ":hover, :active": {
+        borderColor: colors.cartButton,
+    },
+    ":hover a, :active a": {
+        color: colors.trackTitle,
+    },
+});
 
 const TrackLink = styled(Link)({
+    padding: '5px 10px',
     color: '#000',
     borderBottom: '1px solid transparent',
-    cursor: 'pointer',
     textDecoration: 'none',
-    ":hover": {
-        borderColor: '#000'
+    transition: 'all 0.2s ease',
+    width: '100%',
+    height: '100%',
+    top: 0,
+    left: 0,
+    position: 'absolute',
+    ":hover, :active": {
+        color: colors.trackTitle,
     },
-    ":active": {
-        color: 'orange',
-        borderColor: 'orange'
-    }
   });
 
 export interface TrackOwnProps {
@@ -23,7 +42,9 @@ export interface TrackOwnProps {
   
 const Track: React.FC<TrackOwnProps> = ({ url, title }: TrackOwnProps) => {
     return (
-        <TrackLink to={url}>{title}</TrackLink>
+        <TrackLinkWrapper>
+            <TrackLink to={url}>{title}</TrackLink>
+        </TrackLinkWrapper>
     );
 };
 

@@ -21,8 +21,14 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-typescript`,
     `gatsby-transformer-sharp`,
-    `gatsby-transformer-remark`,
     `gatsby-plugin-sharp`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/src/data/`,
+      },
+    },
+    `gatsby-transformer-remark`,
     `gatsby-plugin-emotion`,
     `gatsby-plugin-theme-ui`
   ],

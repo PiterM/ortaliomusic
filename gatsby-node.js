@@ -1,3 +1,4 @@
+let basePath;
 exports.onPreBootstrap = themeOptions => {
   basePath = themeOptions.basePath || `/`;
 };
@@ -10,12 +11,43 @@ exports.onCreateWebpackConfig = ({ getConfig, stage }) => {
         'react-dom': '@hot-loader/react-dom'
       }
     }
-  }
+}
+
+const { createRemoteFileNode } = require(`gatsby-source-filesystem`);
+
+exports.createResolvers = ({
+  actions,
+  cache,
+  createNodeId,
+  createResolvers,
+  store,
+  reporter,
+}) => {
+  const { createNode } = actions;
+  createResolvers({
+    ortl_MediaItem: {
+      imageFile: {
+        type: `File`,
+        resolve(source, args, context, info) {
+          return createRemoteFileNode({
+            url: source.sourceUrl,
+            store,
+            cache,
+            createNode,
+            createNodeId,
+            reporter,
+          })
+        },
+      }
+    },
+  })
+}
   
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
   const TrackUrlHelper = require('./src/common/trackUrlHelper.js');
-  const Track = require.resolve('./src/containers/tracks/components/track.tsx');
+  const Track = require.resolve('./src/containers/track/track.tsx');
+  const Tracks = require.resolve('./src/containers/tracks/tracks.tsx');
   const tracksData = await graphql(`
     query {
       ortl {
@@ -32,6 +64,17 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 coverImage {
                   sourceUrl(size: LARGE)
                   altText
+                  imageFile {
+                    childImageSharp {
+                      fixed(width: 300, height: 300) {
+                        base64
+                        width
+                        height
+                        src
+                        srcSet
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -60,4 +103,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       });
     });
   }
+
+  createPage({
+    path: basePath,
+    component: Tracks,
+    context: {
+      tracks
+    }
+  });
 };
