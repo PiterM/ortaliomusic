@@ -40,6 +40,16 @@ const TrackHeader: React.FC = () => {
                 logo {
                   altText
                   sourceUrl(size: MEDIUM)
+                  imageFile {
+                    childImageSharp {
+                      fixed(width: 151, height: 42) {
+                        width
+                        height
+                        src
+                        srcSet
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -54,17 +64,12 @@ const TrackHeader: React.FC = () => {
     return null;
   }
 
-  const logoFluid = {
-    width: 151,
-    height: 42,
-    src: siteData.logo.sourceUrl,
-    srcSet: siteData.logo.sourceUrl,
-  };
+  const logoFixed = siteData.logo?.imageFile?.childImageSharp?.fixed;
 
   return (
     <LogoContainer>
         <LogoLink to={'/'}>
-            <Logo fixed={logoFluid} />
+            <Logo fixed={logoFixed} />
         </LogoLink>
     </LogoContainer>
   );

@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import TrackBottom from './track-bottom';
 import { SnipcartContext } from '../../../store/cartStore';
 import * as TrackUrlHelper from '../../../common/trackUrlHelper';
-import { TrackAddedCartButton, TrackCover, TrackNotAddedCartButton } from "./track-cart-button";
+import { TrackAddedCartButton, TrackCover, TrackNotAddedCartButton } from "./track-details";
 const { useContext } = React;
 
 const Grid = styled.div({
@@ -24,10 +24,9 @@ const SquareLayer = styled.div({
 type TrackGridOwnProps = any;
 
 const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
-  console.log('tracks', tracks);
-  // const { state }: any = useContext(SnipcartContext);
-  // const { items } = state;
-  // const alreadyAddedTracks = items.length > 0 && items.map((item: any) => item.id);
+  const { state }: any = useContext(SnipcartContext);
+  const { items } = state;
+  const alreadyAddedTracks = items.length > 0 && items.map((item: any) => item.id);
 
   return (
     <Grid>
@@ -35,8 +34,8 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
         const { id, slug } = track?.node;
         const { title, description } = track?.node?.ortalioMusicTrack;
         const { sourceUrl, imageFile: { childImageSharp: { fixed }} } = track?.node?.ortalioMusicTrack?.coverImage;
-        const trackIsAdded = false //alreadyAddedTracks && alreadyAddedTracks.length > 0 && alreadyAddedTracks.includes(id);
-        // const storeItem = items && items.length > 0 && items.find((item: any) => item.id === id);
+        const trackIsAdded = alreadyAddedTracks && alreadyAddedTracks.length > 0 && alreadyAddedTracks.includes(id);
+        const storeItem = items && items.length > 0 && items.find((item: any) => item.id === id);
 
         return (
             <div key={key}>
@@ -45,7 +44,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
                 { trackIsAdded 
                   ? <TrackAddedCartButton 
                       sourceUrl={sourceUrl}
-                      uniqueId={'storeItem.uniqueId'}
+                      uniqueId={storeItem.uniqueId}
                     />
                   : <TrackNotAddedCartButton
                       id={id}

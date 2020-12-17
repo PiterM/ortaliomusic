@@ -46,8 +46,8 @@ exports.createResolvers = ({
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
   const TrackUrlHelper = require('./src/common/trackUrlHelper.js');
-  const Track = require.resolve('./src/containers/track/track.tsx');
-  const Tracks = require.resolve('./src/containers/tracks/tracks.tsx');
+  const TrackPage = require.resolve('./src/pages/trackPage.tsx');
+  const HomePage = require.resolve('./src/pages/homePage.tsx');
   const tracksData = await graphql(`
     query {
       ortl {
@@ -67,7 +67,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                   imageFile {
                     childImageSharp {
                       fixed(width: 300, height: 300) {
-                        base64
                         width
                         height
                         src
@@ -94,7 +93,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       const { id, slug } = track.node;
       createPage({
         path: TrackUrlHelper(id, slug),
-        component: Track,
+        component: TrackPage,
         context: {
           track: track.node.ortalioMusicTrack,
           id: track.node.id,
@@ -106,7 +105,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   createPage({
     path: basePath,
-    component: Tracks,
+    component: HomePage,
     context: {
       tracks
     }

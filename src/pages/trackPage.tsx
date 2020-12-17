@@ -1,12 +1,12 @@
 import * as React from "react";
 import Helmet from 'react-helmet';
-import TrackHeader from './components/track-header';
-import IndexLayout from '../../layouts';
-import SnipcartProvider from '../../store/SnipcartProvider';
+import TrackHeader from '../containers/track/components/track-header';
+import IndexLayout from '../layouts';
+import SnipcartProvider from '../store/SnipcartProvider';
 import styled from "@emotion/styled";
-import * as TrackUrlHelper from '../../common/trackUrlHelper';
-import TrackContent from "./components/track-content";
-import TrackCover from "./components/track-cover";
+import * as TrackUrlHelper from '../common/trackUrlHelper';
+import TrackContent from "../containers/track/components/track-content";
+import TrackCover from "../containers/track/components/track-cover";
 
 const TrackContainer = styled.div({
   margin: "auto",

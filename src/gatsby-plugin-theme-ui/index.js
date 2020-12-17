@@ -9,7 +9,8 @@ export default merge(typography, {
     cartButton: 'orange',
     cartQuantity: 'red',
     trackTitle: '#e57702',
-    neutral: '#dadada'
+    neutral: '#dadada',
+    grey: '#888'
   },
   fonts: {
     heading: "Work Sans, serif",

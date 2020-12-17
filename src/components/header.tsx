@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from "@emotion/styled";
 import { useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
+import Link from 'gatsby-link';
 import { SnipcartContext } from '../store/cartStore';
 const { useContext } = React;
 
@@ -87,10 +88,30 @@ const Header: React.FC = () => {
                 avatar {
                   altText
                   sourceUrl(size: MEDIUM)
+                  imageFile {
+                    childImageSharp {
+                      fixed(width: 150, height: 150) {
+                        width
+                        height
+                        src
+                        srcSet
+                      }
+                    }
+                  }
                 }
                 logo {
                   altText
                   sourceUrl(size: MEDIUM)
+                  imageFile {
+                    childImageSharp {
+                      fixed(width: 230, height: 65) {
+                        width
+                        height
+                        src
+                        srcSet
+                      }
+                    }
+                  }
                 }
                 defaultPrice
               }
@@ -105,29 +126,21 @@ const Header: React.FC = () => {
   const { cartQuantity } = state;
   
   const siteData = data?.ortl?.ortalioMusicSiteData?.edges[0]?.node?.data;
+  
   if (!siteData) {
     return null;
   }
 
-  const avatarFixed = {
-    width: 150,
-    height: 150,
-    src: siteData.avatar.sourceUrl,
-    srcSet: siteData.avatar.sourceUrl,
-  };
-
-  const logoFixed = {
-    width: 230,
-    height: 65,
-    src: siteData.logo.sourceUrl,
-    srcSet: siteData.logo.sourceUrl,
-  };
-
+  const avatarFixed = siteData.avatar?.imageFile?.childImageSharp?.fixed;
+  const logoFixed = siteData.logo?.imageFile?.childImageSharp?.fixed;
+  
   return (
     <Container>
       <Avatar fixed={avatarFixed} />
       <StyledDescription>
-        <Logo fixed={logoFixed} />
+        <Link to={'/'}>
+          <Logo fixed={logoFixed} />
+        </Link>
         <StyledInfo
           dangerouslySetInnerHTML={{__html: `<div>${siteData.siteDescription}</div>`}}
         />

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Link } from "gatsby";
 import Img from "gatsby-image";
 import * as TrackUrlHelper from '../../../common/trackUrlHelper';
 import styled from "@emotion/styled";
@@ -13,11 +12,11 @@ interface AddedToCartProps {
 const SquareImage = styled(Img)((props: AddedToCartProps) => {
   const { addedToCart } = props;
   const opacity = addedToCart ? 0.5 : 1;
-  const borderColor = addedToCart ? colors.cartButton : colors.neutral;
+  const borderColor = addedToCart ? colors.cartButton : colors.grey;
 
   return {
-    maxHeight: 300,
-    height: "100%",
+    maxHeight: 288,
+    maxWidth: 288,
     border: `2px solid ${borderColor}`,
     opacity,
     transition: 'all 0.5s ease',
@@ -25,7 +24,7 @@ const SquareImage = styled(Img)((props: AddedToCartProps) => {
 });
 
 const ImageContainer = styled.div({
-  position: 'relative',
+  // position: 'relative',
 });
 
 const ImageLayer = styled.div({
@@ -46,7 +45,7 @@ const ImageLayer = styled.div({
   }
 });
 
-const CartIcon = styled.div((props: AddedToCartProps) => {
+const CartButton = styled.div((props: AddedToCartProps) => {
   const { addedToCart } = props;
   const backgroundColor = addedToCart ? colors.cartButton : colors.neutral;
   const borderColor = addedToCart ? colors.cartButton : colors.neutral;
@@ -55,8 +54,8 @@ const CartIcon = styled.div((props: AddedToCartProps) => {
     background: `${backgroundColor} url("/images/shopping-cart.svg") center center no-repeat`,
     border: `2px solid ${borderColor}`,
     backgroundSize: '70% 70%',
-    bottom: 2,
-    right: 2,
+    bottom: 0,
+    right: 0,
     width: '70px',
     height: '70px',
     transition: 'all 0.05s ease',
@@ -78,6 +77,8 @@ const StyledLink = styled.div({
   textDecoration: 'none',
   position: 'relative',
   transition: 'all 0.5s ease',
+  maxWidth: 288,
+  maxHeight: 288,
   ":hover picture": {
     opacity: 0.5
   },
@@ -112,7 +113,7 @@ export const TrackAddedCartButton: React.FC<TrackAddedCartButtonOwnProps> = ({so
     }
 
     return (
-        <CartIcon 
+        <CartButton 
             onClick={(e) => removeItemFromCart(e, uniqueId)}
             addedToCart={true} 
         />
@@ -129,7 +130,7 @@ interface TrackNotAddedCartButtonOwnProps {
 
 export const TrackNotAddedCartButton: React.FC<TrackNotAddedCartButtonOwnProps> = ({sourceUrl, id, slug, title, description}) => {
     return (
-        <CartIcon 
+        <CartButton 
             onClick={(e) => e.preventDefault()}
             className="snipcart-add-item"
             data-item-id={id}
