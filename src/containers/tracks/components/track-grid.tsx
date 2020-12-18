@@ -1,8 +1,8 @@
 import * as React from "react";
 import styled from "@emotion/styled";
 import TrackBottom from './track-bottom';
-import { SnipcartContext } from '../../../store/cartStore';
-import * as TrackUrlHelper from '../../../common/trackUrlHelper';
+import { SnipcartContext } from '../../../store/CartStore';
+import * as trackUrlHelper from '../../../common/trackUrlHelper';
 import { TrackAddedCartButton, TrackCover, TrackNotAddedCartButton } from "./track-details";
 const { useContext } = React;
 
@@ -32,7 +32,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
     <Grid>
       {tracks.map((track: any, key: number) => {
         const { id, slug } = track?.node;
-        const url = TrackUrlHelper(id, slug);
+        const url = trackUrlHelper(id, slug);
         const { title, description } = track?.node?.ortalioMusicTrack;
         const { sourceUrl, imageFile: { childImageSharp: { fixed }} } = track?.node?.ortalioMusicTrack?.coverImage;
         const trackIsAdded = alreadyAddedTracks && alreadyAddedTracks.length > 0 && alreadyAddedTracks.includes(id);

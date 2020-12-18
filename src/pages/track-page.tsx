@@ -4,7 +4,7 @@ import TrackHeader from '../containers/track/components/track-header';
 import IndexLayout from '../layouts';
 import SnipcartProvider from '../store/SnipcartProvider';
 import styled from "@emotion/styled";
-import * as TrackUrlHelper from '../common/trackUrlHelper';
+import * as trackUrlHelper from '../common/trackUrlHelper';
 import TrackContent from "../containers/track/components/track-content";
 import TrackCover from "../containers/track/components/track-cover";
 
@@ -56,7 +56,7 @@ const Track: React.FC<TrackOwnProps> = ({ pageContext: { track, id, slug } }: an
           className="snipcart-add-item"
           data-item-id={id}
           data-item-price="0.01"
-          data-item-url={TrackUrlHelper(id, slug)}
+          data-item-url={trackUrlHelper(id, slug)}
           data-item-description={description}
           data-item-image={sourceUrl}
           data-item-name={title}

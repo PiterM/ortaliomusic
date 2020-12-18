@@ -46,8 +46,8 @@ exports.createResolvers = ({
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
   const TrackUrlHelper = require('./src/common/trackUrlHelper.js');
-  const TrackPage = require.resolve('./src/pages/trackPage.tsx');
-  const HomePage = require.resolve('./src/pages/homePage.tsx');
+  const TrackPage = require.resolve('./src/pages/track-page.tsx');
+  const HomePage = require.resolve('./src/pages/home-page.tsx');
   const tracksData = await graphql(`
     query {
       ortl {

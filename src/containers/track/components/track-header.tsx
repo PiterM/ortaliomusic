@@ -3,6 +3,9 @@ import styled from "@emotion/styled";
 import { useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
 import Link from 'gatsby-link';
+import CartButton from '../../../components/cart-button';
+import { SnipcartContext } from '../../../store/CartStore';
+const { useContext } = React;
 
 const LogoLink = styled(Link)({
     transition: 'all 0.3s ease',
@@ -14,12 +17,15 @@ const LogoLink = styled(Link)({
     }
 });
 
-const LogoContainer = styled.div({
+const Header = styled.div({
     width: '100%',
     height: '100px',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    // alignItems: 'center',
+    position: 'relative',
+    marginTop: '1rem',
+    paddingTop: '1rem'
 });
 
 const Logo = styled(Img)({
@@ -68,13 +74,16 @@ const TrackHeader: React.FC = () => {
   }
 
   const logoFixed = siteData.logo?.imageFile?.childImageSharp?.fixed;
+  const { state }: any = useContext(SnipcartContext);
+  const { cartQuantity } = state;
 
   return (
-    <LogoContainer>
+    <Header>
         <LogoLink to={'/'}>
             <Logo fixed={logoFixed} />
         </LogoLink>
-    </LogoContainer>
+        <CartButton cartQuantity={cartQuantity} />
+    </Header>
   );
 };
 

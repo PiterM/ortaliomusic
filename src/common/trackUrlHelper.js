@@ -1,2 +1,2 @@
-const TrackUrlHelper = (id, slug) => `/beat/${slug}/${id}`;
-module.exports = TrackUrlHelper;
+const trackUrlHelper = (id, slug) => `/beat/${slug}/${id}`;
+module.exports = trackUrlHelper;

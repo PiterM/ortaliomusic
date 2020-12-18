@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Link from 'gatsby-link';
 import Img from "gatsby-image";
-import * as TrackUrlHelper from '../../../common/trackUrlHelper';
+import * as trackUrlHelper from '../../../common/trackUrlHelper';
 import styled from "@emotion/styled";
 import styles from 'gatsby-plugin-theme-ui';
 const { colors } = styles;
@@ -146,7 +146,7 @@ export const TrackNotAddedCartButton: React.FC<TrackNotAddedCartButtonOwnProps> 
             className="snipcart-add-item"
             data-item-id={id}
             data-item-price="0.01"
-            data-item-url={TrackUrlHelper(id, slug)}
+            data-item-url={trackUrlHelper(id, slug)}
             data-item-description={description}
             data-item-image={sourceUrl}
             data-item-name={title}

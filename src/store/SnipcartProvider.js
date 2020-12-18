@@ -1,5 +1,5 @@
 const React = require('react');
-const {useStore, SnipcartContext} = require('../store/cartStore');
+const {useStore, SnipcartContext} = require('./CartStore');
 
 /**
  * @param props : {currency, version}
