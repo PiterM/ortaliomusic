@@ -32,6 +32,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
     <Grid>
       {tracks.map((track: any, key: number) => {
         const { id, slug } = track?.node;
+        const url = TrackUrlHelper(id, slug);
         const { title, description } = track?.node?.ortalioMusicTrack;
         const { sourceUrl, imageFile: { childImageSharp: { fixed }} } = track?.node?.ortalioMusicTrack?.coverImage;
         const trackIsAdded = alreadyAddedTracks && alreadyAddedTracks.length > 0 && alreadyAddedTracks.includes(id);
@@ -40,7 +41,11 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
         return (
             <div key={key}>
               <SquareLayer>
-                <TrackCover fixed={fixed} addedToCart={trackIsAdded} />
+                <TrackCover 
+                  fixed={fixed} 
+                  addedToCart={trackIsAdded} 
+                  url={url}
+                />
                 { trackIsAdded 
                   ? <TrackAddedCartButton 
                       sourceUrl={sourceUrl}
@@ -55,7 +60,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
                     />
                 }
               </SquareLayer>
-              <TrackBottom title={title} url={TrackUrlHelper(id, slug)} />
+              <TrackBottom title={title} url={url} />
             </div>
         );
       })}

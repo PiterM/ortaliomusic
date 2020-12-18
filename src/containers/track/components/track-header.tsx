@@ -5,9 +5,12 @@ import Img from "gatsby-image";
 import Link from 'gatsby-link';
 
 const LogoLink = styled(Link)({
-    transition: 'all 0.5s ease',
-    ":hover, :active": {
-        opacity: 0.5
+    transition: 'all 0.3s ease',
+    ":hover": {
+        opacity: 0.6
+    },
+    ":active": {
+      opacity: 0.2
     }
 });
 

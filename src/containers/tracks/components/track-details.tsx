@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Link from 'gatsby-link';
 import Img from "gatsby-image";
 import * as TrackUrlHelper from '../../../common/trackUrlHelper';
 import styled from "@emotion/styled";
@@ -20,25 +21,31 @@ const SquareImage = styled(Img)((props: AddedToCartProps) => {
     border: `2px solid ${borderColor}`,
     opacity,
     transition: 'all 0.5s ease',
+    cursor: 'pointer'
   };
 });
 
 const ImageContainer = styled.div({
-  // position: 'relative',
+  position: 'relative',
+  width: '100%',
+  height: '100%'
 });
 
 const ImageLayer = styled.div({
-  background: 'transparent url("/images/play-icon.svg") center center no-repeat',
-  backgroundSize: '50% 50%',
+  background: `${colors.neutral} url("/images/play-icon.svg") center center no-repeat`,
+  backgroundSize: '102% 102%',
   opacity: 0,
   transition: 'all 0.5s ease, background 0.05s ease',
   position: 'absolute',
-  width: '100%',
-  height: '100%',
-  top: 0,
-  left: 0,
+  width: '45%',
+  height: '45%',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  cursor: 'pointer',
+  borderRadius: '50% 50%',
   ':hover': {
-    opacity: 0.9
+    opacity: 0.9,
   },
   ":active": {
     backgroundSize: '45% 45%'
@@ -72,7 +79,12 @@ const CartButton = styled.div((props: AddedToCartProps) => {
   }
 });
 
-const StyledLink = styled.div({
+const StyledLink = styled(Link)({
+  width: '100%',
+  height: '100%'
+});
+
+const StyledContainer = styled.div({
   backgroundImage: "none",
   textDecoration: 'none',
   position: 'relative',
@@ -80,14 +92,13 @@ const StyledLink = styled.div({
   maxWidth: 288,
   maxHeight: 288,
   ":hover picture": {
-    opacity: 0.5
+    opacity: 0.7,
+  },
+  ":hover .gatsby-image-wrapper, :active .gatsby-image-wrapper": {
+    borderColor: '#000'
   },
   ":active picture": {
     opacity: 0.5
-  },
-  ":active > div > div:first-of-type": {
-    backgroundSize: '45% 45%',
-    backgroundColor: '#fff'
   },
   "picture": {
     transition: 'all 0.5s ease',
@@ -147,15 +158,27 @@ export const TrackNotAddedCartButton: React.FC<TrackNotAddedCartButtonOwnProps> 
 interface TrackCoverOwnProps {
     addedToCart?: boolean;
     fixed: any;
+    url: string;
 }
 
-export const TrackCover: React.FC<TrackCoverOwnProps> = ({ addedToCart, fixed }) => {
+export const TrackCover: React.FC<TrackCoverOwnProps> = ({ addedToCart, fixed, url }) => {
     return (
-        <StyledLink>
-            <ImageContainer>
-                <SquareImage fixed={fixed} addedToCart={addedToCart} />
-                <ImageLayer />
-            </ImageContainer>
-        </StyledLink>
+        <>
+          <StyledContainer>
+            <StyledLink
+              to={url}
+            >
+              <ImageContainer>
+                  <SquareImage 
+                    fixed={fixed} 
+                    addedToCart={addedToCart} 
+                  />
+              </ImageContainer>
+            </StyledLink>
+          </StyledContainer>
+          <ImageLayer 
+            onClick={(e) => { console.log('play!')}}
+          />
+        </>
     );
 };
