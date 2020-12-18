@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "@emotion/styled";
 import TrackBottom from './track-bottom';
-import { SnipcartContext } from '../../../store/CartStore';
+import { SnipcartContext } from '../../../snipcart/CartStore';
 import * as trackUrlHelper from '../../../common/trackUrlHelper';
 import { TrackAddedCartButton, TrackCover, TrackNotAddedCartButton } from "./track-details";
 const { useContext } = React;

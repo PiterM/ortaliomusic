@@ -4,7 +4,7 @@ import { useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
 import Link from 'gatsby-link';
 import CartButton from '../../../components/cart-button';
-import { SnipcartContext } from '../../../store/CartStore';
+import { SnipcartContext } from '../../../snipcart/CartStore';
 const { useContext } = React;
 
 const LogoLink = styled(Link)({

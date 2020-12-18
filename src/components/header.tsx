@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
 import Link from 'gatsby-link';
-import { SnipcartContext } from '../store/CartStore';
+import { SnipcartContext } from '../snipcart/CartStore';
 import CartButton from './cart-button';
 const { useContext } = React;
 

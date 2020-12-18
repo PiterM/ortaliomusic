@@ -2,7 +2,7 @@ import * as React from "react";
 import Helmet from 'react-helmet';
 import TrackHeader from '../containers/track/components/track-header';
 import IndexLayout from '../layouts';
-import SnipcartProvider from '../store/SnipcartProvider';
+import SnipcartProvider from '../snipcart/SnipcartProvider';
 import styled from "@emotion/styled";
 import * as trackUrlHelper from '../common/trackUrlHelper';
 import TrackContent from "../containers/track/components/track-content";
