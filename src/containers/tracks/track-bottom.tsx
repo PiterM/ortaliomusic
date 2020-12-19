@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from "@emotion/styled";
 import { Link } from 'gatsby';
-import styles from '../../../gatsby-plugin-theme-ui';
+import styles from '../../gatsby-plugin-theme-ui';
 const { colors } = styles;
 
 const TrackLinkWrapper = styled.div({

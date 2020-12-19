@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Link from 'gatsby-link';
 import Img from "gatsby-image";
-import * as trackUrlHelper from '../../../common/trackUrlHelper';
+import { trackUrlHelper } from '../../common/trackUrlHelper';
 import styled from "@emotion/styled";
 import styles from 'gatsby-plugin-theme-ui';
 const { colors } = styles;

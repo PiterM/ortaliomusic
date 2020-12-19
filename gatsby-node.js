@@ -1,3 +1,5 @@
+require('typescript-require');
+
 let basePath;
 exports.onPreBootstrap = themeOptions => {
   basePath = themeOptions.basePath || `/`;
@@ -45,7 +47,7 @@ exports.createResolvers = ({
   
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
-  const TrackUrlHelper = require('./src/common/trackUrlHelper.js');
+  const { trackUrlHelper } = require('./src/common/trackUrlHelper.ts');
   const TrackPage = require.resolve('./src/pages/track-page.tsx');
   const HomePage = require.resolve('./src/pages/home-page.tsx');
   const tracksData = await graphql(`
@@ -92,7 +94,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     tracks.forEach(track => {
       const { id, slug } = track.node;
       createPage({
-        path: TrackUrlHelper(id, slug),
+        path: trackUrlHelper(id, slug),
         component: TrackPage,
         context: {
           track: track.node.ortalioMusicTrack,

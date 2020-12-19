@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useDispatch } from 'react-redux';
 import { setTracksData } from '../player/player-actions';
-import TrackGrid from "./components/track-grid";
+import TrackGrid from "./track-grid";
 const { useEffect } = React;
 
 export interface TracksOwnProps {

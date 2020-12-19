@@ -1,12 +1,11 @@
 import * as React from "react";
 import Helmet from 'react-helmet';
-import TrackHeader from '../containers/track/components/track-header';
+import TrackHeader from '../containers/track/track-header';
 import IndexLayout from '../layouts';
-import SnipcartProvider from '../snipcart/SnipcartProvider';
 import styled from "@emotion/styled";
-import * as trackUrlHelper from '../common/trackUrlHelper';
-import TrackContent from "../containers/track/components/track-content";
-import TrackCover from "../containers/track/components/track-cover";
+import { trackUrlHelper } from '../common/trackUrlHelper';
+import TrackContent from "../containers/track/track-content";
+import TrackCover from "../containers/track/track-cover";
 
 const TrackContainer = styled.div({
   margin: "auto",
@@ -39,34 +38,34 @@ const Track: React.FC<TrackOwnProps> = ({ pageContext: { track, id, slug } }: an
   const { description, title, coverImage: { sourceUrl }} = track;
 
   return (
-    <SnipcartProvider>
-    <Helmet
-      title="Gatsby Default Starter"
-      meta={[
-        { name: 'description', content: 'Sample' },
-        { name: 'keywords', content: 'sample, something' },
-      ]}
-    />
-    <IndexLayout>
-      <TrackHeader />
-      <TrackContainer>
-        <TrackContent track={track} />
-        <Card
-          onClick={(e) => e.preventDefault()}
-          className="snipcart-add-item"
-          data-item-id={id}
-          data-item-price="0.01"
-          data-item-url={trackUrlHelper(id, slug)}
-          data-item-description={description}
-          data-item-image={sourceUrl}
-          data-item-name={title}
-          data-item-file-guid="3139360f-f3ab-49d5-8668-7dc222508729"
-        >
-          <TrackCover track={track} />
-        </Card>
-      </TrackContainer>
-    </IndexLayout>
-  </SnipcartProvider>      
+    <>
+      <Helmet
+        title="Gatsby Default Starter"
+        meta={[
+          { name: 'description', content: 'Sample' },
+          { name: 'keywords', content: 'sample, something' },
+        ]}
+      />
+      <IndexLayout>
+        <TrackHeader />
+        <TrackContainer>
+          <TrackContent track={track} />
+          <Card
+            onClick={(e) => e.preventDefault()}
+            className="snipcart-add-item"
+            data-item-id={id}
+            data-item-price="0.01"
+            data-item-url={trackUrlHelper(id, slug)}
+            data-item-description={description}
+            data-item-image={sourceUrl}
+            data-item-name={title}
+            data-item-file-guid="3139360f-f3ab-49d5-8668-7dc222508729"
+          >
+            <TrackCover track={track} />
+          </Card>
+        </TrackContainer>
+      </IndexLayout>
+    </>      
   );
 };
 

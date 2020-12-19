@@ -1,10 +1,11 @@
 import * as React from 'react'
+import { useSelector } from 'react-redux';
 import styled from "@emotion/styled";
 import { useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
 import Link from 'gatsby-link';
-import { SnipcartContext } from '../snipcart/CartStore';
 import CartButton from './cart-button';
+import { getCartQuantity } from '../containers/cart/cart-selectors';
 const { useContext } = React;
 
 const Avatar = styled(Img)({
@@ -86,9 +87,7 @@ const Header: React.FC = () => {
     }
   `);
 
-  const { state }: any = useContext(SnipcartContext);
-  const { cartQuantity } = state;
-  
+  const cartQuantity = useSelector(getCartQuantity);
   const siteData = data?.ortl?.ortalioMusicSiteData?.edges[0]?.node?.data;
   
   if (!siteData) {

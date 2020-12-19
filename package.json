@@ -32,6 +32,7 @@
     "theme-ui": "^0.3.4",
     "typeface-quattrocento-sans": "0.0.72",
     "typeface-work-sans": "0.0.72",
+    "typescript-require": "^0.3.0",
     "typography-theme-fairy-gates": "^0.16.19"
   },
   "keywords": [

@@ -1,10 +1,11 @@
 import * as React from 'react'
+import { useSelector } from 'react-redux';
 import styled from "@emotion/styled";
 import { useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
 import Link from 'gatsby-link';
-import CartButton from '../../../components/cart-button';
-import { SnipcartContext } from '../../../snipcart/CartStore';
+import CartButton from '../../components/cart-button';
+import { getCartQuantity } from '../cart/cart-selectors';
 const { useContext } = React;
 
 const LogoLink = styled(Link)({
@@ -74,8 +75,7 @@ const TrackHeader: React.FC = () => {
   }
 
   const logoFixed = siteData.logo?.imageFile?.childImageSharp?.fixed;
-  const { state }: any = useContext(SnipcartContext);
-  const { cartQuantity } = state;
+  const cartQuantity = useSelector(getCartQuantity);
 
   return (
     <Header>

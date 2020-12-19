@@ -1,8 +1,9 @@
 import * as React from "react";
+import { useSelector } from 'react-redux';
 import styled from "@emotion/styled";
 import TrackBottom from './track-bottom';
-import { SnipcartContext } from '../../../snipcart/CartStore';
-import * as trackUrlHelper from '../../../common/trackUrlHelper';
+import { getCartItems } from '../cart/cart-selectors';
+import { trackUrlHelper } from '../../common/trackUrlHelper';
 import { TrackAddedCartButton, TrackCover, TrackNotAddedCartButton } from "./track-details";
 const { useContext } = React;
 
@@ -24,9 +25,8 @@ const SquareLayer = styled.div({
 type TrackGridOwnProps = any;
 
 const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
-  const { state }: any = useContext(SnipcartContext);
-  const { items } = state;
-  const alreadyAddedTracks = items.length > 0 && items.map((item: any) => item.id);
+  const items = useSelector(getCartItems);
+  const alreadyAddedTracks = items?.length > 0 && items.map((item: any) => item.id);
 
   return (
     <Grid>
