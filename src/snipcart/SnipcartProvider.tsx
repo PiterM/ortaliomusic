@@ -16,25 +16,33 @@ const SnipcartProvider = ({ children }: any) => {
     }
   }
 
+  const handleSnipcart = () => {
+    const { Snipcart }: any = window;
+    if (Snipcart !== undefined) {
+      Snipcart.DEBUG = true;  
+
+      const listenSnipcart = () => {
+        const { customer, cart } = Snipcart.store.getState();
+        const items = cart.items.length !== undefined ? cart.items : cart.items.items;
+        reviseItemsQuantities(items);
+
+        dispatch(updateCartData({ items, customer, cart }));
+      };
+      const unsubscribe = Snipcart.store.subscribe(listenSnipcart);
+      listenSnipcart();
+      return () => unsubscribe();
+    } 
+  }
+
   useEffect(() => {
-    document.addEventListener('snipcart.ready', () => {
-      const { Snipcart }: any = window;
-      if (Snipcart !== undefined) {
-        Snipcart.DEBUG = true;  
-  
-        const listenSnipcart = () => {
-          const { customer, cart } = Snipcart.store.getState();
-          const items = cart.items.length !== undefined ? cart.items : cart.items.items;
-          reviseItemsQuantities(items);
-  
-          dispatch(updateCartData({ items, customer, cart }));
-        };
-        const unsubscribe = Snipcart.store.subscribe(listenSnipcart);
-        listenSnipcart();
-        return () => unsubscribe();
-      } 
-    });
-  }, [dispatch]);
+    if (process.env.NODE_ENV === 'development') {
+      handleSnipcart();
+    } else {
+      document.addEventListener('snipcart.ready', () => {
+        handleSnipcart();
+      });
+    }
+  });
 
   return children;
 };

@@ -51,6 +51,7 @@ const Header: React.FC = () => {
               data {
                 siteTitle
                 siteDescription
+                defaultPrice
                 avatar {
                   altText
                   sourceUrl(size: MEDIUM)
