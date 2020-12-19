@@ -42,7 +42,7 @@ const SnipcartProvider = ({ children }: any) => {
         handleSnipcart();
       });
     }
-  });
+  }, []);
 
   return children;
 };

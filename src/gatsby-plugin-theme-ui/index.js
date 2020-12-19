@@ -3,6 +3,11 @@ import typography from "./typography";
 import styles from "./styles";
 
 export default merge(typography, {
+  images: {
+    playIcon: '/images/play-icon.svg',
+    pauseIcon: '/images/pause-icon.svg',
+    loaderIcon: '/images/loader-icon.svg',
+  },
   colors: {
     text: "rgb(0,0,0,0.75)",
     background: "#F0F5F6",

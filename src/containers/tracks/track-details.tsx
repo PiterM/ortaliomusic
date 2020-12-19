@@ -1,10 +1,13 @@
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
 import Link from 'gatsby-link';
 import Img from "gatsby-image";
 import { trackUrlHelper } from '../../common/trackUrlHelper';
 import styled from "@emotion/styled";
 import styles from 'gatsby-plugin-theme-ui';
-const { colors } = styles;
+import { playPauseTrack } from '../player/player-actions';
+import { TrackPlayStatus } from './tracks-models';
+const { colors, images } = styles;
 
 interface AddedToCartProps {
     addedToCart?: boolean;
@@ -18,7 +21,7 @@ const SquareImage = styled(Img)((props: AddedToCartProps) => {
   return {
     maxHeight: 288,
     maxWidth: 288,
-    border: `2px solid ${borderColor}`,
+    border: `3px solid ${borderColor}`,
     opacity,
     transition: 'all 0.5s ease',
     cursor: 'pointer'
@@ -31,26 +34,47 @@ const ImageContainer = styled.div({
   height: '100%'
 });
 
-const ImageLayer = styled.div({
-  background: `${colors.neutral} url("/images/play-icon.svg") center center no-repeat`,
-  backgroundSize: '102% 102%',
-  opacity: 0,
-  transition: 'all 0.5s ease, background 0.05s ease',
-  position: 'absolute',
-  width: '45%',
-  height: '45%',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  cursor: 'pointer',
-  borderRadius: '50% 50%',
-  ':hover': {
-    opacity: 0.9,
-  },
-  ":active": {
-    backgroundSize: '45% 45%'
+interface ImageLayerOwnProps {
+  trackStatus: TrackPlayStatus;
+}
+
+const ImageLayer = styled.div(({ trackStatus }: ImageLayerOwnProps) => {
+  const opacity = [TrackPlayStatus.Playing, TrackPlayStatus.Loading].includes(trackStatus) ? 0.9 : 0;
+  let backgroundImage;
+  let backgroundSize = '102% 102%';
+  switch (trackStatus) {
+    case (TrackPlayStatus.Playing):
+      backgroundImage = images.pauseIcon;
+      break;
+    case (TrackPlayStatus.Loading):
+      backgroundImage = images.loaderIcon;
+      backgroundSize = '140% 140%';
+      break;
+    case (TrackPlayStatus.Paused):
+    default:
+      backgroundImage = images.playIcon;
   }
-});
+  
+  return {
+    background: `${colors.neutral} url('${backgroundImage}') center center no-repeat`,
+    backgroundSize,
+    opacity,
+    transition: 'all 0.5s ease, background 0.1s ease-in-out',
+    position: 'absolute',
+    width: '45%',
+    height: '45%',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    cursor: 'pointer',
+    borderRadius: '50% 50%',
+    ':hover': {
+      opacity: 0.9,
+    },
+    ":active": {
+      backgroundSize: '45% 45%'
+    }
+}});
 
 const CartButton = styled.div((props: AddedToCartProps) => {
   const { addedToCart } = props;
@@ -160,29 +184,33 @@ export const TrackNotAddedCartButton: React.FC<TrackNotAddedCartButtonOwnProps> 
 };
 
 interface TrackCoverOwnProps {
+    id: string;
     addedToCart?: boolean;
     fixed: any;
     url: string;
+    trackStatus: TrackPlayStatus;
 }
 
-export const TrackCover: React.FC<TrackCoverOwnProps> = ({ addedToCart, fixed, url }) => {
-    return (
-        <>
-          <StyledContainer>
-            <StyledLink
-              to={url}
-            >
-              <ImageContainer>
-                  <SquareImage 
-                    fixed={fixed} 
-                    addedToCart={addedToCart} 
-                  />
-              </ImageContainer>
-            </StyledLink>
-          </StyledContainer>
-          <ImageLayer 
-            onClick={(e) => { console.log('play!')}}
-          />
-        </>
-    );
+export const TrackCover: React.FC<TrackCoverOwnProps> = ({ id, addedToCart, fixed, url, trackStatus }) => {
+  const dispatch = useDispatch();
+  return (
+      <>
+        <StyledContainer>
+          <StyledLink
+            to={url}
+          >
+            <ImageContainer>
+                <SquareImage 
+                  fixed={fixed} 
+                  addedToCart={addedToCart} 
+                />
+            </ImageContainer>
+          </StyledLink>
+        </StyledContainer>
+        <ImageLayer 
+          onClick={() => dispatch(playPauseTrack(id))}
+          trackStatus={trackStatus}
+        />
+      </>
+  );
 };

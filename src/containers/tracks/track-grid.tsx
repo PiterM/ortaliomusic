@@ -3,8 +3,10 @@ import { useSelector } from 'react-redux';
 import styled from "@emotion/styled";
 import TrackBottom from './track-bottom';
 import { getCartItems } from '../cart/cart-selectors';
+import { getCurrentTrack } from '../player/player-selectors';
 import { trackUrlHelper } from '../../common/trackUrlHelper';
 import { TrackAddedCartButton, TrackCover, TrackNotAddedCartButton } from "./track-details";
+import { TrackPlayStatus } from './tracks-models';
 
 const Grid = styled.div({
   display: "grid",
@@ -25,6 +27,7 @@ type TrackGridOwnProps = any;
 
 const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
   const items = useSelector(getCartItems);
+  const currentTrack = useSelector(getCurrentTrack);
 
   return (
     <Grid>
@@ -36,13 +39,28 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
         const trackIsAdded = items && items[id] !== undefined;
         const storeItem = trackIsAdded && items[id];
 
+        let trackStatus = TrackPlayStatus.None;
+        if (currentTrack?.details?.id === id) {
+          if (currentTrack?.actionPending) {
+            trackStatus = TrackPlayStatus.Loading;
+          } else {
+            if (currentTrack?.playing) {
+              trackStatus = TrackPlayStatus.Playing;
+            } else if (currentTrack?.paused) {
+              trackStatus = TrackPlayStatus.Paused;
+            }
+          }
+        }
+
         return (
             <div key={key}>
               <SquareLayer>
                 <TrackCover 
+                  id={id}
                   fixed={fixed} 
                   addedToCart={trackIsAdded} 
                   url={url}
+                  trackStatus={trackStatus}
                 />
                 { trackIsAdded 
                   ? <TrackAddedCartButton 

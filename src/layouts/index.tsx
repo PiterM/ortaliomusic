@@ -1,5 +1,6 @@
 import * as React from "react";
 import Helmet from 'react-helmet';
+import Player from '../containers/player/player';
 
 const Layout = ({ children }: any) => (
   <>
@@ -20,6 +21,7 @@ const Layout = ({ children }: any) => (
     >
       {children}
     </div>
+    <Player />
   </>
 );
 

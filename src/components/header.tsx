@@ -38,7 +38,8 @@ const StyledDescription = styled.div({
 });
 
 const StyledInfo = styled.div({
-  marginTop: '10px' 
+  marginTop: '10px',
+  lineHeight: '1em' 
 });
 
 const Header: React.FC = () => {
