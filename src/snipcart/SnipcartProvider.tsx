@@ -17,21 +17,23 @@ const SnipcartProvider = ({ children }: any) => {
   }
 
   useEffect(() => {
-    const { Snipcart }: any = window;
-    if (Snipcart !== undefined) {
-      Snipcart.DEBUG = true;  
-
-      const listenSnipcart = () => {
-        const { customer, cart } = Snipcart.store.getState();
-        const items = cart.items.length !== undefined ? cart.items : cart.items.items;
-        reviseItemsQuantities(items);
-
-        dispatch(updateCartData({ items, customer, cart }));
-      };
-      const unsubscribe = Snipcart.store.subscribe(listenSnipcart);
-      listenSnipcart();
-      return () => unsubscribe();
-    } 
+    document.addEventListener('snipcart.ready', () => {
+      const { Snipcart }: any = window;
+      if (Snipcart !== undefined) {
+        Snipcart.DEBUG = true;  
+  
+        const listenSnipcart = () => {
+          const { customer, cart } = Snipcart.store.getState();
+          const items = cart.items.length !== undefined ? cart.items : cart.items.items;
+          reviseItemsQuantities(items);
+  
+          dispatch(updateCartData({ items, customer, cart }));
+        };
+        const unsubscribe = Snipcart.store.subscribe(listenSnipcart);
+        listenSnipcart();
+        return () => unsubscribe();
+      } 
+    });
   }, [dispatch]);
 
   return children;
