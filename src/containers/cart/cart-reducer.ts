@@ -7,9 +7,10 @@ export const cartReducer = (state: CartState = null, action: UpdateCartData) => 
     switch (action.type) {
         case (ACTION_TYPES.UPDATE_CART_DATA):
             const { items, customer, cart }: CartUpdatePayload = action.payload;
-            const newItems = items.map((item: any) => {
+            let newItems: any = {};
+            items.forEach((item: any) => {
                 const { description, id, image, name, price, quantity, uniqueId, url } = item;
-                return { description, id, image, name, price, quantity, uniqueId, url };
+                newItems[id] = { description, id, image, name, price, quantity, uniqueId, url };
             });
             return {
                 items: newItems,

@@ -5,7 +5,6 @@ import TrackBottom from './track-bottom';
 import { getCartItems } from '../cart/cart-selectors';
 import { trackUrlHelper } from '../../common/trackUrlHelper';
 import { TrackAddedCartButton, TrackCover, TrackNotAddedCartButton } from "./track-details";
-const { useContext } = React;
 
 const Grid = styled.div({
   display: "grid",
@@ -26,7 +25,6 @@ type TrackGridOwnProps = any;
 
 const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
   const items = useSelector(getCartItems);
-  const alreadyAddedTracks = items?.length > 0 && items.map((item: any) => item.id);
 
   return (
     <Grid>
@@ -35,8 +33,8 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
         const url = trackUrlHelper(id, slug);
         const { title, description } = track?.node?.ortalioMusicTrack;
         const { sourceUrl, imageFile: { childImageSharp: { fixed }} } = track?.node?.ortalioMusicTrack?.coverImage;
-        const trackIsAdded = alreadyAddedTracks && alreadyAddedTracks.length > 0 && alreadyAddedTracks.includes(id);
-        const storeItem = items && items.length > 0 && items.find((item: any) => item.id === id);
+        const trackIsAdded = items && items[id] !== undefined;
+        const storeItem = trackIsAdded && items[id];
 
         return (
             <div key={key}>
