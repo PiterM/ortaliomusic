@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { updateCartData } from '../containers/cart/cart-actions';
 const { useEffect } = React;
 
-const SnipcartProvider = (props: any) => {
+const SnipcartProvider = ({ children }: any) => {
   const dispatch = useDispatch();
 
   const reviseItemsQuantities = async (items: any) => {
@@ -11,10 +11,7 @@ const SnipcartProvider = (props: any) => {
       const { Snipcart }: any = window;
       const { quantity, uniqueId } = item;
       if (quantity > 1 && uniqueId) {
-        await Snipcart.api.cart.items.update({
-          uniqueId,
-          quantity: 1
-        });
+        await Snipcart.api.cart.items.update({ uniqueId, quantity: 1 });
       }
     }
   }
@@ -22,30 +19,22 @@ const SnipcartProvider = (props: any) => {
   useEffect(() => {
     const { Snipcart }: any = window;
     if (Snipcart !== undefined) {
-      Snipcart.DEBUG = true;
-      // update state infos on change
+      Snipcart.DEBUG = true;  
+
       const listenSnipcart = () => {
         const { customer, cart } = Snipcart.store.getState();
-        // get quantity in cart
-        // changed after v 3.0.12
         const items = cart.items.length !== undefined ? cart.items : cart.items.items;
         reviseItemsQuantities(items);
 
-        dispatch(updateCartData(
-          {
-            items, customer, cart
-          }
-        ));
+        dispatch(updateCartData({ items, customer, cart }));
       };
-      // listen store update
       const unsubscribe = Snipcart.store.subscribe(listenSnipcart);
-      // call first
       listenSnipcart();
       return () => unsubscribe();
     } 
-  }, [props, dispatch]);
+  }, [dispatch]);
 
-  return props.children;
+  return children;
 };
 
 export default SnipcartProvider;
