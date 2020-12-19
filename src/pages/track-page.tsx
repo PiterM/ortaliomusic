@@ -37,6 +37,10 @@ export interface TrackOwnProps {
 }
 
 const Track: React.FC<TrackOwnProps> = ({ pageContext: { track, id, slug } }: any) => {
+  if (!track) {
+    return null;
+  }
+  
   const { description, title, digitalItemGuid, price, coverImage: { sourceUrl }} = track;
   const items = useSelector(getCartItems);
     const trackIsAdded = items && items[id] !== undefined;
