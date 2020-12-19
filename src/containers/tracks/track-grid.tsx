@@ -31,7 +31,7 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
       {tracks.map((track: any, key: number) => {
         const { id, slug } = track?.node;
         const url = trackUrlHelper(id, slug);
-        const { title, description } = track?.node?.ortalioMusicTrack;
+        const { title, description, digitalItemGuid, price } = track?.node?.ortalioMusicTrack;
         const { sourceUrl, imageFile: { childImageSharp: { fixed }} } = track?.node?.ortalioMusicTrack?.coverImage;
         const trackIsAdded = items && items[id] !== undefined;
         const storeItem = trackIsAdded && items[id];
@@ -55,6 +55,8 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
                       title={title}
                       description={description}
                       sourceUrl={sourceUrl}
+                      digitalItemGuid={digitalItemGuid}
+                      price={price}
                     />
                 }
               </SquareLayer>

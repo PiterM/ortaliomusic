@@ -137,20 +137,24 @@ interface TrackNotAddedCartButtonOwnProps {
     slug: string;
     title: string;
     description: string;
+    digitalItemGuid: string;
+    price: number;
 }
 
-export const TrackNotAddedCartButton: React.FC<TrackNotAddedCartButtonOwnProps> = ({sourceUrl, id, slug, title, description}) => {
+export const TrackNotAddedCartButton: React.FC<TrackNotAddedCartButtonOwnProps> = ({
+  sourceUrl, id, slug, title, description, digitalItemGuid, price
+}) => {
     return (
         <CartButton 
             onClick={(e) => e.preventDefault()}
             className="snipcart-add-item"
             data-item-id={id}
-            data-item-price="0.01"
+            data-item-price={price}
             data-item-url={trackUrlHelper(id, slug)}
             data-item-description={description}
             data-item-image={sourceUrl}
             data-item-name={title}
-            data-item-file-guid="3139360f-f3ab-49d5-8668-7dc222508729"
+            data-item-file-guid={digitalItemGuid}
         />
     );
 };

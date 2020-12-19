@@ -37,9 +37,9 @@ export interface TrackOwnProps {
 }
 
 const Track: React.FC<TrackOwnProps> = ({ pageContext: { track, id, slug } }: any) => {
-  const { description, title, coverImage: { sourceUrl }} = track;
+  const { description, title, digitalItemGuid, price, coverImage: { sourceUrl }} = track;
   const items = useSelector(getCartItems);
-  const trackIsAdded = items && items[id] !== undefined;
+    const trackIsAdded = items && items[id] !== undefined;
 
   return (
     <IndexLayout>
@@ -59,6 +59,8 @@ const Track: React.FC<TrackOwnProps> = ({ pageContext: { track, id, slug } }: an
               title={title}
               description={description}
               sourceUrl={sourceUrl}
+              digitalItemGuid={digitalItemGuid}
+              price={price}
             />
           }
         </Card>

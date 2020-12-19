@@ -53,6 +53,15 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const tracksData = await graphql(`
     query {
       ortl {
+        ortalioMusicSiteData {
+          edges {
+            node {
+              data {
+                defaultPrice
+              }
+            }
+          }
+        }
         ortalioMusicTracks {
           edges {
             node {
@@ -63,6 +72,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 description
                 previewUrl
                 title
+                digitalItemGuid
+                price
                 coverImage {
                   sourceUrl(size: LARGE)
                   altText
@@ -89,10 +100,29 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     reporter.panic(tracksData.errors);
   }
 
-  const tracks = tracksData.data.ortl.ortalioMusicTracks.edges;
+  const tracks = tracksData.data?.ortl?.ortalioMusicTracks?.edges;
+  const defaultPrice = tracksData.data?.ortl?.ortalioMusicSiteData?.edges[0]?.node?.data?.defaultPrice;
+
+  let tracksWithPrices = [];
   if (tracks && tracks.length > 0) {
-    tracks.forEach(track => {
+    tracksWithPrices = tracks.map((item) => {
+      const track = item.node.ortalioMusicTrack;
+      const { price } = track;
+      const trackPrice = price !== null ? price : defaultPrice;
+      return {
+        node: {
+          ...item.node,
+          ortalioMusicTrack: {
+            ...track,
+            price: trackPrice
+          }
+        }
+      };
+    });
+
+    tracksWithPrices.forEach(track => {
       const { id, slug } = track.node;
+
       createPage({
         path: trackUrlHelper(id, slug),
         component: TrackPage,
@@ -109,7 +139,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     path: basePath,
     component: HomePage,
     context: {
-      tracks
+      tracks: tracksWithPrices
     }
   });
 };
