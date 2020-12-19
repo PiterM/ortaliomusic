@@ -10,7 +10,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 let store: Store<StoreState>;
 
-if (process.env.NODE_ENV === 'production') {
+if (false && process.env.NODE_ENV === 'production') {
     store = createStore(
         rootReducer,
         applyMiddleware(sagaMiddleware)
