@@ -13,6 +13,12 @@ const StyledTitle = styled.h1({
   margin: "0.5rem 0",
 });
 
+const StyledPrice = styled.h2({
+  textAlign: "right",
+  margin: "0.5rem 0",
+  fontStyle: 'italic'
+});
+
 const StyledDescription = styled.div({
   margin: "0.5rem 0",
   textAlign: "right"
@@ -23,7 +29,7 @@ export interface TrackContentOwnProps {
 }
 
 const TrackContent: React.FC<TrackContentOwnProps> = ({ track }) => {
-  const { description, title } = track?.node?.ortalioMusicTrack;
+  const { description, title, price } = track?.node?.ortalioMusicTrack;
   const trackDescription = {
     __html: description
   };
@@ -32,6 +38,9 @@ const TrackContent: React.FC<TrackContentOwnProps> = ({ track }) => {
       <StyledTitle>
         {title}
       </StyledTitle>
+      <StyledPrice>
+        {`price: $${price}`}
+      </StyledPrice>
       <StyledDescription
         dangerouslySetInnerHTML={trackDescription}
       />

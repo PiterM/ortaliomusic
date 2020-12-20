@@ -96,6 +96,9 @@ const Header: React.FC = () => {
 
   const avatarFixed = siteData.avatar?.imageFile?.childImageSharp?.fixed;
   const logoFixed = siteData.logo?.imageFile?.childImageSharp?.fixed;
+
+  const { siteDescription, defaultPrice } = siteData;
+  const description = siteDescription.replace('%%defaultPrice%%', `$${defaultPrice}`)
   
   return (
     <Container>
@@ -105,7 +108,7 @@ const Header: React.FC = () => {
           <Logo fixed={logoFixed} />
         </Link>
         <StyledInfo
-          dangerouslySetInnerHTML={{__html: `<div>${siteData.siteDescription}</div>`}}
+          dangerouslySetInnerHTML={{__html: `<div>${description}</div>`}}
         />
       </StyledDescription>
       <CartButton cartQuantity={cartQuantity} />
