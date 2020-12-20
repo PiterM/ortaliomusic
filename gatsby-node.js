@@ -48,8 +48,8 @@ exports.createResolvers = ({
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
   const { trackUrlHelper } = require('./src/common/trackUrlHelper.ts');
-  const TrackPage = require.resolve('./src/pages/track-page.tsx');
-  const HomePage = require.resolve('./src/pages/home-page.tsx');
+  const Page = require.resolve('./src/pages/page.tsx');
+
   const tracksData = await graphql(`
     query {
       ortl {
@@ -125,12 +125,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
       createPage({
         path: trackUrlHelper(id, slug),
-        component: TrackPage,
+        component: Page,
         context: {
           track,
           tracks: tracksWithPrices,
-          id: track.node.id,
-          slug: track.node.slug
         }
       });
     });
@@ -138,7 +136,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   createPage({
     path: basePath,
-    component: HomePage,
+    component: Page,
     context: {
       tracks: tracksWithPrices
     }
