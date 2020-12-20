@@ -40,7 +40,7 @@ export interface TrackOwnProps {
     title: string;
 }
   
-const Track: React.FC<TrackOwnProps> = ({ url, title }: TrackOwnProps) => {
+const TrackBottom: React.FC<TrackOwnProps> = ({ url, title }: TrackOwnProps) => {
     return (
         <TrackLinkWrapper>
             <TrackLink to={url}>{title}</TrackLink>
@@ -48,4 +48,4 @@ const Track: React.FC<TrackOwnProps> = ({ url, title }: TrackOwnProps) => {
     );
 };
 
-export default Track;
+export default TrackBottom;

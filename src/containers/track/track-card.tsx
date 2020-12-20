@@ -28,7 +28,7 @@ export interface TrackOwnProps {
   isTrackPage?: boolean;
 }
 
-export const TrackCard: React.FC<TrackOwnProps> = ({ track, key, items, currentTrack, isTrackPage }) => {
+export const TrackCard: React.FC<TrackOwnProps> = ({ track, items, currentTrack, isTrackPage }) => {
   const { id, slug } = track?.node;
   const url = trackUrlHelper(id, slug);
   const { title, description, digitalItemGuid, price } = track?.node?.ortalioMusicTrack;
@@ -50,7 +50,7 @@ export const TrackCard: React.FC<TrackOwnProps> = ({ track, key, items, currentT
   }
 
   return (
-      <div key={key ? key : 1}>
+      <div>
         <SquareLayer isTrackPage={isTrackPage} >
           <TrackCover 
             id={id}
@@ -75,7 +75,7 @@ export const TrackCard: React.FC<TrackOwnProps> = ({ track, key, items, currentT
               />
           }
         </SquareLayer>
-        { key && <TrackBottom title={title} url={url} /> }
+        { !isTrackPage && <TrackBottom title={title} url={url} /> }
       </div>
   );
 }
