@@ -7,7 +7,7 @@ import styled from "@emotion/styled";
 import styles from 'gatsby-plugin-theme-ui';
 import { playPauseTrack } from '../player/player-actions';
 import { TrackPlayStatus } from './tracks-models';
-const { colors, images } = styles;
+const { colors, images, trackCardSize } = styles;
 
 interface SquareImageOwnProps {
     addedToCart?: boolean;
@@ -116,6 +116,11 @@ const StyledLink = styled(Link)({
   height: '100%'
 });
 
+const StyledDiv = styled.div({
+  width: '100%',
+  height: '100%'
+});
+
 const StyledContainer = styled.div({
   backgroundImage: "none",
   textDecoration: 'none',
@@ -190,6 +195,25 @@ export const TrackNotAddedCartButton: React.FC<TrackNotAddedCartButtonOwnProps> 
     );
 };
 
+interface TrackImageOwnProps {
+  fixed: any; 
+  addedToCart: boolean;
+  size: number;
+}
+
+const TrackImage: React.FC<TrackImageOwnProps> = ({ fixed, addedToCart, size }) => {
+  return (
+    <ImageContainer>
+      <SquareImage 
+        fixed={fixed} 
+        addedToCart={addedToCart} 
+        maxWidth={size}
+        maxHeight={size}
+      />
+    </ImageContainer>
+  );
+}
+
 interface TrackCoverOwnProps {
     id: string;
     addedToCart?: boolean;
@@ -201,23 +225,21 @@ interface TrackCoverOwnProps {
 
 export const TrackCover: React.FC<TrackCoverOwnProps> = ({ id, addedToCart, fixed, url, trackStatus, isTrackPage }) => {
   const dispatch = useDispatch();
-  const size = isTrackPage ? 400 : 288;
+  const size = isTrackPage ? trackCardSize.alone : trackCardSize.inGrid;
 
   return (
       <>
         <StyledContainer>
-          <StyledLink
-            to={url}
-          >
-            <ImageContainer>
-                <SquareImage 
-                  fixed={fixed} 
-                  addedToCart={addedToCart} 
-                  maxWidth={size}
-                  maxHeight={size}
-                />
-            </ImageContainer>
-          </StyledLink>
+          { isTrackPage 
+            ? 
+              <StyledDiv>
+                <TrackImage fixed={fixed} addedToCart={addedToCart} size={size} />
+              </StyledDiv>
+            : 
+              <StyledLink to={url}>
+                <TrackImage fixed={fixed} addedToCart={addedToCart} size={size} />
+              </StyledLink>
+          }
         </StyledContainer>
         <ImageLayer 
           onClick={() => trackStatus !== TrackPlayStatus.Loading && dispatch(playPauseTrack(id))}

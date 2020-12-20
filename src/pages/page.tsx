@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useSelector, useDispatch } from 'react-redux';
 import Header from '../components/header';
 import Tracks from '../containers/tracks/tracks';
 import IndexLayout from '../layouts';
@@ -6,8 +7,8 @@ import TrackHeader from '../containers/track/track-header';
 import styled from "@emotion/styled";
 import TrackContent from "../containers/track/track-content";
 import TrackCardContainer from "../containers/track/track-card";
-import { setTracksData } from '../containers/player/player-actions';
-import { useDispatch } from 'react-redux';
+import { setTracksData, stopPlayback } from '../containers/player/player-actions';
+import { getTracks } from '../containers/player/player-selectors';
 const { useEffect } = React;
 // import Layout from "./components/layout";
 // import SEO from "./components/seo";
@@ -94,9 +95,13 @@ export interface PageOwnProps {
 }
 
 const Page: React.FC<PageOwnProps> = ({ pageContext: { track, tracks } }: any) => {
+    const reduxTracks = useSelector(getTracks);
     const dispatch = useDispatch();
+    const isObjectEmpty = (obj: any) => Object.keys(obj).length === 0 && obj.constructor === Object;
+
     useEffect(() => {
-      dispatch(setTracksData(tracks));
+        isObjectEmpty(reduxTracks) && dispatch(setTracksData(tracks));
+        dispatch(stopPlayback());
     }, [dispatch]);
 
     if (track === undefined) {

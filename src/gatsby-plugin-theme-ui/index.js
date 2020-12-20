@@ -29,5 +29,9 @@ export default merge(typography, {
     body: 1.5,
     heading: 1.125
   },
+  trackCardSize: {
+    inGrid: 288,
+    alone: 400
+  },
   styles
 });
