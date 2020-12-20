@@ -101,7 +101,7 @@ const Page: React.FC<PageOwnProps> = ({ pageContext: { track, tracks } }: any) =
 
     useEffect(() => {
         isObjectEmpty(reduxTracks) && dispatch(setTracksData(tracks));
-        dispatch(stopPlayback());
+        // dispatch(stopPlayback());
     }, [dispatch]);
 
     if (track === undefined) {
