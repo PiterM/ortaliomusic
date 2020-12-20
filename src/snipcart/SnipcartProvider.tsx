@@ -35,13 +35,10 @@ const SnipcartProvider = ({ children }: any) => {
   }
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
+    handleSnipcart();
+    document.addEventListener('snipcart.ready', () => {
       handleSnipcart();
-    } else {
-      document.addEventListener('snipcart.ready', () => {
-        handleSnipcart();
-      });
-    }
+    });
   }, []);
 
   return children;
