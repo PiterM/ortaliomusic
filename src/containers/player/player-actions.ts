@@ -36,8 +36,17 @@ export const playPauseTrackFailure = (): PlayPauseTrackFailure => ({
     type: ACTION_TYPES.PLAY_PAUSE_TRACK_FAILURE,
 });
 
+export interface StopPlayback {
+    type: ACTION_TYPES.STOP_PLAYBACK;
+}
+
+export const stopPlayback = (): StopPlayback => ({
+    type: ACTION_TYPES.STOP_PLAYBACK,
+});
+
 export type PlayerActions = 
     | SetTracksData
     | PlayPauseTrack
     | PlayPauseTrackSuccess
-    | PlayPauseTrackFailure;
+    | PlayPauseTrackFailure
+    | StopPlayback;

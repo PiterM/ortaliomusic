@@ -1,5 +1,8 @@
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
+import { stopPlayback } from '../containers/player/player-actions';
 import styled from "@emotion/styled";
+
 
 const StyledCartQuantity = styled.span({
     position: 'absolute',
@@ -43,9 +46,15 @@ interface CartButtonOwnProps {
 }
 
 const CartButton: React.FC<CartButtonOwnProps> = ({ cartQuantity }) => {
+    const dispatch = useDispatch();
+    const stopPlayer = (e: any) => {
+        e.preventDefault();
+        dispatch(stopPlayback());
+    };
+
     return (
         <StyledCartButton
-            onClick={(e) => e.preventDefault()} 
+            onClick={stopPlayer} 
             className="snipcart-checkout"
         >
             {cartQuantity > 0 && <StyledCartQuantity>{cartQuantity}</StyledCartQuantity>}

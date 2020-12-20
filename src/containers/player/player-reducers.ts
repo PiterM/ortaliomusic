@@ -59,6 +59,11 @@ export const playerReducer = (state: PlayerState = initPlayerState, action: Play
                     actionPending: false
                 }
             };
+        case (ACTION_TYPES.STOP_PLAYBACK):
+            return {
+                ...state,
+                currentTrack: undefined
+            };            
         default:
             return state;
     }
