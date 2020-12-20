@@ -42,6 +42,7 @@ const ImageLayer = styled.div(({ trackStatus }: ImageLayerOwnProps) => {
   const opacity = [TrackPlayStatus.Playing, TrackPlayStatus.Loading].includes(trackStatus) ? 0.9 : 0;
   let backgroundImage;
   let backgroundSize = '102% 102%';
+  let backgroundSizeLoadingActive = '45% 45%';
   switch (trackStatus) {
     case (TrackPlayStatus.Playing):
       backgroundImage = images.pauseIcon;
@@ -49,6 +50,7 @@ const ImageLayer = styled.div(({ trackStatus }: ImageLayerOwnProps) => {
     case (TrackPlayStatus.Loading):
       backgroundImage = images.loaderIcon;
       backgroundSize = '140% 140%';
+      backgroundSizeLoadingActive = backgroundSize;
       break;
     case (TrackPlayStatus.Paused):
     default:
@@ -72,7 +74,7 @@ const ImageLayer = styled.div(({ trackStatus }: ImageLayerOwnProps) => {
       opacity: 0.9,
     },
     ":active": {
-      backgroundSize: '45% 45%'
+      backgroundSize: backgroundSizeLoadingActive
     }
 }});
 
@@ -208,7 +210,7 @@ export const TrackCover: React.FC<TrackCoverOwnProps> = ({ id, addedToCart, fixe
           </StyledLink>
         </StyledContainer>
         <ImageLayer 
-          onClick={() => dispatch(playPauseTrack(id))}
+          onClick={() => trackStatus !== TrackPlayStatus.Loading && dispatch(playPauseTrack(id))}
           trackStatus={trackStatus}
         />
       </>

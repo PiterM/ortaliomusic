@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactPlayer from 'react-player';
 import { getCurrentTrack } from './player-selectors';
-import { playPauseTrackSuccess, playPauseTrackFailure } from './player-actions';
+import { playPauseTrackSuccess, playPauseTrackFailure, stopPlayback } from './player-actions';
 const { useEffect, useState } = React;
 
 const Player: React.FC = () => {
@@ -23,6 +23,7 @@ const Player: React.FC = () => {
 
     const actionFinishedSuccessfully = () => dispatch(playPauseTrackSuccess());
     const actionFinishedWithError = () => dispatch(playPauseTrackFailure());
+    const stopPlayer = () => dispatch(stopPlayback());
 
     return playerRendered && previewUrl
         ? (
@@ -33,6 +34,7 @@ const Player: React.FC = () => {
                 onStart={actionFinishedSuccessfully}
                 onPlay={actionFinishedSuccessfully}
                 onPause={actionFinishedSuccessfully}
+                onEnded={stopPlayer}
                 onError={actionFinishedWithError}
             />
         ) : null;
