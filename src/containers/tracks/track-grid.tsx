@@ -17,11 +17,77 @@ const Grid = styled.div({
   margin: "28px 0"
 });
 
-const SquareLayer = styled.div({
-  position: 'relative',
-  transition: 'all 0.5s ease',
-  opacity: 1,
-});
+interface SquareLayerOwnProps {
+  isTrackPage?: boolean;
+}
+
+const SquareLayer = styled.div((props: SquareLayerOwnProps) => {
+  const position = props.isTrackPage ? 'static' : 'relative';
+  return {
+    position,
+    transition: 'all 0.5s ease',
+    opacity: 1,
+}});
+
+export interface TrackOwnProps {
+  track: any;
+  key?: number;
+  items: any;
+  currentTrack: any;
+  isTrackPage?: boolean;
+}
+
+export const Track: React.FC<TrackOwnProps> = ({ track, key, items, currentTrack, isTrackPage }) => {
+  const { id, slug } = track?.node;
+  const url = trackUrlHelper(id, slug);
+  const { title, description, digitalItemGuid, price } = track?.node?.ortalioMusicTrack;
+  const { sourceUrl, imageFile: { childImageSharp: { fixed }} } = track?.node?.ortalioMusicTrack?.coverImage;
+  const trackIsAdded = items && items[id] !== undefined;
+  const storeItem = trackIsAdded && items[id];
+
+  let trackStatus = TrackPlayStatus.None;
+  if (currentTrack?.details?.id === id) {
+    if (currentTrack?.actionPending) {
+      trackStatus = TrackPlayStatus.Loading;
+    } else {
+      if (currentTrack?.playing) {
+        trackStatus = TrackPlayStatus.Playing;
+      } else if (currentTrack?.paused) {
+        trackStatus = TrackPlayStatus.Paused;
+      }
+    }
+  }
+
+  return (
+      <div key={key ? key : 1}>
+        <SquareLayer isTrackPage={isTrackPage} >
+          <TrackCover 
+            id={id}
+            fixed={fixed} 
+            addedToCart={trackIsAdded} 
+            url={url}
+            trackStatus={trackStatus}
+            isTrackPage={isTrackPage}
+          />
+          { trackIsAdded 
+            ? <TrackAddedCartButton 
+                uniqueId={storeItem.uniqueId}
+              />
+            : <TrackNotAddedCartButton
+                id={id}
+                slug={slug}
+                title={title}
+                description={description}
+                sourceUrl={sourceUrl}
+                digitalItemGuid={digitalItemGuid}
+                price={price}
+              />
+          }
+        </SquareLayer>
+        { key && <TrackBottom title={title} url={url} /> }
+      </div>
+  );
+}
 
 type TrackGridOwnProps = any;
 
@@ -31,57 +97,14 @@ const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
 
   return (
     <Grid>
-      {tracks.map((track: any, key: number) => {
-        const { id, slug } = track?.node;
-        const url = trackUrlHelper(id, slug);
-        const { title, description, digitalItemGuid, price } = track?.node?.ortalioMusicTrack;
-        const { sourceUrl, imageFile: { childImageSharp: { fixed }} } = track?.node?.ortalioMusicTrack?.coverImage;
-        const trackIsAdded = items && items[id] !== undefined;
-        const storeItem = trackIsAdded && items[id];
-
-        let trackStatus = TrackPlayStatus.None;
-        if (currentTrack?.details?.id === id) {
-          if (currentTrack?.actionPending) {
-            trackStatus = TrackPlayStatus.Loading;
-          } else {
-            if (currentTrack?.playing) {
-              trackStatus = TrackPlayStatus.Playing;
-            } else if (currentTrack?.paused) {
-              trackStatus = TrackPlayStatus.Paused;
-            }
-          }
-        }
-
-        return (
-            <div key={key}>
-              <SquareLayer>
-                <TrackCover 
-                  id={id}
-                  fixed={fixed} 
-                  addedToCart={trackIsAdded} 
-                  url={url}
-                  trackStatus={trackStatus}
-                />
-                { trackIsAdded 
-                  ? <TrackAddedCartButton 
-                      sourceUrl={sourceUrl}
-                      uniqueId={storeItem.uniqueId}
-                    />
-                  : <TrackNotAddedCartButton
-                      id={id}
-                      slug={slug}
-                      title={title}
-                      description={description}
-                      sourceUrl={sourceUrl}
-                      digitalItemGuid={digitalItemGuid}
-                      price={price}
-                    />
-                }
-              </SquareLayer>
-              <TrackBottom title={title} url={url} />
-            </div>
-        );
-      })}
+      {tracks.map((track: any, key: number) => (
+        <Track 
+          key={key}
+          track={track}
+          items={items}
+          currentTrack={currentTrack}
+        />
+      ))}
     </Grid>
   );
 };

@@ -1,12 +1,12 @@
 import * as React from "react";
-import { useSelector } from 'react-redux';
 import TrackHeader from '../containers/track/track-header';
 import IndexLayout from '../layouts';
 import styled from "@emotion/styled";
 import TrackContent from "../containers/track/track-content";
-import { getCartItems } from '../containers/cart/cart-selectors';
-import TrackCover from "../containers/track/track-cover";
-import { TrackAddedCartButton, TrackNotAddedCartButton } from '../containers/tracks/track-details';
+import TrackCard from "../containers/track/track-cover";
+import { setTracksData } from '../containers/player/player-actions';
+import { useDispatch } from 'react-redux';
+const { useEffect } = React;
 
 const TrackContainer = styled.div({
   margin: "auto",
@@ -20,6 +20,7 @@ const TrackContainer = styled.div({
 
 const Card = styled.div({
   maxWidth: 400,
+  maxHeight: 400,
   display: "flex",
   justifyContent: "center",
   flexDirection: "column",
@@ -36,37 +37,23 @@ export interface TrackOwnProps {
   pageContext: any;
 }
 
-const Track: React.FC<TrackOwnProps> = ({ pageContext: { track, id, slug } }: any) => {
+const Track: React.FC<TrackOwnProps> = ({ pageContext: { track, tracks } }: any) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setTracksData(tracks));
+  }, [dispatch]);
+
   if (!track) {
     return null;
   }
   
-  const { description, title, digitalItemGuid, price, coverImage: { sourceUrl }} = track;
-  const items = useSelector(getCartItems);
-    const trackIsAdded = items && items[id] !== undefined;
-
   return (
     <IndexLayout>
       <TrackHeader />
       <TrackContainer>
         <TrackContent track={track} />
         <Card>
-          <TrackCover track={track} />
-          { trackIsAdded 
-          ? <TrackAddedCartButton 
-              sourceUrl={sourceUrl}
-              uniqueId={items[id].uniqueId}
-            />
-          : <TrackNotAddedCartButton
-              id={id}
-              slug={slug}
-              title={title}
-              description={description}
-              sourceUrl={sourceUrl}
-              digitalItemGuid={digitalItemGuid}
-              price={price}
-            />
-          }
+          <TrackCard track={track} />
         </Card>
       </TrackContainer>
     </IndexLayout> 

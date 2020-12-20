@@ -23,16 +23,17 @@ export interface TrackContentOwnProps {
 }
 
 const TrackContent: React.FC<TrackContentOwnProps> = ({ track }) => {
-  const description = {
-    __html: track.description
+  const { description, title } = track?.node?.ortalioMusicTrack;
+  const trackDescription = {
+    __html: description
   };
   return (
     <CardContent>
       <StyledTitle>
-        {track.title}
+        {title}
       </StyledTitle>
       <StyledDescription
-        dangerouslySetInnerHTML={description}
+        dangerouslySetInnerHTML={trackDescription}
       />
     </CardContent>
   );

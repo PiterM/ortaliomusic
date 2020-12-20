@@ -79,7 +79,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                   altText
                   imageFile {
                     childImageSharp {
-                      fixed(width: 300, height: 300) {
+                      fixed(width: 400, height: 400) {
                         width
                         height
                         src
@@ -127,7 +127,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         path: trackUrlHelper(id, slug),
         component: TrackPage,
         context: {
-          track: track.node.ortalioMusicTrack,
+          track,
+          tracks: tracksWithPrices,
           id: track.node.id,
           slug: track.node.slug
         }

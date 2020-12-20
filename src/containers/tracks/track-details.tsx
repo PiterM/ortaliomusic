@@ -9,18 +9,20 @@ import { playPauseTrack } from '../player/player-actions';
 import { TrackPlayStatus } from './tracks-models';
 const { colors, images } = styles;
 
-interface AddedToCartProps {
+interface SquareImageOwnProps {
     addedToCart?: boolean;
+    maxWidth: number;
+    maxHeight: number;
 }
   
-const SquareImage = styled(Img)((props: AddedToCartProps) => {
-  const { addedToCart } = props;
+const SquareImage = styled(Img)((props: SquareImageOwnProps) => {
+  const { addedToCart, maxWidth, maxHeight } = props;
   const opacity = addedToCart ? 0.5 : 1;
   const borderColor = addedToCart ? colors.cartButton : colors.grey;
 
   return {
-    maxHeight: 288,
-    maxWidth: 288,
+    maxHeight,
+    maxWidth,
     border: `3px solid ${borderColor}`,
     opacity,
     transition: 'all 0.5s ease',
@@ -78,7 +80,11 @@ const ImageLayer = styled.div(({ trackStatus }: ImageLayerOwnProps) => {
     }
 }});
 
-const CartButton = styled.div((props: AddedToCartProps) => {
+interface CartButtonOwnProps {
+  addedToCart?: boolean;
+}
+
+const CartButton = styled.div((props: CartButtonOwnProps) => {
   const { addedToCart } = props;
   const backgroundColor = addedToCart ? colors.cartButton : colors.neutral;
   const borderColor = addedToCart ? colors.cartButton : colors.neutral;
@@ -132,11 +138,10 @@ const StyledContainer = styled.div({
 });
 
 interface TrackAddedCartButtonOwnProps {
-    sourceUrl: string;
     uniqueId: string;
 }
 
-export const TrackAddedCartButton: React.FC<TrackAddedCartButtonOwnProps> = ({sourceUrl, uniqueId}) => {
+export const TrackAddedCartButton: React.FC<TrackAddedCartButtonOwnProps> = ({uniqueId}) => {
     const removeItemFromCart = async (e: any, uniqueId: any) => {
         const { Snipcart }: any = window;
         if (!Snipcart) return;
@@ -191,10 +196,13 @@ interface TrackCoverOwnProps {
     fixed: any;
     url: string;
     trackStatus: TrackPlayStatus;
+    isTrackPage?: boolean;
 }
 
-export const TrackCover: React.FC<TrackCoverOwnProps> = ({ id, addedToCart, fixed, url, trackStatus }) => {
+export const TrackCover: React.FC<TrackCoverOwnProps> = ({ id, addedToCart, fixed, url, trackStatus, isTrackPage }) => {
   const dispatch = useDispatch();
+  const size = isTrackPage ? 400 : 288;
+
   return (
       <>
         <StyledContainer>
@@ -205,6 +213,8 @@ export const TrackCover: React.FC<TrackCoverOwnProps> = ({ id, addedToCart, fixe
                 <SquareImage 
                   fixed={fixed} 
                   addedToCart={addedToCart} 
+                  maxWidth={size}
+                  maxHeight={size}
                 />
             </ImageContainer>
           </StyledLink>
