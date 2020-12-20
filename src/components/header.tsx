@@ -1,13 +1,11 @@
 import * as React from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from "@emotion/styled";
 import { useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
 import Link from 'gatsby-link';
-import { setSettingsData } from '../containers/tracks/settings-actions';
 import CartButton from './cart-button';
 import { getCartQuantity } from '../containers/cart/cart-selectors';
-const { useEffect } = React;
 
 const Avatar = styled(Img)({
   width: 150,
@@ -95,12 +93,6 @@ const Header: React.FC = () => {
   if (!siteData) {
     return null;
   }
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const defaultPrice = siteData.defaultPrice ? siteData.defaultPrice : null;
-    dispatch(setSettingsData({ defaultPrice }));
-  }, [dispatch]);
 
   const avatarFixed = siteData.avatar?.imageFile?.childImageSharp?.fixed;
   const logoFixed = siteData.logo?.imageFile?.childImageSharp?.fixed;

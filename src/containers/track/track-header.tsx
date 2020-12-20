@@ -6,7 +6,6 @@ import Img from "gatsby-image";
 import Link from 'gatsby-link';
 import CartButton from '../../components/cart-button';
 import { getCartQuantity } from '../cart/cart-selectors';
-const { useContext } = React;
 
 const LogoLink = styled(Link)({
     transition: 'all 0.3s ease',
@@ -23,7 +22,6 @@ const Header = styled.div({
     height: '100px',
     display: 'flex',
     justifyContent: 'center',
-    // alignItems: 'center',
     position: 'relative',
     marginTop: '1rem',
     paddingTop: '1rem'
