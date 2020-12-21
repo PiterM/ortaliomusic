@@ -88,6 +88,29 @@ const TrackTitle = styled(Link)({
     }
 });
 
+const CartAndCloseItems = styled.div({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '5px 5px 2px 0'
+});
+
+const ClosePlayerIcon = styled.div({
+    width: 30,
+    height: 30,
+    background: `url('${images.closeIcon}') center center no-repeat`,
+    backgroundSize: '120% 120%',
+    cursor: 'pointer',
+    border: '1px solid transparent',
+    transition: 'border 0.5s ease-in-out',
+    ":active": {
+        backgroundSize: '65% 65%'
+    },
+    ":hover": {
+        borderColor: '#000'
+    }
+})
+
 const Player: React.FC = () => {
     const currentTrack = useSelector(getCurrentTrack);
     const [playerRendered, setPlayerRendered] = useState(false);
@@ -127,9 +150,7 @@ const Player: React.FC = () => {
                     </TrackThumbnailContainer>
 
                     <TrackTitleItem>
-                        <TrackTitle
-                            to={url}
-                        >
+                        <TrackTitle to={url}>
                             {title}
                         </TrackTitle>
                     </TrackTitleItem>
@@ -142,9 +163,12 @@ const Player: React.FC = () => {
                         <span>Slider</span>
                     </PlayerItemInline>
 
-                    <PlayerItemInline>
-                        <span>Cart button</span>
-                    </PlayerItemInline>
+                    <CartAndCloseItems>
+                        <span>Cart</span>
+                        <ClosePlayerIcon 
+                            onClick={stopPlayer}
+                        />
+                    </CartAndCloseItems>
 
                 </PlayerContainer>
                 { playerRendered && previewUrl && 

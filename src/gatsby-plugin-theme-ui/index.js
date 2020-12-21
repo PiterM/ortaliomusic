@@ -7,7 +7,8 @@ export default merge(typography, {
     playIcon: '/images/play-icon.svg',
     pauseIcon: '/images/pause-icon.svg',
     loaderIcon: '/images/loader-icon.svg',
-    player: '/images/bg-pattern.png'
+    closeIcon: 'images/close-icon.svg',
+    player: '/images/bg-pattern.png',
   },
   colors: {
     text: "rgb(0,0,0,0.75)",
