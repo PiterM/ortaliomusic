@@ -1,3 +1,5 @@
+import { TrackPlayStatus } from "../track/track-models";
+
 export type TracksState = any;
 
 export interface CurrentTrackState {
@@ -5,6 +7,7 @@ export interface CurrentTrackState {
     playing: boolean;
     paused: boolean;
     actionPending: boolean;
+    status: TrackPlayStatus;
 }
 
 export interface PlayerState {

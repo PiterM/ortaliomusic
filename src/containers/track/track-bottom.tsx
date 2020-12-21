@@ -35,12 +35,12 @@ const TrackLink = styled(Link)({
     },
   });
 
-export interface TrackOwnProps {
+export interface TrackProps {
     url: string;
     title: string;
 }
   
-const TrackBottom: React.FC<TrackOwnProps> = ({ url, title }: TrackOwnProps) => {
+const TrackBottom: React.FC<TrackProps> = ({ url, title }: TrackProps) => {
     return (
         <TrackLinkWrapper>
             <TrackLink to={url}>{title}</TrackLink>

@@ -14,9 +14,9 @@ const Grid = styled.div({
   margin: "28px 0"
 });
 
-type TrackGridOwnProps = any;
+type TrackGridProps = any;
 
-const TrackGrid: React.FC<TrackGridOwnProps> = ({ tracks }) => {
+const TrackGrid: React.FC<TrackGridProps> = ({ tracks }) => {
   const items = useSelector(getCartItems);
   const currentTrack = useSelector(getCurrentTrack);
 

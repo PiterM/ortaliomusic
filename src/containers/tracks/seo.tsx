@@ -9,14 +9,14 @@
 //     content?: string;
 // }
 
-// export interface SEOOwnProps {
+// export interface SEOProps {
 //     description?: string;
 //     lang?: string;
 //     meta?: MetaNode[];
 //     title?: string;
 // }
 
-// const SEO: React.FC<SEOOwnProps> = ({ description, lang, meta, title }) => {
+// const SEO: React.FC<SEOProps> = ({ description, lang, meta, title }) => {
 //   // const { site } = useStaticQuery(
 //   //   graphql`
 //   //     query {

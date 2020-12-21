@@ -3,16 +3,15 @@ import { useSelector } from 'react-redux';
 import styled from "@emotion/styled";
 import { getCartItems } from '../cart/cart-selectors';
 import { getCurrentTrack } from '../player/player-selectors';
-import { trackUrlHelper } from '../../common/trackUrlHelper';
 import { TrackAddedCartButton, TrackCover, TrackNotAddedCartButton } from "./track-details";
-import { TrackPlayStatus } from './tracks-models';
+import { TrackPlayStatus } from './track-models';
 import TrackBottom from './track-bottom';
 
-interface SquareLayerOwnProps {
+interface SquareLayerProps {
   isTrackPage?: boolean;
 }
 
-const SquareLayer = styled.div((props: SquareLayerOwnProps) => {
+const SquareLayer = styled.div((props: SquareLayerProps) => {
   const position = props.isTrackPage ? 'static' : 'relative';
   return {
     position,
@@ -20,7 +19,7 @@ const SquareLayer = styled.div((props: SquareLayerOwnProps) => {
     opacity: 1,
 }});
 
-export interface TrackOwnProps {
+export interface TrackProps {
   track: any;
   key?: number;
   items: any;
@@ -28,26 +27,14 @@ export interface TrackOwnProps {
   isTrackPage?: boolean;
 }
 
-export const TrackCard: React.FC<TrackOwnProps> = ({ track, items, currentTrack, isTrackPage }) => {
-  const { id, slug } = track?.node;
-  const url = trackUrlHelper(id, slug);
-  const { title, description, digitalItemGuid, price } = track?.node?.ortalioMusicTrack;
-  const { sourceUrl, imageFile: { childImageSharp: { fixed }} } = track?.node?.ortalioMusicTrack?.coverImage;
+export const TrackCard: React.FC<TrackProps> = ({ track, items, currentTrack, isTrackPage }) => {
+  const { id } = track?.node;
+  const { title, description, digitalItemGuid, price, url } = track?.node?.ortalioMusicTrack;
+  const { imageFile: { childImageSharp: { fixed }} } = track?.node?.ortalioMusicTrack?.coverImage;
+  const thumbnailSourceUrl = track?.node?.ortalioMusicTrack?.thumbnailImage?.sourceUrl;
   const trackIsAdded = items && items[id] !== undefined;
   const storeItem = trackIsAdded && items[id];
-
-  let trackStatus = TrackPlayStatus.None;
-  if (currentTrack?.details?.id === id) {
-    if (currentTrack?.actionPending) {
-      trackStatus = TrackPlayStatus.Loading;
-    } else {
-      if (currentTrack?.playing) {
-        trackStatus = TrackPlayStatus.Playing;
-      } else if (currentTrack?.paused) {
-        trackStatus = TrackPlayStatus.Paused;
-      }
-    }
-  }
+  const status = currentTrack && currentTrack.details.id === id ? currentTrack.status : TrackPlayStatus.None;
 
   return (
       <div>
@@ -57,7 +44,7 @@ export const TrackCard: React.FC<TrackOwnProps> = ({ track, items, currentTrack,
             fixed={fixed} 
             addedToCart={trackIsAdded} 
             url={url}
-            trackStatus={trackStatus}
+            trackStatus={status}
             isTrackPage={isTrackPage}
           />
           { trackIsAdded 
@@ -66,12 +53,12 @@ export const TrackCard: React.FC<TrackOwnProps> = ({ track, items, currentTrack,
               />
             : <TrackNotAddedCartButton
                 id={id}
-                slug={slug}
                 title={title}
                 description={description}
-                sourceUrl={sourceUrl}
+                sourceUrl={thumbnailSourceUrl}
                 digitalItemGuid={digitalItemGuid}
                 price={price}
+                url={url}
               />
           }
         </SquareLayer>
@@ -88,11 +75,11 @@ const Card = styled.div({
   },
 });
 
-export interface TrackContainerOwnProps {
+export interface TrackContainerProps {
     track: any;
 }
 
-const TrackCardContainer: React.FC<TrackContainerOwnProps> = ({ track }) => {
+const TrackCardContainer: React.FC<TrackContainerProps> = ({ track }) => {
   const items = useSelector(getCartItems);
   const currentTrack = useSelector(getCurrentTrack);
 

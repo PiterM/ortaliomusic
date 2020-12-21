@@ -41,11 +41,11 @@ const StyledCartButton = styled.div({
     }
 });
 
-interface CartButtonOwnProps {
+interface CartButtonProps {
     cartQuantity: number;
 }
 
-const CartButton: React.FC<CartButtonOwnProps> = ({ cartQuantity }) => {
+const CartButton: React.FC<CartButtonProps> = ({ cartQuantity }) => {
     const dispatch = useDispatch();
     const stopPlayer = (e: any) => {
         e.preventDefault();

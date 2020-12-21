@@ -2,20 +2,20 @@ import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import Link from 'gatsby-link';
 import Img from "gatsby-image";
-import { trackUrlHelper } from '../../common/trackUrlHelper';
 import styled from "@emotion/styled";
 import styles from 'gatsby-plugin-theme-ui';
 import { playPauseTrack } from '../player/player-actions';
-import { TrackPlayStatus } from './tracks-models';
-const { colors, images, trackCardSize } = styles;
+import { TrackPlayStatus } from './track-models';
+import PlayPauseButtonLayer from '../../components/play-button-layer';
+const { colors, trackCardSize } = styles;
 
-interface SquareImageOwnProps {
+interface SquareImageProps {
     addedToCart?: boolean;
     maxWidth: number;
     maxHeight: number;
 }
   
-const SquareImage = styled(Img)((props: SquareImageOwnProps) => {
+const SquareImage = styled(Img)((props: SquareImageProps) => {
   const { addedToCart, maxWidth, maxHeight } = props;
   const opacity = addedToCart ? 0.5 : 1;
   const borderColor = addedToCart ? colors.cartButton : colors.grey;
@@ -36,55 +36,11 @@ const ImageContainer = styled.div({
   height: '100%'
 });
 
-interface ImageLayerOwnProps {
-  trackStatus: TrackPlayStatus;
-}
-
-const ImageLayer = styled.div(({ trackStatus }: ImageLayerOwnProps) => {
-  const opacity = [TrackPlayStatus.Playing, TrackPlayStatus.Loading].includes(trackStatus) ? 0.9 : 0;
-  let backgroundImage;
-  let backgroundSize = '102% 102%';
-  let backgroundSizeLoadingActive = '45% 45%';
-  switch (trackStatus) {
-    case (TrackPlayStatus.Playing):
-      backgroundImage = images.pauseIcon;
-      break;
-    case (TrackPlayStatus.Loading):
-      backgroundImage = images.loaderIcon;
-      backgroundSize = '140% 140%';
-      backgroundSizeLoadingActive = backgroundSize;
-      break;
-    case (TrackPlayStatus.Paused):
-    default:
-      backgroundImage = images.playIcon;
-  }
-  
-  return {
-    background: `${colors.neutral} url('${backgroundImage}') center center no-repeat`,
-    backgroundSize,
-    opacity,
-    transition: 'all 0.5s ease, background 0.1s ease-in-out',
-    position: 'absolute',
-    width: '45%',
-    height: '45%',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    cursor: 'pointer',
-    borderRadius: '50% 50%',
-    ':hover': {
-      opacity: 0.9,
-    },
-    ":active": {
-      backgroundSize: backgroundSizeLoadingActive
-    }
-}});
-
-interface CartButtonOwnProps {
+interface CartButtonProps {
   addedToCart?: boolean;
 }
 
-const CartButton = styled.div((props: CartButtonOwnProps) => {
+const CartButton = styled.div((props: CartButtonProps) => {
   const { addedToCart } = props;
   const backgroundColor = addedToCart ? colors.cartButton : colors.neutral;
   const borderColor = addedToCart ? colors.cartButton : colors.neutral;
@@ -142,11 +98,11 @@ const StyledContainer = styled.div({
   }
 });
 
-interface TrackAddedCartButtonOwnProps {
+interface TrackAddedCartButtonProps {
     uniqueId: string;
 }
 
-export const TrackAddedCartButton: React.FC<TrackAddedCartButtonOwnProps> = ({uniqueId}) => {
+export const TrackAddedCartButton: React.FC<TrackAddedCartButtonProps> = ({uniqueId}) => {
     const removeItemFromCart = async (e: any, uniqueId: any) => {
         const { Snipcart }: any = window;
         if (!Snipcart) return;
@@ -167,18 +123,18 @@ export const TrackAddedCartButton: React.FC<TrackAddedCartButtonOwnProps> = ({un
     );
 };
 
-interface TrackNotAddedCartButtonOwnProps {
+interface TrackNotAddedCartButtonProps {
     sourceUrl: string;
     id: string;
-    slug: string;
     title: string;
     description: string;
     digitalItemGuid: string;
     price: number;
+    url: string;
 }
 
-export const TrackNotAddedCartButton: React.FC<TrackNotAddedCartButtonOwnProps> = ({
-  sourceUrl, id, slug, title, description, digitalItemGuid, price
+export const TrackNotAddedCartButton: React.FC<TrackNotAddedCartButtonProps> = ({
+  sourceUrl, id, title, description, digitalItemGuid, price, url
 }) => {
     return (
         <CartButton 
@@ -186,7 +142,7 @@ export const TrackNotAddedCartButton: React.FC<TrackNotAddedCartButtonOwnProps> 
             className="snipcart-add-item"
             data-item-id={id}
             data-item-price={price}
-            data-item-url={trackUrlHelper(id, slug)}
+            data-item-url={url}
             data-item-description={description}
             data-item-image={sourceUrl}
             data-item-name={title}
@@ -195,13 +151,13 @@ export const TrackNotAddedCartButton: React.FC<TrackNotAddedCartButtonOwnProps> 
     );
 };
 
-interface TrackImageOwnProps {
+interface TrackImageProps {
   fixed: any; 
   addedToCart: boolean;
   size: number;
 }
 
-const TrackImage: React.FC<TrackImageOwnProps> = ({ fixed, addedToCart, size }) => {
+const TrackImage: React.FC<TrackImageProps> = ({ fixed, addedToCart, size }) => {
   return (
     <ImageContainer>
       <SquareImage 
@@ -214,7 +170,7 @@ const TrackImage: React.FC<TrackImageOwnProps> = ({ fixed, addedToCart, size }) 
   );
 }
 
-interface TrackCoverOwnProps {
+interface TrackCoverProps {
     id: string;
     addedToCart?: boolean;
     fixed: any;
@@ -223,7 +179,7 @@ interface TrackCoverOwnProps {
     isTrackPage?: boolean;
 }
 
-export const TrackCover: React.FC<TrackCoverOwnProps> = ({ id, addedToCart, fixed, url, trackStatus, isTrackPage }) => {
+export const TrackCover: React.FC<TrackCoverProps> = ({ id, addedToCart, fixed, url, trackStatus, isTrackPage }) => {
   const dispatch = useDispatch();
   const size = isTrackPage ? trackCardSize.alone : trackCardSize.inGrid;
 
@@ -241,7 +197,7 @@ export const TrackCover: React.FC<TrackCoverOwnProps> = ({ id, addedToCart, fixe
               </StyledLink>
           }
         </StyledContainer>
-        <ImageLayer 
+        <PlayPauseButtonLayer 
           onClick={() => trackStatus !== TrackPlayStatus.Loading && dispatch(playPauseTrack(id))}
           trackStatus={trackStatus}
         />

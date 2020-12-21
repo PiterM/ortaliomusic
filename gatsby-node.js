@@ -75,11 +75,25 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 digitalItemGuid
                 price
                 coverImage {
-                  sourceUrl(size: LARGE)
+                  sourceUrl(size: LARGE) 
                   altText
                   imageFile {
                     childImageSharp {
                       fixed(width: 400, height: 400) {
+                        width
+                        height
+                        src
+                        srcSet
+                      }
+                    }
+                  }
+                }
+                thumbnailImage: coverImage {
+                  sourceUrl(size: THUMBNAIL) 
+                  altText
+                  imageFile {
+                    childImageSharp {
+                      fixed(width: 120, height: 120) {
                         width
                         height
                         src
@@ -106,6 +120,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   let tracksWithPrices = [];
   if (tracks && tracks.length > 0) {
     tracksWithPrices = tracks.map((item) => {
+      const { id, slug } = item.node;
       const track = item.node.ortalioMusicTrack;
       const { price } = track;
       const trackPrice = price !== null ? price : defaultPrice;
@@ -114,7 +129,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           ...item.node,
           ortalioMusicTrack: {
             ...track,
-            price: trackPrice
+            price: trackPrice,
+            url: trackUrlHelper(id, slug)
           }
         }
       };

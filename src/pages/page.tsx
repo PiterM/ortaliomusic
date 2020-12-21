@@ -17,11 +17,11 @@ const { useEffect } = React;
 import './index.css';
 import './custom.css';
 
-export interface HomePageOwnProps {
+export interface HomePageProps {
   tracks: any;
 }
 
-const HomePage: React.FC<HomePageOwnProps> = ({ tracks }: any) => {
+const HomePage: React.FC<HomePageProps> = ({ tracks }: any) => {
     if (!tracks) {
         return null;
     }
@@ -68,11 +68,11 @@ const Card = styled.div({
   }
 });
 
-export interface TrackOwnProps {
+export interface TrackProps {
   track: any;
 }
 
-const TrackPage: React.FC<TrackOwnProps> = ({ track }: any) => {
+const TrackPage: React.FC<TrackProps> = ({ track }: any) => {
   if (!track) {
     return null;
   }
@@ -90,11 +90,11 @@ const TrackPage: React.FC<TrackOwnProps> = ({ track }: any) => {
   );
 };
 
-export interface PageOwnProps {
+export interface PageProps {
     pageContext: any;
 }
 
-const Page: React.FC<PageOwnProps> = ({ pageContext: { track, tracks } }: any) => {
+const Page: React.FC<PageProps> = ({ pageContext: { track, tracks } }: any) => {
     const reduxTracks = useSelector(getTracks);
     const dispatch = useDispatch();
     const isObjectEmpty = (obj: any) => Object.keys(obj).length === 0 && obj.constructor === Object;
