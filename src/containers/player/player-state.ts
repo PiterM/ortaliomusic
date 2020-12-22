@@ -8,9 +8,17 @@ export interface CurrentTrackState {
     paused: boolean;
     actionPending: boolean;
     status: TrackPlayStatus;
+    progress: ProgressData;
+}
+
+export interface ProgressData {
+    data: any;
+    fraction: number;
+    seeking: boolean;
 }
 
 export interface PlayerState {
     tracks: TracksState;
     currentTrack?: CurrentTrackState;
+    muted: boolean;
 }

@@ -38,12 +38,14 @@ const ImageContainer = styled.div({
 
 interface CartButtonProps {
   addedToCart?: boolean;
+  isTrackButton: boolean;
 }
 
 const CartButton = styled.div((props: CartButtonProps) => {
-  const { addedToCart } = props;
+  const { addedToCart, isTrackButton } = props;
   const backgroundColor = addedToCart ? colors.cartButton : colors.neutral;
   const borderColor = addedToCart ? colors.cartButton : colors.neutral;
+  const position = isTrackButton ? 'absolute': 'static';
 
   return {
     background: `${backgroundColor} url("/images/shopping-cart.svg") center center no-repeat`,
@@ -54,7 +56,7 @@ const CartButton = styled.div((props: CartButtonProps) => {
     width: '70px',
     height: '70px',
     transition: 'all 0.05s ease',
-    position: 'absolute',
+    position,
     cursor: 'pointer',
     ":hover": {
       backgroundColor: colors.cartButton,
@@ -100,9 +102,10 @@ const StyledContainer = styled.div({
 
 interface TrackAddedCartButtonProps {
     uniqueId: string;
+    isTrackButton: boolean;
 }
 
-export const TrackAddedCartButton: React.FC<TrackAddedCartButtonProps> = ({uniqueId}) => {
+export const TrackAddedCartButton: React.FC<TrackAddedCartButtonProps> = ({ uniqueId, isTrackButton }) => {
     const removeItemFromCart = async (e: any, uniqueId: any) => {
         const { Snipcart }: any = window;
         if (!Snipcart) return;
@@ -119,6 +122,7 @@ export const TrackAddedCartButton: React.FC<TrackAddedCartButtonProps> = ({uniqu
         <CartButton 
             onClick={(e) => removeItemFromCart(e, uniqueId)}
             addedToCart={true} 
+            isTrackButton={isTrackButton}
         />
     );
 };
@@ -131,14 +135,16 @@ interface TrackNotAddedCartButtonProps {
     digitalItemGuid: string;
     price: number;
     url: string;
+    isTrackButton: boolean;
 }
 
 export const TrackNotAddedCartButton: React.FC<TrackNotAddedCartButtonProps> = ({
-  sourceUrl, id, title, description, digitalItemGuid, price, url
+  sourceUrl, id, title, description, digitalItemGuid, price, url, isTrackButton
 }) => {
     return (
         <CartButton 
             onClick={(e) => e.preventDefault()}
+            isTrackButton={isTrackButton}
             className="snipcart-add-item"
             data-item-id={id}
             data-item-price={price}

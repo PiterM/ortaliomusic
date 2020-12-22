@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import styled from "@emotion/styled";
 import { getCartItems } from '../cart/cart-selectors';
 import { getCurrentTrack } from '../player/player-selectors';
-import { TrackAddedCartButton, TrackCover, TrackNotAddedCartButton } from "./track-details";
+import { TrackCover } from "./track-details";
+import CartButton from '../../components/cart-button';
 import { TrackPlayStatus } from './track-models';
 import TrackBottom from './track-bottom';
 
@@ -47,20 +48,18 @@ export const TrackCard: React.FC<TrackProps> = ({ track, items, currentTrack, is
             trackStatus={status}
             isTrackPage={isTrackPage}
           />
-          { trackIsAdded 
-            ? <TrackAddedCartButton 
-                uniqueId={storeItem.uniqueId}
-              />
-            : <TrackNotAddedCartButton
-                id={id}
-                title={title}
-                description={description}
-                sourceUrl={thumbnailSourceUrl}
-                digitalItemGuid={digitalItemGuid}
-                price={price}
-                url={url}
-              />
-          }
+          <CartButton 
+            trackIsAdded={trackIsAdded}
+            uniqueId={storeItem && storeItem.uniqueId ? storeItem.uniqueId: ''}
+            id={id}
+            title={title}
+            description={description}
+            sourceUrl={thumbnailSourceUrl}
+            digitalItemGuid={digitalItemGuid}
+            price={price}
+            url={url}
+            isTrackButton={true}
+          />
         </SquareLayer>
         { !isTrackPage && <TrackBottom title={title} url={url} /> }
       </div>

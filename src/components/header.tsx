@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
 import Link from 'gatsby-link';
-import CartButton from './cart-button';
+import CartButton from './header-cart-button';
 import { getCartQuantity } from '../containers/cart/cart-selectors';
 
 const Avatar = styled(Img)({

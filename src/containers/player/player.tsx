@@ -1,9 +1,19 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactPlayer from 'react-player';
-import { getCurrentTrack } from './player-selectors';
-import { playPauseTrackSuccess, playPauseTrackFailure, stopPlayback } from './player-actions';
+import { timeFormatHelper } from '../../common/timeFormatHelper';
+import { getCurrentTrack, getPlayerMuted } from './player-selectors';
+import { getCartItems } from '../cart/cart-selectors';
+import { 
+    playPauseTrackSuccess, 
+    playPauseTrackFailure, 
+    stopPlayback,
+    setTrackProgress,
+    trackSeekToSuccess
+} from './player-actions';
 import PlayerPlayPauseButton from './player-play-button';
+import PlayerProgressSlider from './player-bar';
+import CartButton from '../../components/cart-button';
 import styled from '@emotion/styled';
 import styles from '../../gatsby-plugin-theme-ui/index';
 import Img from 'gatsby-image';
@@ -92,6 +102,7 @@ const CartAndCloseItems = styled.div({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    flexDirection: 'row',
     padding: '5px 5px 2px 0'
 });
 
@@ -109,19 +120,44 @@ const ClosePlayerIcon = styled.div({
     ":hover": {
         borderColor: '#000'
     }
-})
+});
+
+const CartButtonContainer = styled.div({
+    width: 70,
+    height: 70
+});
 
 const Player: React.FC = () => {
+    let player: ReactPlayer;
+    const playerRef = (p: ReactPlayer) => {
+        player = p
+    }
+
     const currentTrack = useSelector(getCurrentTrack);
+    const items = useSelector(getCartItems);
+    const playerMuted = useSelector(getPlayerMuted);
     const [playerRendered, setPlayerRendered] = useState(false);
     const previewUrl = currentTrack?.details?.ortalioMusicTrack?.previewUrl;
     const trackId = currentTrack?.details?.id;
     const dispatch = useDispatch();
 
+    const [duration, setDuration] = useState(null);
+
     useEffect(() => {
         setPlayerRendered(false);
         setTimeout(() => setPlayerRendered(true), 800);
     }, [trackId]);
+
+    useEffect(() => {
+        if (currentTrack?.progress?.seeking && playerRef) { 
+            player.seekTo(currentTrack?.progress?.fraction);
+            dispatch(trackSeekToSuccess());
+        }
+    }, [currentTrack?.progress?.seeking]);
+
+    const setProgress = (progress: any) => {
+        progress && dispatch(setTrackProgress(progress));
+    };
 
     if (!currentTrack) {
         return <PlayerContainer />
@@ -131,10 +167,27 @@ const Player: React.FC = () => {
     const actionFinishedWithError = () => dispatch(playPauseTrackFailure());
     const stopPlayer = () => dispatch(stopPlayback());
 
-    const { playing, paused } = currentTrack;
+    const { progress, playing, paused, actionPending } = currentTrack;
     const playerClass = playing || paused ? 'player-visible' : undefined;
-    const { ortalioMusicTrack } = currentTrack.details;
-    const { thumbnailImage: { imageFile: { childImageSharp: { fixed }}}, title, url } = ortalioMusicTrack;
+    const { ortalioMusicTrack, id } = currentTrack.details;
+    const { 
+        thumbnailImage: { sourceUrl, imageFile: { childImageSharp: { fixed }}}, 
+        title, 
+        url, 
+        description, 
+        digitalItemGuid,
+        price
+    } = ortalioMusicTrack;
+
+    const trackIsAdded = items && items[id] !== undefined;
+    const storeItem = trackIsAdded && items[id];
+
+    let elapsedTime = '';
+    let loadedTime = '';
+    if (progress?.data?.playedSeconds) {
+        loadedTime = ` / ${timeFormatHelper(Math.round(Number(duration)))}`;
+        elapsedTime = timeFormatHelper(Math.round(Number(progress.data.playedSeconds)));
+    }
 
     return (
             <>
@@ -160,11 +213,29 @@ const Player: React.FC = () => {
                     </PlayerItemInline>
 
                     <PlayerItemInline>
-                        <span>Slider</span>
+                        <PlayerProgressSlider 
+                            progress={Math.round(progress.fraction * 100)}
+                            elapsedTime={elapsedTime}
+                            loadedTime={loadedTime}
+                            disabled={actionPending}
+                        />
                     </PlayerItemInline>
 
                     <CartAndCloseItems>
-                        <span>Cart</span>
+                        <CartButtonContainer>
+                            <CartButton 
+                                trackIsAdded={trackIsAdded}
+                                uniqueId={storeItem && storeItem.uniqueId ? storeItem.uniqueId: ''}
+                                id={id}
+                                title={title}
+                                description={description}
+                                sourceUrl={sourceUrl}
+                                digitalItemGuid={digitalItemGuid}
+                                price={price}
+                                url={url}
+                                isTrackButton={false}
+                            />
+                        </CartButtonContainer>
                         <ClosePlayerIcon 
                             onClick={stopPlayer}
                         />
@@ -173,14 +244,19 @@ const Player: React.FC = () => {
                 </PlayerContainer>
                 { playerRendered && previewUrl && 
                     <ReactPlayer 
+                        ref={playerRef}
                         style={{display: 'none'}}
                         url={previewUrl}
                         playing={currentTrack.playing}
+                        volume={0.8}
+                        muted={playerMuted}
                         onStart={actionFinishedSuccessfully}
                         onPlay={actionFinishedSuccessfully}
                         onPause={actionFinishedSuccessfully}
                         onEnded={stopPlayer}
                         onError={actionFinishedWithError}
+                        onProgress={setProgress}
+                        onDuration={setDuration}
                     />
                 }
             </>

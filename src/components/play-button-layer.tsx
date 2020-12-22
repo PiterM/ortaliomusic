@@ -20,7 +20,7 @@ export default styled.div(({ trackStatus, inPlayerBar }: PlayButtonLayerProps) =
 
     let backgroundImage;
     let backgroundSize = '102% 102%';
-    let backgroundSizeLoadingActive = '45% 45%';
+    let backgroundSizeLoadingActive = '75% 75%';
     switch (trackStatus) {
       case (TrackPlayStatus.Playing):
         backgroundImage = images.pauseIcon;
