@@ -27,7 +27,7 @@ const PlayerContainer = styled.div({
     height: '100px',
     bottom: -100,
     left: 0,
-    background: `${colors.background} url('${images.player}') center center repeat`,
+    background: `#efefef`,
     border: '3px solid #fff',
     transition: 'all 0.3s ease-in-out',
     display: 'grid',
@@ -47,7 +47,8 @@ const TrackTitleItem = styled.div({
 const TrackThumbnailContainer = styled.div({
     display: 'inline-grid',
     alignContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    position: 'relative'
 });
 
 const PlayerItemInline = styled.div({
@@ -56,21 +57,11 @@ const PlayerItemInline = styled.div({
     padding: '5px 5px 2px 0'
 });
 
-const TrackThumbnailLink = styled.a({
+const TrackThumbnailLink = styled.div({
     height: '93px !important',
     width: '93px !important',
     position: 'relative',
     transition: 'all 0.5s ease',
-    border: '2px solid transparent',
-    "& picture": {
-        transition: 'all 0.5s ease',
-    },
-    ":hover": {
-        borderColor: '#fff'
-    },
-    ":hover picture": {
-        opacity: 0.6,
-    }   
 });
 
 const TrackThumbnail = styled(Img)({
@@ -78,6 +69,22 @@ const TrackThumbnail = styled(Img)({
     width: '100% !important',
     top: 0,
     left: 0,
+});
+
+const SoundcloudLink = styled.a({
+    opacity: 0,
+    background: `transparent url('${images.soundcloudLogo}') center center no-repeat`,
+    backgroundSize: '50% 50%',
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    cursor: 'pointer',
+    transition: 'all 0.5s ease',
+    ":hover, :active": {
+        opacity: 0.8
+    }
 });
 
 const TrackTitle = styled(Link)({
@@ -138,7 +145,9 @@ const Player: React.FC = () => {
     const playerMuted = useSelector(getPlayerMuted);
     const [playerRendered, setPlayerRendered] = useState(false);
     const previewUrl = currentTrack?.details?.ortalioMusicTrack?.previewUrl;
+    const waveformUrl = currentTrack?.details?.ortalioMusicTrack?.waveformUrl;
     const trackId = currentTrack?.details?.id;
+    const seeking = currentTrack?.progress?.seeking;
     const dispatch = useDispatch();
 
     const [duration, setDuration] = useState(null);
@@ -149,14 +158,14 @@ const Player: React.FC = () => {
     }, [trackId]);
 
     useEffect(() => {
-        if (currentTrack?.progress?.seeking && playerRef) { 
+        if (seeking && playerRef) { 
             player.seekTo(currentTrack?.progress?.fraction);
             dispatch(trackSeekToSuccess());
         }
-    }, [currentTrack?.progress?.seeking]);
+    }, [seeking]);
 
     const setProgress = (progress: any) => {
-        progress && dispatch(setTrackProgress(progress));
+        progress && !seeking && dispatch(setTrackProgress(progress));
     };
 
     if (!currentTrack) {
@@ -194,12 +203,13 @@ const Player: React.FC = () => {
                 <PlayerContainer className={playerClass}> 
 
                     <TrackThumbnailContainer>
-                        <TrackThumbnailLink
-                            href={previewUrl}
-                            target="_blank"
-                        >
+                        <TrackThumbnailLink>
                             <TrackThumbnail fixed={fixed} />
                         </TrackThumbnailLink>
+                        <SoundcloudLink 
+                                href={previewUrl}
+                                target="_blank"
+                        />
                     </TrackThumbnailContainer>
 
                     <TrackTitleItem>
@@ -214,11 +224,15 @@ const Player: React.FC = () => {
 
                     <PlayerItemInline>
                         <PlayerProgressSlider 
-                            progress={Math.round(progress.fraction * 100)}
+                            progress={Math.ceil(progress.fraction * 100)}
                             elapsedTime={elapsedTime}
                             loadedTime={loadedTime}
                             disabled={actionPending}
+                            waveformUrl={waveformUrl}
                         />
+                    {/* <WaveformImage
+                        fixed={WaveformFixed}
+                    /> */}
                     </PlayerItemInline>
 
                     <CartAndCloseItems>

@@ -9,6 +9,7 @@ export default merge(typography, {
     loaderIcon: '/images/loader-icon.svg',
     closeIcon: 'images/close-icon.svg',
     player: '/images/bg-pattern.png',
+    soundcloudLogo: '/images/soundcloud-logo.png'
   },
   colors: {
     text: "rgb(0,0,0,0.75)",
@@ -17,7 +18,8 @@ export default merge(typography, {
     cartQuantity: 'red',
     trackTitle: '#e57702',
     neutral: '#dadada',
-    grey: '#888'
+    grey: '#888',
+    waveform: '#fff'
   },
   fonts: {
     heading: "Work Sans, serif",

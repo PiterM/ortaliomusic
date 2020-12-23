@@ -30,6 +30,7 @@ export const playerReducer = (state: PlayerState = initPlayerState, action: Play
             let details = state.tracks[action.payload];                
             let actionPending = true;
             let progress;
+            let muted;
             playing = true;
             paused = false;
             status = TrackPlayStatus.Loading;
@@ -39,6 +40,7 @@ export const playerReducer = (state: PlayerState = initPlayerState, action: Play
                 paused = !currentTrack.paused;
                 progress = currentTrack.progress;
                 actionPending = false;
+                muted = state.muted;
                 status = playing ? TrackPlayStatus.Playing 
                     : (paused ? TrackPlayStatus.Paused : TrackPlayStatus.None);
             } else {
@@ -47,10 +49,12 @@ export const playerReducer = (state: PlayerState = initPlayerState, action: Play
                     fraction: 0,
                     seeking: false,
                 };
+                muted = false;
             }
 
             return {
                 ...state,
+                muted,
                 currentTrack: {
                     ...currentTrack,
                     details,
@@ -101,8 +105,7 @@ export const playerReducer = (state: PlayerState = initPlayerState, action: Play
         case (ACTION_TYPES.STOP_PLAYBACK):
             return {
                 ...state,
-                currentTrack: undefined,
-                muted: false,
+                currentTrack: undefined
             }; 
         case (ACTION_TYPES.SET_TRACK_PROGRESS):
             if (!currentTrack) {

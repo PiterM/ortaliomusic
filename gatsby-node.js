@@ -44,11 +44,24 @@ exports.createResolvers = ({
     },
   })
 }
-  
+
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
   const { trackUrlHelper } = require('./src/common/trackUrlHelper.ts');
   const Page = require.resolve('./src/pages/page.tsx');
+
+  const axios = require('axios');
+  let tracksApiData = {};
+  const response = await axios.get('https://api.soundcloud.com/users/1022559/tracks?client_id=96e9e3d300fb5ba39151f988943625d4');
+  if (response.data.length > 0) {
+    for (const track of response.data) {
+      const slug = track.permalink;
+      tracksApiData[slug] = {
+        id: track.id,
+        waveformUrl: track.waveform_url
+      }
+    }
+  }
 
   const tracksData = await graphql(`
     query {
@@ -122,15 +135,19 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     tracksWithPrices = tracks.map((item) => {
       const { id, slug } = item.node;
       const track = item.node.ortalioMusicTrack;
-      const { price } = track;
+      const { price, previewUrl } = track;
       const trackPrice = price !== null ? price : defaultPrice;
+      const match = previewUrl.match(/\/([^/]+)\/?$/);
+      const soundcloudSlug = match[1] ? match[1]: undefined;
+
       return {
         node: {
           ...item.node,
           ortalioMusicTrack: {
             ...track,
             price: trackPrice,
-            url: trackUrlHelper(id, slug)
+            url: trackUrlHelper(id, slug),
+            waveformUrl: tracksApiData[soundcloudSlug] ? tracksApiData[soundcloudSlug].waveformUrl : undefined
           }
         }
       };
