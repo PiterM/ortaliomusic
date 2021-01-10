@@ -52,7 +52,7 @@ const CartButton = styled.div((props: CartButtonProps) => {
     border: `2px solid ${borderColor}`,
     backgroundSize: '70% 70%',
     bottom: 0,
-    right: 0,
+    right: -2,
     width: '70px',
     height: '70px',
     transition: 'all 0.05s ease',

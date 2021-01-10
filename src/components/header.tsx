@@ -6,13 +6,72 @@ import Img from "gatsby-image";
 import Link from 'gatsby-link';
 import CartButton from './header-cart-button';
 import { getCartQuantity } from '../containers/cart/cart-selectors';
+import styles from '../gatsby-plugin-theme-ui/index';
+const { colors } = styles;
 
-const Avatar = styled(Img)({
+const Avatar = styled.div({
+  margin: 0,
+  padding: 0,
   width: 150,
   height: 150,
+  position: "relative",
+  transition: 'all 0.1s ease-in-out',
+  ":hover": {
+    borderRadius: "50% 50%",
+    "& img": {
+      borderRadius: "50% 50%",
+    },
+    "& > div": {
+      backgroundColor: "rgba(0, 0, 0, 0.1)",
+      borderRadius: "50% 50%",
+    },
+    "& > div > p": {
+      backgroundColor: "#fff",
+      opacity: 1,
+    }
+  },
   "@media(max-width:600px)": {
     width: 75,
     height: 75
+  }
+});
+
+const AvatarImage = styled(Img)({
+  position: "absolute",
+  margin: 0,
+  padding: 0,
+  top: 0,
+  left: 0,
+  width: 150,
+  height: 150,
+  transition: 'all 0.1s ease-in-out',
+});
+
+const AvatarLayer = styled.div({
+  display: "flex",
+  alignItems: "center",
+  position: "absolute",
+  top: 0,
+  left: 0,
+  margin: 0,
+  padding: 0,
+  width: 150,
+  height: 150,
+  cursor: "pointer",
+  transition: 'all 0.1s ease-in-out',
+  "& p": {
+    width: "100%",
+    textAlign: "center",
+    opacity: 0,
+    transition: 'all 0.1s ease-in-out',
+    fontWeight: 900
+  },
+});
+
+const MyMusicLink = styled.a({
+  textDecoration: 'none',
+  ":hover, :active": {
+    color: colors.cartButton
   }
 });
 
@@ -102,7 +161,19 @@ const Header: React.FC = () => {
   
   return (
     <Container>
-      <Avatar fixed={avatarFixed} />
+      <Avatar>
+        <AvatarImage fixed={avatarFixed} />
+        <AvatarLayer>
+          <p>
+            <MyMusicLink
+              href="https://ortalio.pl"
+              target="_blank"
+            >
+              my music
+            </MyMusicLink>
+          </p>
+        </AvatarLayer>
+      </Avatar>
       <StyledDescription>
         <Link to={'/'}>
           <Logo fixed={logoFixed} />

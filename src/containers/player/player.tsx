@@ -207,8 +207,8 @@ const Player: React.FC = () => {
                             <TrackThumbnail fixed={fixed} />
                         </TrackThumbnailLink>
                         <SoundcloudLink 
-                                href={previewUrl}
-                                target="_blank"
+                            href={previewUrl}
+                            target="_blank"
                         />
                     </TrackThumbnailContainer>
 
@@ -230,9 +230,6 @@ const Player: React.FC = () => {
                             disabled={actionPending}
                             waveformUrl={waveformUrl}
                         />
-                    {/* <WaveformImage
-                        fixed={WaveformFixed}
-                    /> */}
                     </PlayerItemInline>
 
                     <CartAndCloseItems>
