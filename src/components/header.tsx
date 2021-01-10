@@ -169,7 +169,7 @@ const Header: React.FC = () => {
               href="https://ortalio.pl"
               target="_blank"
             >
-              my music
+              my website
             </MyMusicLink>
           </p>
         </AvatarLayer>

@@ -30,6 +30,7 @@ const VolumeContainer = styled.span(({ disabled }: VolumeContainerProps) => {
   const fill = disabled ? colors.neutral : '#000';
   return {
     cursor: 'pointer',
+    textAlign: 'center',
     "& svg": {
         verticalAlign: 'middle',
         fill

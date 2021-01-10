@@ -6,10 +6,12 @@ export default merge(typography, {
   images: {
     playIcon: '/images/play-icon.svg',
     pauseIcon: '/images/pause-icon.svg',
+    loopOneIcon: '/images/loop-one-icon.svg',
+    loopAllIcon: '/images/loop-all-icon.svg',
     loaderIcon: '/images/loader-icon.svg',
     closeIcon: 'images/close-icon.svg',
     player: '/images/bg-pattern.png',
-    soundcloudLogo: '/images/soundcloud-logo.png'
+    soundcloudLogo: '/images/soundcloud-logo.png',
   },
   colors: {
     text: "rgb(0,0,0,0.75)",

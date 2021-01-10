@@ -2,11 +2,13 @@ import { PlayerActions } from './player-actions';
 import ACTION_TYPES from './player-action-types';
 import { PlayerState } from './player-state';
 import { TrackPlayStatus } from '../track/track-models';
+import { LoopMode } from './player-constants';
 
 export const initPlayerState: PlayerState = {
     tracks: {},
     muted: false,
-    currentTrack: undefined
+    currentTrack: undefined,
+    loopMode: LoopMode.Off
 };
 
 export const playerReducer = (state: PlayerState = initPlayerState, action: PlayerActions) => {
@@ -158,7 +160,26 @@ export const playerReducer = (state: PlayerState = initPlayerState, action: Play
             return {
                 ...state,
                 muted: !state.muted
-            };                                            
+            };  
+            
+        case (ACTION_TYPES.SET_LOOP_MODE):
+            const currentLoopMode = state.loopMode;
+            let loopMode = LoopMode.Off;
+            switch (currentLoopMode) {
+                case (LoopMode.Off):
+                    loopMode = LoopMode.LoopAll;
+                    break;
+                case (LoopMode.LoopAll):
+                    loopMode = LoopMode.LoopOne;
+                    break;
+                default:
+                case (LoopMode.LoopOne):
+                    loopMode = LoopMode.Off;
+            }
+            return {
+                ...state,
+                loopMode
+            };   
         default:
             return state;
     }

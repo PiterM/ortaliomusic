@@ -13,11 +13,11 @@ const PlayPauseButtonContainer = styled.div({
     margin: '0 15px'
 });
 
-interface PlayerPlayPauseButton {
+interface PlayerPlayPauseButtonProps {
     id: string;
 }
 
-const PlayerPlayPauseButton: React.FC<PlayerPlayPauseButton> = ({ id }) => {
+const PlayerPlayPauseButton: React.FC<PlayerPlayPauseButtonProps> = ({ id }) => {
     const dispatch = useDispatch();
     const { status } = useSelector(getCurrentTrack);
 

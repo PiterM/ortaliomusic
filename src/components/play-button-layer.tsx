@@ -39,7 +39,7 @@ export default styled.div(({ trackStatus, inPlayerBar }: PlayButtonLayerProps) =
       background: `${backgroundColor} url('${backgroundImage}') center center no-repeat`,
       backgroundSize,
       opacity,
-      transition: 'all 0.5s ease, background 0.1s ease-in-out',
+      transition: 'all 0.05s ease, background 0.05s ease-in-out',
       position: 'absolute',
       width: size,
       height: size,

@@ -80,6 +80,22 @@ export const togglePlayerVolume = (): TogglePlayerVolume => ({
     type: ACTION_TYPES.TOGGLE_VOLUME
 });
 
+export interface SetLoopMode {
+    type: ACTION_TYPES.SET_LOOP_MODE;
+}
+
+export const setLoopMode = (): SetLoopMode => ({
+    type: ACTION_TYPES.SET_LOOP_MODE,
+});
+
+export interface DecideWhatPlayNext {
+    type: ACTION_TYPES.DECIDE_WHAT_PLAY_NEXT;
+}
+
+export const decideWhatPlayNext = (): DecideWhatPlayNext => ({
+    type: ACTION_TYPES.DECIDE_WHAT_PLAY_NEXT,
+});
+
 export type PlayerActions = 
     | SetTracksData
     | PlayPauseTrack
@@ -89,4 +105,5 @@ export type PlayerActions =
     | SetTrackProgress
     | TrackSeekTo
     | TrackSeekToSuccess
-    | TogglePlayerVolume;
+    | TogglePlayerVolume
+    | SetLoopMode;

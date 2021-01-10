@@ -1,4 +1,5 @@
 import { TrackPlayStatus } from "../track/track-models";
+import { LoopMode } from './player-constants';
 
 export type TracksState = any;
 
@@ -21,4 +22,5 @@ export interface PlayerState {
     tracks: TracksState;
     currentTrack?: CurrentTrackState;
     muted: boolean;
+    loopMode: LoopMode;
 }

@@ -2,20 +2,23 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactPlayer from 'react-player';
 import { timeFormatHelper } from '../../common/timeFormatHelper';
-import { getCurrentTrack, getPlayerMuted } from './player-selectors';
+import { getCurrentTrack, getPlayerMuted, getLoopMode } from './player-selectors';
 import { getCartItems } from '../cart/cart-selectors';
 import { 
     playPauseTrackSuccess, 
     playPauseTrackFailure, 
-    stopPlayback,
+    decideWhatPlayNext,
     setTrackProgress,
-    trackSeekToSuccess
+    trackSeekToSuccess,
+    setLoopMode,
+    stopPlayback
 } from './player-actions';
 import PlayerPlayPauseButton from './player-play-button';
 import PlayerProgressSlider from './player-bar';
 import CartButton from '../../components/cart-button';
 import styled from '@emotion/styled';
 import styles from '../../gatsby-plugin-theme-ui/index';
+import { LoopMode } from './player-constants';
 import Img from 'gatsby-image';
 import Link from 'gatsby-link';
 const { useEffect, useState } = React;
@@ -31,7 +34,7 @@ const PlayerContainer = styled.div({
     border: '3px solid #fff',
     transition: 'all 0.3s ease-in-out',
     display: 'grid',
-    gridTemplateColumns: '0.5fr 3fr 1fr 5.5fr 1fr',
+    gridTemplateColumns: '0.5fr 3fr 0.5fr 0.5fr 5.5fr 1fr',
     "&.player-visible": {
         bottom: 0
     },
@@ -134,6 +137,37 @@ const CartButtonContainer = styled.div({
     height: 70
 });
 
+interface LoopButtonProps {
+    mode: LoopMode;
+  }
+  
+  const LoopButton = styled.span(({ mode }: LoopButtonProps) => {
+    let icon, opacity;
+    switch (mode) {
+      case (LoopMode.LoopOne): 
+        icon = images.loopOneIcon;
+        opacity = 1;
+        break;
+      default:
+      case (LoopMode.Off):
+        opacity = 0.2;
+      case (LoopMode.LoopAll):
+        icon = images.loopAllIcon;
+    }
+    return {
+        width: 72,
+        height: 72,
+        background: `transparent url('${icon}') center center no-repeat`,
+        backgroundSize: '60% 60%',
+        cursor: 'pointer',
+        transition: 'all 0.05s ease',
+        opacity,
+        ":active": {
+            backgroundSize: '52% 52%'
+        },
+    }
+});
+
 const Player: React.FC = () => {
     let player: ReactPlayer;
     const playerRef = (p: ReactPlayer) => {
@@ -143,6 +177,7 @@ const Player: React.FC = () => {
     const currentTrack = useSelector(getCurrentTrack);
     const items = useSelector(getCartItems);
     const playerMuted = useSelector(getPlayerMuted);
+    const loopMode = useSelector(getLoopMode);
     const [playerRendered, setPlayerRendered] = useState(false);
     const previewUrl = currentTrack?.details?.ortalioMusicTrack?.previewUrl;
     const waveformUrl = currentTrack?.details?.ortalioMusicTrack?.waveformUrl;
@@ -174,7 +209,9 @@ const Player: React.FC = () => {
 
     const actionFinishedSuccessfully = () => dispatch(playPauseTrackSuccess());
     const actionFinishedWithError = () => dispatch(playPauseTrackFailure());
-    const stopPlayer = () => dispatch(stopPlayback());
+    const onTrackFinish = () => dispatch(decideWhatPlayNext());
+    const onStopPlayback = () => dispatch(stopPlayback());
+    const changeLoopMode = () => dispatch(setLoopMode());
 
     const { progress, playing, paused, actionPending } = currentTrack;
     const playerClass = playing || paused ? 'player-visible' : undefined;
@@ -223,6 +260,13 @@ const Player: React.FC = () => {
                     </PlayerItemInline>
 
                     <PlayerItemInline>
+                        <LoopButton
+                            mode={loopMode}
+                            onClick={changeLoopMode}
+                        />
+                    </PlayerItemInline>
+
+                    <PlayerItemInline>
                         <PlayerProgressSlider 
                             progress={Math.ceil(progress.fraction * 100)}
                             elapsedTime={elapsedTime}
@@ -248,7 +292,7 @@ const Player: React.FC = () => {
                             />
                         </CartButtonContainer>
                         <ClosePlayerIcon 
-                            onClick={stopPlayer}
+                            onClick={onStopPlayback}
                         />
                     </CartAndCloseItems>
 
@@ -264,7 +308,7 @@ const Player: React.FC = () => {
                         onStart={actionFinishedSuccessfully}
                         onPlay={actionFinishedSuccessfully}
                         onPause={actionFinishedSuccessfully}
-                        onEnded={stopPlayer}
+                        onEnded={onTrackFinish}
                         onError={actionFinishedWithError}
                         onProgress={setProgress}
                         onDuration={setDuration}
