@@ -16,17 +16,12 @@ const Avatar = styled.div({
   height: 150,
   position: "relative",
   transition: 'all 0.1s ease-in-out',
+  borderRadius: "50% 50%",
   ":hover": {
-    borderRadius: "50% 50%",
-    "& img": {
-      borderRadius: "50% 50%",
-    },
     "& > div": {
       backgroundColor: "rgba(0, 0, 0, 0.1)",
-      borderRadius: "50% 50%",
     },
-    "& > div > p": {
-      backgroundColor: "#fff",
+    "& > div > a > span": {
       opacity: 1,
     }
   },
@@ -45,6 +40,7 @@ const AvatarImage = styled(Img)({
   width: 150,
   height: 150,
   transition: 'all 0.1s ease-in-out',
+  borderRadius: "50% 50%",
 });
 
 const AvatarLayer = styled.div({
@@ -59,17 +55,26 @@ const AvatarLayer = styled.div({
   height: 150,
   cursor: "pointer",
   transition: 'all 0.1s ease-in-out',
-  "& p": {
+  borderRadius: "50% 50%",
+});
+
+const MyMusicLink = styled.a({
+  width: 150,
+  height: 150,
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  textDecoration: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  "& > span": {
     width: "100%",
     textAlign: "center",
     opacity: 0,
     transition: 'all 0.1s ease-in-out',
-    fontWeight: 900
+    fontWeight: 900,
+    backgroundColor: '#fff',
   },
-});
-
-const MyMusicLink = styled.a({
-  textDecoration: 'none',
   ":hover, :active": {
     color: colors.cartButton
   }
@@ -164,14 +169,12 @@ const Header: React.FC = () => {
       <Avatar>
         <AvatarImage fixed={avatarFixed} />
         <AvatarLayer>
-          <p>
             <MyMusicLink
               href="https://ortalio.pl"
               target="_blank"
             >
-              my website
+              <span>my website</span>
             </MyMusicLink>
-          </p>
         </AvatarLayer>
       </Avatar>
       <StyledDescription>
