@@ -17,14 +17,13 @@ interface SquareImageProps {
   
 const SquareImage = styled(Img)((props: SquareImageProps) => {
   const { addedToCart, maxWidth, maxHeight } = props;
-  const opacity = 1;
   const borderColor = addedToCart ? colors.cartButton : colors.grey;
 
   return {
     maxHeight,
     maxWidth,
     border: `3px solid ${borderColor}`,
-    opacity,
+    opacity: 1,
     transition: 'all 0.5s ease',
     cursor: 'pointer'
   };
