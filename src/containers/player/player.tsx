@@ -176,8 +176,9 @@ const Player: React.FC = () => {
 
     const currentTrack = useSelector(getCurrentTrack);
     const items = useSelector(getCartItems);
-    const playerMuted = useSelector(getPlayerMuted);
     const loopMode = useSelector(getLoopMode);
+    const playerMuted = useSelector(getPlayerMuted);
+    const [trackInProgress, setTrackInProgress] = useState(false);
     const [playerRendered, setPlayerRendered] = useState(false);
     const previewUrl = currentTrack?.details?.ortalioMusicTrack?.previewUrl;
     const waveformUrl = currentTrack?.details?.ortalioMusicTrack?.waveformUrl;
@@ -189,7 +190,13 @@ const Player: React.FC = () => {
 
     useEffect(() => {
         setPlayerRendered(false);
-        setTimeout(() => setPlayerRendered(true), 800);
+        setTimeout(
+            () => { 
+                setTrackInProgress(false);
+                setPlayerRendered(true);
+            },
+            800
+        );
     }, [trackId]);
 
     useEffect(() => {
@@ -200,7 +207,10 @@ const Player: React.FC = () => {
     }, [seeking]);
 
     const setProgress = (progress: any) => {
-        progress && !seeking && dispatch(setTrackProgress(progress));
+        if (progress && !seeking) {
+            !trackInProgress && setTrackInProgress(true);
+            dispatch(setTrackProgress(progress));
+        }
     };
 
     if (!currentTrack) {
@@ -209,8 +219,16 @@ const Player: React.FC = () => {
 
     const actionFinishedSuccessfully = () => dispatch(playPauseTrackSuccess());
     const actionFinishedWithError = () => dispatch(playPauseTrackFailure());
-    const onTrackFinish = () => dispatch(decideWhatPlayNext());
-    const onStopPlayback = () => dispatch(stopPlayback());
+    const onTrackFinish = () => { 
+        setTrackInProgress(false);
+        dispatch(decideWhatPlayNext());
+    }
+
+    const onStopPlayback = () => { 
+        setTrackInProgress(false);
+        dispatch(stopPlayback());
+    }
+
     const changeLoopMode = () => dispatch(setLoopMode());
 
     const { progress, playing, paused, actionPending } = currentTrack;
@@ -272,7 +290,9 @@ const Player: React.FC = () => {
                             elapsedTime={elapsedTime}
                             loadedTime={loadedTime}
                             disabled={actionPending}
+                            volumeDisabled={actionPending || !trackInProgress}
                             waveformUrl={waveformUrl}
+                            muted={playerMuted || !trackInProgress}
                         />
                     </PlayerItemInline>
 
@@ -304,7 +324,7 @@ const Player: React.FC = () => {
                         url={previewUrl}
                         playing={currentTrack.playing}
                         volume={0.8}
-                        muted={playerMuted}
+                        muted={playerMuted || !trackInProgress}
                         onStart={actionFinishedSuccessfully}
                         onPlay={actionFinishedSuccessfully}
                         onPause={actionFinishedSuccessfully}

@@ -66,15 +66,16 @@ interface PlayerProgressSliderProps {
     progress: number;
     elapsedTime: string;
     disabled: boolean;
+    volumeDisabled: boolean;
     loadedTime: string;
     waveformUrl: string;
+    muted: boolean;
 }
 
-const PlayerProgressSlider: React.FC<PlayerProgressSliderProps> = ({ progress, elapsedTime, loadedTime, disabled, waveformUrl }) => {
+const PlayerProgressSlider: React.FC<PlayerProgressSliderProps> = ({ progress, elapsedTime, loadedTime, disabled, volumeDisabled, waveformUrl, muted }) => {
   const dispatch = useDispatch();
   const [percent, setPercent] = useState(0);
   const [mouseDown, setMouseDown] = useState(false);
-  const muted = useSelector(getPlayerMuted);
 
   const handleSliderChange = (event: any, percent: number) => setPercent(percent);
   const handleMouseDown = () => setMouseDown(true);
@@ -89,7 +90,7 @@ const PlayerProgressSlider: React.FC<PlayerProgressSliderProps> = ({ progress, e
   return (
       <PlayerProgressGrid>
         <VolumeContainer
-          disabled={disabled}
+          disabled={volumeDisabled}
         >
         { muted 
           ? <VolumeDown 
