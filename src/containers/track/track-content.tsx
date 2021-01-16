@@ -24,6 +24,11 @@ const StyledDescription = styled.div({
   margin: "0.5rem 0",
 });
 
+const StyledTechInfo = styled.div({
+  margin: "0.5rem 0",
+  fontWeight: 900
+});
+
 const StyledLink = styled.a({
   color: '#000',
   margin: "0.5rem 0",
@@ -38,9 +43,12 @@ export interface TrackContentProps {
 }
 
 const TrackContent: React.FC<TrackContentProps> = ({ track }) => {
-  const { description, title, price, previewUrl } = track?.node?.ortalioMusicTrack;
+  const { description, title, price, previewUrl, bpm, key, duration } = track?.node?.ortalioMusicTrack;
   const trackDescription = {
     __html: description
+  };
+  const trackTechInfo = {
+    __html: `${duration} / ${bpm} BPM / ${key}`
   };
   return (
     <CardContent>
@@ -52,6 +60,9 @@ const TrackContent: React.FC<TrackContentProps> = ({ track }) => {
       </StyledPrice>
       <StyledDescription
         dangerouslySetInnerHTML={trackDescription}
+      />
+      <StyledTechInfo
+        dangerouslySetInnerHTML={trackTechInfo}
       />
       <StyledLink
         href={previewUrl}

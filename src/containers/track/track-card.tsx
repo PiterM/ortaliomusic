@@ -30,7 +30,7 @@ export interface TrackProps {
 
 export const TrackCard: React.FC<TrackProps> = ({ track, items, currentTrack, isTrackPage }) => {
   const { id } = track?.node;
-  const { title, description, digitalItemGuid, price, url } = track?.node?.ortalioMusicTrack;
+  const { shortTitle, title, description, digitalItemGuid, price, url, free } = track?.node?.ortalioMusicTrack;
   const { imageFile: { childImageSharp: { fixed }} } = track?.node?.ortalioMusicTrack?.coverImage;
   const thumbnailSourceUrl = track?.node?.ortalioMusicTrack?.thumbnailImage?.sourceUrl;
   const trackIsAdded = items && items[id] !== undefined;
@@ -47,15 +47,20 @@ export const TrackCard: React.FC<TrackProps> = ({ track, items, currentTrack, is
             url={url}
             trackStatus={status}
             isTrackPage={isTrackPage}
+            shortTitle={shortTitle}
+            isFree={free}
+            price={price}
           />
           <CartButton 
             trackIsAdded={trackIsAdded}
             uniqueId={storeItem && storeItem.uniqueId ? storeItem.uniqueId: ''}
             id={id}
+            shortTitle={shortTitle}
             title={title}
             description={description}
             sourceUrl={thumbnailSourceUrl}
             digitalItemGuid={digitalItemGuid}
+            free={free}
             price={price}
             url={url}
             isTrackButton={true}

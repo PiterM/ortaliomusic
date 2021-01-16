@@ -7,6 +7,7 @@ import styles from 'gatsby-plugin-theme-ui';
 import { playPauseTrack } from '../player/player-actions';
 import { TrackPlayStatus } from './track-models';
 import PlayPauseButtonLayer from '../../components/play-button-layer';
+import { trackTitleHelper } from '../../common/trackTitleHelper';
 const { colors, trackCardSize } = styles;
 
 interface SquareImageProps {
@@ -70,7 +71,7 @@ const CartButton = styled.div((props: CartButtonProps) => {
 
 const StyledLink = styled(Link)({
   width: '100%',
-  height: '100%'
+  height: '100%',
 });
 
 const StyledDiv = styled.div({
@@ -78,24 +79,33 @@ const StyledDiv = styled.div({
   height: '100%'
 });
 
-const StyledContainer = styled.div({
-  backgroundImage: "none",
-  textDecoration: 'none',
-  position: 'relative',
-  transition: 'all 0.5s ease',
-  maxWidth: 288,
-  maxHeight: 288,
-  ":hover picture": {
-    opacity: 0.7,
-  },
-  ":hover .gatsby-image-wrapper, :active .gatsby-image-wrapper": {
-    borderColor: '#000'
-  },
-  ":active picture": {
-    opacity: 0.5
-  },
-  "picture": {
+interface StyledContainerProps {
+  isTrackPage: boolean;
+}
+
+const StyledContainer = styled.div(({ isTrackPage }: StyledContainerProps) => {
+  const maxWidth = isTrackPage ? undefined : 288;
+  const maxHeight = isTrackPage ? undefined : 288;
+
+  return {
+    backgroundImage: "none",
+    textDecoration: 'none',
+    position: 'relative',
     transition: 'all 0.5s ease',
+    maxWidth,
+    maxHeight,
+    ":hover picture": {
+      opacity: 0.7,
+    },
+    ":hover .gatsby-image-wrapper, :active .gatsby-image-wrapper": {
+      borderColor: '#000'
+    },
+    ":active picture": {
+      opacity: 0.5
+    },
+    "picture": {
+      transition: 'all 0.5s ease',
+    }
   }
 });
 
@@ -173,7 +183,25 @@ const TrackImage: React.FC<TrackImageProps> = ({ fixed, addedToCart, size }) => 
       />
     </ImageContainer>
   );
-}
+};
+
+const TrackTitle = styled.div({
+  position: 'absolute',
+  width: '100.5%',
+  top: '50%',
+  transform: 'translate(0, -50%)',
+  left: 0,
+  "& > p": {
+    textAlign: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    fontSize: 36
+  },
+  "& > p:nth-child(2)": {
+    backgroundColor: colors.cartButton,
+    fontSize: 24,
+    fontWeight: 900
+  }
+});
 
 interface TrackCoverProps {
     id: string;
@@ -182,15 +210,23 @@ interface TrackCoverProps {
     url: string;
     trackStatus: TrackPlayStatus;
     isTrackPage?: boolean;
+    shortTitle: string;
+    isFree: boolean;
+    price: number;
 }
 
-export const TrackCover: React.FC<TrackCoverProps> = ({ id, addedToCart, fixed, url, trackStatus, isTrackPage }) => {
+export const TrackCover: React.FC<TrackCoverProps> = (
+    { id, addedToCart, fixed, url, trackStatus, isTrackPage, shortTitle, isFree, price }
+  ) => {
   const dispatch = useDispatch();
   const size = isTrackPage ? trackCardSize.alone : trackCardSize.inGrid;
+  const priceLabel = isFree ? 'FREE BEAT' : `$${price}`;
 
   return (
       <>
-        <StyledContainer>
+        <StyledContainer
+          isTrackPage={isTrackPage}
+        >
           { isTrackPage 
             ? 
               <StyledDiv>
@@ -201,6 +237,10 @@ export const TrackCover: React.FC<TrackCoverProps> = ({ id, addedToCart, fixed, 
                 <TrackImage fixed={fixed} addedToCart={addedToCart} size={size} />
               </StyledLink>
           }
+          <TrackTitle>
+            <p>{shortTitle}</p>
+            <p>{priceLabel}</p>
+          </TrackTitle>
         </StyledContainer>
         <PlayPauseButtonLayer 
           onClick={() => trackStatus !== TrackPlayStatus.Loading && dispatch(playPauseTrack(id))}

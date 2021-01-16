@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactPlayer from 'react-player';
 import { timeFormatHelper } from '../../common/timeFormatHelper';
+import { trackTitleHelper } from '../../common/trackTitleHelper';
 import { getCurrentTrack, getPlayerMuted, getLoopMode } from './player-selectors';
 import { getCartItems } from '../cart/cart-selectors';
 import { 
@@ -236,10 +237,12 @@ const Player: React.FC = () => {
     const { ortalioMusicTrack, id } = currentTrack.details;
     const { 
         thumbnailImage: { sourceUrl, imageFile: { childImageSharp: { fixed }}}, 
+        shortTitle,
         title, 
         url, 
         description, 
         digitalItemGuid,
+        free,
         price
     } = ortalioMusicTrack;
 
@@ -269,7 +272,7 @@ const Player: React.FC = () => {
 
                     <TrackTitleItem>
                         <TrackTitle to={url}>
-                            {title}
+                            {trackTitleHelper(shortTitle, title)}
                         </TrackTitle>
                     </TrackTitleItem>
 
@@ -302,10 +305,12 @@ const Player: React.FC = () => {
                                 trackIsAdded={trackIsAdded}
                                 uniqueId={storeItem && storeItem.uniqueId ? storeItem.uniqueId: ''}
                                 id={id}
+                                shortTitle={shortTitle}
                                 title={title}
                                 description={description}
                                 sourceUrl={sourceUrl}
                                 digitalItemGuid={digitalItemGuid}
+                                free={free}
                                 price={price}
                                 url={url}
                                 isTrackButton={false}

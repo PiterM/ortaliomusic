@@ -84,8 +84,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 body
                 description
                 previewUrl
+                shortTitle
                 title
+                bpm
+                duration
+                key
                 digitalItemGuid
+                free
                 price
                 coverImage {
                   sourceUrl(size: LARGE) 
@@ -135,8 +140,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     tracksWithPrices = tracks.map((item) => {
       const { id, slug } = item.node;
       const track = item.node.ortalioMusicTrack;
-      const { price, previewUrl } = track;
-      const trackPrice = price !== null ? price : defaultPrice;
+      const { price, previewUrl, free } = track;
+      let trackPrice = 0;
+      if (!free) { 
+        trackPrice = price !== null ? price : defaultPrice;
+      }
       const match = previewUrl.match(/\/([^/]+)\/?$/);
       const soundcloudSlug = match[1] ? match[1]: undefined;
 
