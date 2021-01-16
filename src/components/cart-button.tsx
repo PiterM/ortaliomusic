@@ -28,7 +28,7 @@ const CartButton: React.FC<CartButtonProps> = (
               />
             : <TrackNotAddedCartButton
                 id={id}
-                title={trackTitleHelper(shortTitle, title, free)}
+                title={trackTitleHelper(shortTitle, title, true, free)}
                 description={description}
                 sourceUrl={sourceUrl}
                 digitalItemGuid={digitalItemGuid}
