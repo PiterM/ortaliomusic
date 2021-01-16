@@ -249,8 +249,8 @@ const Player: React.FC = () => {
     const trackIsAdded = items && items[id] !== undefined;
     const storeItem = trackIsAdded && items[id];
 
-    let elapsedTime = '';
-    let loadedTime = '';
+    let elapsedTime = '     ';
+    let loadedTime = '/      ';
     if (progress?.data?.playedSeconds) {
         loadedTime = ` / ${timeFormatHelper(Math.round(Number(duration)))}`;
         elapsedTime = timeFormatHelper(Math.round(Number(progress.data.playedSeconds)));
