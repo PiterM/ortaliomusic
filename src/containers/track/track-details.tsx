@@ -187,7 +187,7 @@ const TrackImage: React.FC<TrackImageProps> = ({ fixed, addedToCart, size }) => 
 
 const TrackTitle = styled.div({
   position: 'absolute',
-  width: '100.5%',
+  width: '100%',
   top: '50%',
   transform: 'translate(0, -50%)',
   left: 0,
