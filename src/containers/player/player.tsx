@@ -87,7 +87,7 @@ const SoundcloudLink = styled.a({
     cursor: 'pointer',
     transition: 'all 0.5s ease',
     ":hover, :active": {
-        opacity: 0.8
+        opacity: 1
     }
 });
 

@@ -56,7 +56,7 @@ const TrackContent: React.FC<TrackContentProps> = ({ track }) => {
         {title}
       </StyledTitle>
       <StyledPrice>
-        {`price: $${price}`}
+        {`price: $${price.toFixed(2)}`}
       </StyledPrice>
       <StyledDescription
         dangerouslySetInnerHTML={trackDescription}
