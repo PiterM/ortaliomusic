@@ -19,7 +19,8 @@ import PlayerProgressSlider from './player-bar';
 import CartButton from '../../components/cart-button';
 import styled from '@emotion/styled';
 import styles from '../../gatsby-plugin-theme-ui/index';
-import { LoopMode } from './player-constants';
+import { LoopMode, NextPreviousTrackMode } from './player-constants';
+import PlayerNextPreviousTrackButton from './player-next-previous-button';
 import Img from 'gatsby-image';
 import Link from 'gatsby-link';
 const { useEffect, useState } = React;
@@ -35,7 +36,7 @@ const PlayerContainer = styled.div({
     border: '3px solid #fff',
     transition: 'all 0.3s ease-in-out',
     display: 'grid',
-    gridTemplateColumns: '0.5fr 3fr 0.5fr 0.5fr 5.5fr 1fr',
+    gridTemplateColumns: '0.5fr 3fr 1fr 0.5fr 5.5fr 1fr',
     "&.player-visible": {
         bottom: 0
     },
@@ -59,6 +60,16 @@ const PlayerItemInline = styled.div({
     display: 'inline-grid',
     alignContent: 'center',
     padding: '5px 5px 2px 0'
+});
+
+const PlayerControls = styled.div({
+    display: 'flex',
+    alignContent: 'center',
+    padding: '5px 5px 2px 0',
+    "& div": {
+        padding: 0,
+        margin: 0,
+    }
 });
 
 const TrackThumbnailLink = styled.div({
@@ -276,9 +287,17 @@ const Player: React.FC = () => {
                         </TrackTitle>
                     </TrackTitleItem>
 
-                    <PlayerItemInline>
+                    <PlayerControls>
+                        <PlayerNextPreviousTrackButton 
+                            mode={NextPreviousTrackMode.Previous}
+                        />
+
                         <PlayerPlayPauseButton id={trackId}/>
-                    </PlayerItemInline>
+                        
+                        <PlayerNextPreviousTrackButton 
+                            mode={NextPreviousTrackMode.Next}
+                        />
+                    </PlayerControls>
 
                     <PlayerItemInline>
                         <LoopButton

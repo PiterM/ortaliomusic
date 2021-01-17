@@ -1,8 +1,44 @@
+import { currentId } from "async_hooks";
 import { put, ForkEffect, takeLatest, select } from "redux-saga/effects";
 import ACTION_TYPES from './player-action-types';
-import { playPauseTrack, stopPlayback } from "./player-actions";
+import { playPauseTrack, stopPlayback, PlayerActions } from "./player-actions";
 import { LoopMode } from "./player-constants";
 import { getLoopMode, getCurrentTrack, getTracks } from './player-selectors';
+
+const getNeighbourTrackId = (tracks: any, currentId: string, vector: number) => {
+    const tracksArray: any = Object.values(tracks);
+    const currentArrayKey = tracksArray.findIndex((item: any) => item.id === currentId);
+    let nextArrayKey = currentArrayKey + vector;
+    nextArrayKey = nextArrayKey < 0 ? tracksArray.length + nextArrayKey : nextArrayKey;
+    nextArrayKey = nextArrayKey < tracksArray.length && nextArrayKey >= 0 ? nextArrayKey : tracksArray.length % nextArrayKey;
+    return tracksArray[nextArrayKey].id;
+};
+
+const getNextTrackId = (tracks: any, currentId: string) => getNeighbourTrackId(tracks, currentId, 1);
+const getPreviousTrackId = (tracks: any, currentId: string) => getNeighbourTrackId(tracks, currentId, -1);
+
+export function* playNeighbourTrack(tracks: any, currentId: string, getCalculatedTrackId: (tracks: any, currentId: string) => string) {
+    const nextTrackId = getCalculatedTrackId(tracks, currentId);
+    if (nextTrackId) {
+        yield put(playPauseTrack(currentId));
+        yield put(playPauseTrack(nextTrackId));   
+    } else {
+        //not reached rather
+        yield put(stopPlayback());
+    }
+}
+
+export function* playNextTrack() {
+    const tracks = yield select(getTracks);
+    const { details: { id }} = yield select(getCurrentTrack);
+    yield playNeighbourTrack(tracks, id, getNextTrackId);
+}
+
+export function* playPreviousTrack() {
+    const tracks = yield select(getTracks);
+    const { details: { id }} = yield select(getCurrentTrack);
+    yield playNeighbourTrack(tracks, id, getPreviousTrackId);
+}
 
 export function* decideWhatPlayNext() {
     const loopMode = yield select(getLoopMode);
@@ -11,19 +47,7 @@ export function* decideWhatPlayNext() {
     switch (loopMode) {
         case (LoopMode.LoopAll):
             if (id) {
-                const tracksArray: any = Object.values(tracks);
-                const currentArrayKey = tracksArray.findIndex((item: any) => item.id === id);
-                let nextArrayKey = currentArrayKey + 1;
-                nextArrayKey = nextArrayKey < tracksArray.length ? nextArrayKey : tracksArray.length % nextArrayKey;
-
-                const nextTrackId = tracksArray[nextArrayKey].id;
-                if (nextTrackId) {
-                    yield put(playPauseTrack(id));
-                    yield put(playPauseTrack(nextTrackId));   
-                } else {
-                    //not reached rather
-                    yield put(stopPlayback());
-                }
+               yield playNextTrack();
             }
             break;            
         case (LoopMode.LoopOne):
@@ -43,4 +67,6 @@ export function* decideWhatPlayNext() {
 
 export function* watchPlayerActions(): IterableIterator<ForkEffect> {
     yield takeLatest(ACTION_TYPES.DECIDE_WHAT_PLAY_NEXT, decideWhatPlayNext);
+    yield takeLatest(ACTION_TYPES.PLAY_NEXT_TRACK, playNextTrack);
+    yield takeLatest(ACTION_TYPES.PLAY_PREVIOUS_TRACK, playPreviousTrack);
 }

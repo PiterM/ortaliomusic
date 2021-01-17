@@ -96,6 +96,22 @@ export const decideWhatPlayNext = (): DecideWhatPlayNext => ({
     type: ACTION_TYPES.DECIDE_WHAT_PLAY_NEXT,
 });
 
+export interface PlayNextTrack {
+    type: ACTION_TYPES.PLAY_NEXT_TRACK;
+}
+
+export const playNextTrack = (): PlayNextTrack => ({
+    type: ACTION_TYPES.PLAY_NEXT_TRACK,
+});
+
+export interface PlayPreviousTrack {
+    type: ACTION_TYPES.PLAY_PREVIOUS_TRACK;
+}
+
+export const playPreviousTrack = (): PlayPreviousTrack => ({
+    type: ACTION_TYPES.PLAY_PREVIOUS_TRACK,
+});
+
 export type PlayerActions = 
     | SetTracksData
     | PlayPauseTrack
@@ -106,4 +122,6 @@ export type PlayerActions =
     | TrackSeekTo
     | TrackSeekToSuccess
     | TogglePlayerVolume
-    | SetLoopMode;
+    | SetLoopMode
+    | PlayNextTrack
+    | PlayPreviousTrack;

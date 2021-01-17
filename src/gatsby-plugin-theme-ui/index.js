@@ -11,6 +11,8 @@ export default merge(typography, {
     loaderIcon: '/images/loader-icon.svg',
     closeIcon: '/images/close-icon.svg',
     player: '/images/bg-pattern.png',
+    nextIcon: '/images/next-icon.svg',
+    previousIcon: '/images/previous-icon.svg',
     soundcloudLogo: '/images/soundcloud-logo.png',
   },
   colors: {
