@@ -128,7 +128,6 @@ export const TrackAddedCartButton: React.FC<TrackAddedCartButtonProps> = ({ uniq
             onClick={(e) => removeItemFromCart(e, uniqueId)}
             addedToCart={true} 
             isTrackButton={isTrackButton}
-            isMouseOver={false}
         />
     );
 };
@@ -199,7 +198,7 @@ const TrackTitle = styled.div(({ addedToCart }: TrackTitleProps) => {
       backgroundColor: 'rgba(255, 255, 255, 0.75)',
       fontSize: 36
     },
-    "& > p:nth-child(2)": {
+    "& > p:nth-of-type(2)": {
       backgroundColor: priceLabelColor,
       fontSize: 24,
       fontWeight: 900
