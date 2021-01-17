@@ -185,21 +185,28 @@ const TrackImage: React.FC<TrackImageProps> = ({ fixed, addedToCart, size }) => 
   );
 };
 
-const TrackTitle = styled.div({
-  position: 'absolute',
-  width: '100%',
-  top: '50%',
-  transform: 'translate(0, -50%)',
-  left: 0,
-  "& > p": {
-    textAlign: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.75)',
-    fontSize: 36
-  },
-  "& > p:nth-child(2)": {
-    backgroundColor: colors.cartButton,
-    fontSize: 24,
-    fontWeight: 900
+interface TrackTitleProps {
+  addedToCart: boolean;
+}
+
+const TrackTitle = styled.div(({ addedToCart }: TrackTitleProps) => {
+  const priceLabelColor = addedToCart ? colors.cartButton : 'rgba(255, 255, 255, 0.75)';
+  return {
+    position: 'absolute',
+    width: '100%',
+    top: '50%',
+    transform: 'translate(0, -50%)',
+    left: 0,
+    "& > p": {
+      textAlign: 'center',
+      backgroundColor: 'rgba(255, 255, 255, 0.75)',
+      fontSize: 36
+    },
+    "& > p:nth-child(2)": {
+      backgroundColor: priceLabelColor,
+      fontSize: 24,
+      fontWeight: 900
+    }
   }
 });
 
@@ -237,7 +244,9 @@ export const TrackCover: React.FC<TrackCoverProps> = (
                 <TrackImage fixed={fixed} addedToCart={addedToCart} size={size} />
               </StyledLink>
           }
-          <TrackTitle>
+          <TrackTitle
+            addedToCart={addedToCart}
+          >
             <p>{shortTitle}</p>
             <p>{priceLabel}</p>
           </TrackTitle>
