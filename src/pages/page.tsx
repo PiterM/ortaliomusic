@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { setPageMode } from './global/global-actions';
+import { setPageMode } from '../common/global/global-actions';
 import { PageMode } from '../common/models';
 import Header from '../components/header';
 import Tracks from '../containers/tracks/tracks';

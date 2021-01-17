@@ -5,7 +5,7 @@ import ACTION_TYPES from './player-action-types';
 import { playPauseTrack, stopPlayback } from "./player-actions";
 import { LoopMode } from "./player-constants";
 import { getLoopMode, getCurrentTrack, getTracks } from './player-selectors';
-import { getPageMode } from '../../pages/global/global-selectors';
+import { getPageMode } from '../../common/global/global-selectors';
 
 const getNeighbourTrackId = (tracks: any, currentId: string, vector: number) => {
     const tracksArray: any = Object.values(tracks);

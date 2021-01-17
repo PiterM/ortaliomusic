@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { playerReducer } from '../containers/player/player-reducers';
 import { cartReducer } from '../containers/cart/cart-reducer';
-import { globalReducer } from '../pages/global/global-reducer';
+import { globalReducer } from '../common/global/global-reducer';
 
 const rootReducer = combineReducers(
     {

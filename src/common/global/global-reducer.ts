@@ -1,6 +1,6 @@
 import { GlobalActions } from './global-actions';
 import ACTION_TYPES from './global-action-types';
-import { GlobalState, PageMode } from '../../common/models';
+import { GlobalState, PageMode } from '../models';
 
 export const initGlobalState: GlobalState = {
     pageMode: PageMode.HomePage,
