@@ -9,7 +9,7 @@ export default merge(typography, {
     loopOneIcon: '/images/loop-one-icon.svg',
     loopAllIcon: '/images/loop-all-icon.svg',
     loaderIcon: '/images/loader-icon.svg',
-    closeIcon: 'images/close-icon.svg',
+    closeIcon: '/images/close-icon.svg',
     player: '/images/bg-pattern.png',
     soundcloudLogo: '/images/soundcloud-logo.png',
   },
