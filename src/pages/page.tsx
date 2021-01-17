@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
+import { setPageMode } from './global/global-actions';
+import { PageMode } from '../common/models';
 import Header from '../components/header';
 import Tracks from '../containers/tracks/tracks';
 import IndexLayout from '../layouts';
@@ -104,9 +106,12 @@ const Page: React.FC<PageProps> = ({ pageContext: { track, tracks } }: any) => {
         // dispatch(stopPlayback());
     }, [dispatch]);
 
+
     if (track === undefined) {
+        dispatch(setPageMode(PageMode.HomePage));
         return <HomePage tracks={tracks} />;
     }
+    dispatch(setPageMode(PageMode.TrackPage));
     return <TrackPage track={track} />
 };
 
