@@ -1,6 +1,7 @@
 import * as React from "react";
 import styled from "@emotion/styled";
 import styles from '../../gatsby-plugin-theme-ui/index';
+import { trackTitleHelper } from "../../common/trackTitleHelper";
 const { colors } = styles;
 
 const CardContent = styled.div({
@@ -43,7 +44,7 @@ export interface TrackContentProps {
 }
 
 const TrackContent: React.FC<TrackContentProps> = ({ track }) => {
-  const { description, title, price, previewUrl, bpm, key, duration } = track?.node?.ortalioMusicTrack;
+  const { description, shortTitle, title, price, previewUrl, bpm, key, duration } = track?.node?.ortalioMusicTrack;
   const trackDescription = {
     __html: description
   };
@@ -53,7 +54,7 @@ const TrackContent: React.FC<TrackContentProps> = ({ track }) => {
   return (
     <CardContent>
       <StyledTitle>
-        {title}
+        {trackTitleHelper(shortTitle, title)}
       </StyledTitle>
       <StyledPrice>
         {`price: $${price.toFixed(2)}`}
