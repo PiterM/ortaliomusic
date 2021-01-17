@@ -7,8 +7,8 @@ import styles from 'gatsby-plugin-theme-ui';
 import { playPauseTrack } from '../player/player-actions';
 import { TrackPlayStatus } from './track-models';
 import PlayPauseButtonLayer from '../../components/play-button-layer';
-import { trackTitleHelper } from '../../common/trackTitleHelper';
 const { colors, trackCardSize } = styles;
+const { useState } = React;
 
 interface SquareImageProps {
     addedToCart?: boolean;
@@ -58,10 +58,6 @@ const CartButton = styled.div((props: CartButtonProps) => {
     transition: 'all 0.05s ease',
     position,
     cursor: 'pointer',
-    ":hover": {
-      backgroundColor: colors.cartButton,
-      borderColor: '#fff'
-    },
     ":active": {
       backgroundSize: '50% 50%',
       borderColor: '#000'
@@ -132,6 +128,7 @@ export const TrackAddedCartButton: React.FC<TrackAddedCartButtonProps> = ({ uniq
             onClick={(e) => removeItemFromCart(e, uniqueId)}
             addedToCart={true} 
             isTrackButton={isTrackButton}
+            isMouseOver={false}
         />
     );
 };
