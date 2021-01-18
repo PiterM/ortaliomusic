@@ -49,7 +49,7 @@ const TrackContent: React.FC<TrackContentProps> = ({ track }) => {
     __html: description
   };
   const trackTechInfo = {
-    __html: `${duration} / ${bpm} BPM / ${key}`
+    __html: `${duration} / ${bpm} BPM / ${key} / with stems`
   };
   return (
     <CardContent>

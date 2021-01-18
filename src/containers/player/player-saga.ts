@@ -20,10 +20,10 @@ const getNextTrackId = (tracks: any, currentId: string) => getNeighbourTrackId(t
 const getPreviousTrackId = (tracks: any, currentId: string) => getNeighbourTrackId(tracks, currentId, -1);
 
 export function* playNeighbourTrack(tracks: any, currentId: string, getCalculatedTrackId: (tracks: any, currentId: string) => string) {
-    const nextTrackId = getCalculatedTrackId(tracks, currentId);
-    if (nextTrackId) {
+    const newTrackId = getCalculatedTrackId(tracks, currentId);
+    if (newTrackId) {
         yield put(playPauseTrack(currentId));
-        yield put(playPauseTrack(nextTrackId));   
+        yield put(playPauseTrack(newTrackId));   
     } else {
         //not reached rather
         yield put(stopPlayback());

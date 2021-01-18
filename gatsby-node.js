@@ -52,7 +52,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const axios = require('axios');
   let tracksApiData = {};
-  const response = await axios.get('https://api.soundcloud.com/users/1022559/tracks?client_id=96e9e3d300fb5ba39151f988943625d4');
+  const response = await axios.get('https://api.soundcloud.com/users/935418313/tracks?client_id=96e9e3d300fb5ba39151f988943625d4');
   if (response.data.length > 0) {
     for (const track of response.data) {
       const slug = track.permalink;

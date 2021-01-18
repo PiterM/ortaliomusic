@@ -24,10 +24,6 @@ export interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({ tracks }: any) => {
-    if (!tracks) {
-        return null;
-    }
-
     return (
         <IndexLayout>
             <Header />
