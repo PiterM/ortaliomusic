@@ -9,11 +9,12 @@ interface PlayButtonLayerProps {
 }
 
 export default styled.div(({ trackStatus, inPlayerBar }: PlayButtonLayerProps) => {
+    const { Playing, Paused, Loading } = TrackPlayStatus;
     let opacity = 1;
-    let backgroundColor = trackStatus === TrackPlayStatus.Loading ? colors.neutral : '#fff';
+    let backgroundColor = trackStatus === Loading ? colors.neutral : '#fff';
     let size = '80%';
     if (!inPlayerBar) {
-        opacity = [TrackPlayStatus.Playing, TrackPlayStatus.Loading].includes(trackStatus) ? 0.9 : 0;
+        opacity = [Playing, Paused, Loading].includes(trackStatus) ? 0.9 : 0;
         backgroundColor = colors.neutral;
         size = '45%';
     }
@@ -22,15 +23,15 @@ export default styled.div(({ trackStatus, inPlayerBar }: PlayButtonLayerProps) =
     let backgroundSize = '102% 102%';
     let backgroundSizeLoadingActive =  inPlayerBar ? '85% 85%' : '75% 75%';
     switch (trackStatus) {
-      case (TrackPlayStatus.Playing):
+      case (Playing):
         backgroundImage = images.pauseIcon;
         break;
-      case (TrackPlayStatus.Loading):
+      case (Loading):
         backgroundImage = images.loaderIcon;
         backgroundSize = '140% 140%';
         backgroundSizeLoadingActive = backgroundSize;
         break;
-      case (TrackPlayStatus.Paused):
+      case (Paused):
       default:
         backgroundImage = images.playIcon;
     }
